@@ -9,6 +9,16 @@
       @input="clearErrors('name')"
     ></v-text-field>
 
+		<v-combobox
+			v-model="form.golf_course"
+			label="Golf Course"
+			:items="courses"
+			item-value="name"
+			item-text="name"
+			auto-select-first
+		>
+		</v-combobox>
+
     <v-text-field
       :label="labels.email"
       v-model="form.email"
@@ -42,9 +52,30 @@
       @input="clearErrors('password')"
     ></v-text-field>
 
+		<v-radio-group
+      	v-model="form.user_type"
+      	mandatory
+    >
+		 <template v-slot:label>
+        <div>What is your role at the course?</div>
+      </template>
+
+      <v-radio
+        label="I drive the drink cart"
+        value="0"
+      ></v-radio>
+      <v-radio
+        label="I manage the golf course"
+        value="1"
+      ></v-radio>
+			  <v-radio
+	        label="Other"
+	        value="2"
+	      ></v-radio>
+    </v-radio-group>
+
     <v-layout row class="mt-4 mx-0">
       <v-spacer></v-spacer>
-
       <v-btn
         text
         :disabled="loading"
@@ -83,8 +114,11 @@ export default {
       name: 'roger',
       email: 'roger@gmail.com',
       password: 'password',
-      password_confirmation: 'password'
-    }
+      password_confirmation: 'password',
+			user_type: '',
+			golf_course: '',
+    },
+		courses: []
   }),
 
   methods: {
@@ -104,6 +138,22 @@ export default {
           })
       }
     },
-  }
+		getCourses(){
+			console.log('getting courses..');
+			let url = "/api/course";
+
+			axios.get(url)
+				.then(res => {
+					this.courses = res.data;
+				})
+				.catch(err => {
+            this.handleErrors(err.response.data.errors)
+          })
+		}
+  },
+	mounted() {
+		this.getCourses();
+
+	}
 }
 </script>

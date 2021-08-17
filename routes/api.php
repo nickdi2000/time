@@ -22,6 +22,8 @@ Route::group(['middleware' => ['cors']], function() {
     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
 
     Route::post('register', 'Auth\RegisterController@register');
+
+		Route::resource('course', 'CourseController');
 });
 
 Route::group(['middleware' => ['jwt']], function() {
