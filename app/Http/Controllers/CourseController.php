@@ -3,14 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Course;
+use Facades\App\Repository\Courses;
 
 class CourseController extends Controller
 {
 
-    public function index(Request $request)
+    public function index()
     {
-    		$courses = Course::all();
+    		$courses = Courses::all();
         return response()->json($courses);
     }
+
+		  public function list()
+	    {
+	    		$courses = Courses::all('name');
+
+					foreach($courses as $c){
+						echo $c->name . "<br>";
+					}
+	    }
 }

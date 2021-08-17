@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Dealer;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Controllers\Controller;
@@ -85,9 +86,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+				$courseName = isset($data['golf_course']['name']) ? $data['golf_course']['name'] : $data['golf_course'];
+
+				if(!isset( $data['golf_course']['id'] )){
+					$course = Course::create([
+						'name' => $data['golf_course']
+					]);
+					$course->save();
+					$courseId = $course->id;
+				}else{
+					$courseId = $data['golf_course']['id'];
+				}
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+						'user_type' => $data['user_type'],
+						'golf_course' => $courseName,
+						'golf_course_id' => $courseId,
             'password' => bcrypt($data['password']),
         ]);
     }

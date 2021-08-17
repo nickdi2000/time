@@ -1,5 +1,6 @@
 <template>
   <v-form ref="form" @submit.prevent="submit" lazy-validation v-model="valid">
+		GOLF COURSE: {{form.golf_course}}
     <v-text-field
       :label="labels.name"
       v-model="form.name"
@@ -13,7 +14,7 @@
 			v-model="form.golf_course"
 			label="Golf Course"
 			:items="courses"
-			item-value="name"
+			:item-value="name"
 			item-text="name"
 			auto-select-first
 		>
@@ -52,14 +53,14 @@
       @input="clearErrors('password')"
     ></v-text-field>
 
-		<v-radio-group
-      	v-model="form.user_type"
-      	mandatory
-    >
 		 <template v-slot:label>
         <div>What is your role at the course?</div>
       </template>
 
+		<v-radio-group
+      	v-model="form.user_type"
+      	mandatory
+    >
       <v-radio
         label="I drive the drink cart"
         value="0"
@@ -139,7 +140,6 @@ export default {
       }
     },
 		getCourses(){
-			console.log('getting courses..');
 			let url = "/api/course";
 
 			axios.get(url)

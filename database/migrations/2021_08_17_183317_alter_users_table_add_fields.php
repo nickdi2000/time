@@ -14,7 +14,8 @@ class AlterUsersTableAddFields extends Migration
     public function up()
     {
           Schema::table('users', function (Blueprint $table) {
-							$table->string("golf_course");
+							$table->string("golf_course")->nullable();
+							$table->integer("golf_course_id")->nullable();
 							$table->integer('user_type');
 	        });
     }
