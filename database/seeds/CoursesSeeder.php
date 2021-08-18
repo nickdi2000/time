@@ -94,8 +94,6 @@ class CoursesSeeder extends Seeder
 					["city" => "London", "name" => "Crumlin Creek Golf Club"],
 					["city" => "Curran", "name" => "Curran Par-3 Golf Club"],
 					["city" => "Guelph", "name" => "Cutten Fields"],
-
-
 					["city" => "Coburg", "name" => "Dalewood Golf Club"],
 					["city" => "Deep River, Ontario", "name" => "Deep River Golf Club"],
 					["city" => "Huntsville", "name" => "Deerhurst Higlands Golf Course"],
@@ -131,8 +129,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Dunsford", "name" => "Dunsford Golf & Country Club"],
 					["city" => "Duntroon", "name" => "Duntroon Highlands Golf Club"],
 					["city" => "Dutton", "name" => "Dutton Meadows Golf Club"],
-					["city" => "", "name" => "E[edit]"],
-
 					["city" => "Dunrobin", "name" => "Eagle Creek Golf Club"],
 					["city" => "South River", "name" => "Eagle Lake Golf Course"],
 					["city" => "Georgetown", "name" => "Eagle Ridge Golf Club"],
@@ -160,8 +156,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Washago", "name" => "Evergreen Golf Centre"],
 					["city" => "Westport", "name" => "Evergreen Golf Course"],
 					["city" => "Exeter", "name" => "Exeter Golf Club"],
-					["city" => "", "name" => "F[edit]"],
-
 					["city" => "Bracebridge", "name" => "The Fairways at Kirrie Glen"],
 					["city" => "St. Catherines", "name" => "Fairview Golf Course"],
 					["city" => "Gloucester", "name" => "Falcon Ridge Golf Club"],
@@ -185,8 +179,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Frankford", "name" => "Frankford Golf Course"],
 					["city" => "Dunnville", "name" => "Freedom Oaks Golf Club"],
 					["city" => "Alban", "name" => "French River Golf Resort"],
-					["city" => "", "name" => "G[edit]"],
-
 					["city" => "Cambridge", "name" => "Galt Country Club"],
 					["city" => "Gananoque", "name" => "Gananoque Golf & Country Club"],
 					["city" => "St. Catherines", "name" => "Garden City Golf Course"],
@@ -224,8 +216,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Sarnia", "name" => "Greystone Golf Course"],
 					["city" => "Guelph", "name" => "Guelph Country Club"],
 					["city" => "Guelph", "name" => "Guelph Lakes Golf & Country Club"],
-					["city" => "", "name" => "H[edit]"],
-
 					["city" => "Haileybury", "name" => "Haileybury Golf Club"],
 					["city" => "Haliburton", "name" => "Haliburton Highlands Golf Course"],
 					["city" => "Milton", "name" => "Halton Country Golf & Banquet Hall"],
@@ -266,8 +256,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Blind River", "name" => "Huron Pines Golf & Country Club"],
 					["city" => "Ashburn", "name" => "Hy-Hope Golf Course"],
 					["city" => "Gloucester", "name" => "Hylands Golf Club"],
-					["city" => "", "name" => "I[edit]"],
-
 					["city" => "Ignace", "name" => "Ignace Golf & Country Club"],
 					["city" => "Sudbury", "name" => "Ildylwylde Golf & Country Club"],
 					["city" => "Lambton Shores", "name" => "Indian Hills Golf Club"],
@@ -285,11 +273,7 @@ class CoursesSeeder extends Seeder
 					["city" => "Iroquois", "name" => "Iroquois Golf Club"],
 					["city" => "St. Joseph Island", "name" => "Island Springs Golf Resort"],
 					["city" => "Islington–City Centre West, Etobicoke", "name" => "Islington Golf Club"],
-					["city" => "", "name" => "J[edit]"],
-
 					["city" => "Smith Falls", "name" => "Juniper Fairways Golf Club"],
-					["city" => "", "name" => "K[edit]"],
-
 					["city" => "Kanata, Ottawa", "name" => "Kanata Golf Club"],
 					["city" => "Kapuskasing", "name" => "Kapuskasing Golf Club"],
 					["city" => "Lakefield", "name" => "Katchiwano Golf & Country Club"],
@@ -310,8 +294,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Fort Frances", "name" => "Kitchen Creek Golf Course"],
 					["city" => "Ancaster, Hamilton", "name" => "Knollwood Golf Club"],
 					["city" => "Peterborough", "name" => "Kawartha Golf & Country Club"],
-					["city" => "", "name" => "L[edit]"],
-
 					["city" => "Hawkesbury", "name" => "La Cité Golf Club"],
 					["city" => "Thornhill", "name" => "Ladies' Golf Club of Toronto"],
 					["city" => "Port Carling", "name" => "The Lake Joseph Club"],
@@ -354,8 +336,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Baldwin", "name" => "Lyndhurst Golf Course"],
 					["city" => "Lyndhurst", "name" => "Lyndway Hills Golf Course"],
 					["city" => "Port Dover", "name" => "Lynn Meadows Golf & Country Club"],
-					["city" => "", "name" => "M[edit]"],
-
 					["city" => "Arnprior", "name" => "Madawaska Golf Club"],
 					["city" => "Creemore", "name" => "Mad River Golf Club"],
 					["city" => "Aurora", "name" => "Magna Golf Club"],
@@ -413,8 +393,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Port Carling", "name" => "Muskoka Lakes Golf & Country Club"],
 					["city" => "Foot's Bay", "name" => "Muskoka Woodlands Golf Course and Driving Range"],
 					["city" => "Ancaster, Hamilton", "name" => "Mystic Golf Club"],
-					["city" => "", "name" => "N[edit]"],
-
 					["city" => "Curran", "name" => "Nation Golf Club"],
 					["city" => "Woodbridge", "name" => "The National Golf Club of Canada"],
 					["city" => "South Mountain", "name" => "Nationview Golf Course"],
@@ -433,8 +411,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Thunder Bay", "name" => "Northern Lights Golf Complex"],
 					["city" => "Brantford", "name" => "Northridge Golf Course"],
 					["city" => "Alliston", "name" => "Nottawasaga Golf Course"],
-					["city" => "", "name" => "O[edit]"],
-
 					["city" => "Port Severn", "name" => "Oak Bay Golf Club"],
 					["city" => "Jerseyville", "name" => "Oak Gables Golf Club"],
 					["city" => "Niagara Falls", "name" => "Oak Hall Golf Course"],
@@ -466,8 +442,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Mactier", "name" => "Oviinbyrd Golf Club"],
 					["city" => "Komoka", "name" => "Oxbow Glen Golf & Country Club"],
 					["city" => "Oxley", "name" => "Oxley Beach Golf Course"],
-					["city" => "", "name" => "P[edit]"],
-
 					["city" => "Pakenham", "name" => "Pakenham Highlands Golf Club"],
 					["city" => "Brampton", "name" => "Parkshore Golf Club"],
 					["city" => "Parry Sound", "name" => "Parry Sound Golf & Country Club"],
@@ -506,15 +480,11 @@ class CoursesSeeder extends Seeder
 					["city" => "Prescott", "name" => "Prescott Golf Club"],
 					["city" => "Stoney Creek", "name" => "Pros Golf Centre"],
 					["city" => "Puslinch", "name" => "Puslinch Lake Golf Course"],
-					["city" => "", "name" => "Q[edit]"],
-
 					["city" => "Ennismore", "name" => "Quarry Golf Club"],
 					["city" => "Bowmanville", "name" => "Quarry Lakes Golf & Recreation Centre"],
 					["city" => "Sault Ste. Marie", "name" => "Queensgate Greens Golf Course"],
 					["city" => "Queenston", "name" => "Queenston Golf Club"],
 					["city" => "Frankford", "name" => "Quinte Hills Golf Course"],
-					["city" => "", "name" => "R[edit]"],
-
 					["city" => "Manitowaning", "name" => "Rainbow Ridge Golf Course"],
 					["city" => "Milton", "name" => "RattleSnake Point Golf Club"],
 					["city" => "Petersburg", "name" => "Rebel Creek Golf Club"],
@@ -560,8 +530,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Niagara-on-the-Lake", "name" => "Royal Niagara Golf Club"],
 					["city" => "Hornby", "name" => "Royal Ontario Golf Club"],
 					["city" => "Toronto", "name" => "Royal Woodbine Golf Club"],
-					["city" => "", "name" => "S[edit]"],
-
 					["city" => "Jarvis", "name" => "Sandusk Golf Club"],
 					["city" => "Ajax", "name" => "Salem Ridge Golf & Academy"],
 					["city" => "Woodstock", "name" => "Sally Creek Golf Club & Bistro"],
@@ -656,8 +624,6 @@ class CoursesSeeder extends Seeder
 					["city" => "Sault Ste Marie", "name" => "Superior View Golf Course"],
 					["city" => "Sundridge", "name" => "The Ridge Golf Club"],
 					["city" => "Essex", "name" => "Sutton Creek Golf & Country Club"],
-					["city" => "", "name" => "T[edit]"],
-
 					["city" => "Gravenhurst", "name" => "Taboo Muskoka Resort & Golf"],
 					["city" => "Wheatley", "name" => "Talbot Trail Golf Club"],
 					["city" => "Grey Highlands", "name" => "Talisman Mountain Resort"],
@@ -694,20 +660,14 @@ class CoursesSeeder extends Seeder
 					["city" => "Coniston", "name" => "Twin Stacks Golf Club"],
 					["city" => "Delaware", "name" => "Twin Streams Golf Course"],
 					["city" => "Burlington", "name" => "Tyandaga Golf Course"],
-					["city" => "", "name" => "U[edit]"],
-
 					["city" => "", "name" => "Unionville Golf Centre"],
 					["city" => "Thornhill", "name" => "Uplands Golf & Ski Club"],
 					["city" => "Morrisburg", "name" => "Upper Canada Golf Course"],
 					["city" => "Markham", "name" => "Upper Unionville Golf Club"],
-					["city" => "", "name" => "V[edit]"],
-
 					["city" => "Verner", "name" => "Verner Municipal Golf Course"],
 					["city" => "Minesing", "name" => "Vespra Hills Golf Club"],
 					["city" => "Guelph", "name" => "Victoria Park East Golf Club"],
 					["city" => "Alban", "name" => "Voyageur Golf Course"],
-					["city" => "", "name" => "W[edit]"],
-
 					["city" => "Walkerton", "name" => "Walkerton Golf & Curling Club"],
 					["city" => "Wardsville", "name" => "Wardsville Golf Club"],
 					["city" => "Warkworth", "name" => "Warkworth Golf Club"],

@@ -1,7 +1,7 @@
 <template>
 
   <v-form ref="form" @submit.prevent="submit" lazy-validation v-model="valid">
-    <v-alert type="warning" v-for="error in errors">
+    <v-alert type="warning" v-for="(error, index) in errors" :key="index">
       {{ error[0] }}
     </v-alert>
 
@@ -62,6 +62,7 @@
         <div>What is your role at the course?</div>
       </template>
 
+		<label>User Type:</label>
 		<v-radio-group
       	v-model="form.user_type"
       	mandatory
