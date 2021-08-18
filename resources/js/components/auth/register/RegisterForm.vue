@@ -1,6 +1,10 @@
 <template>
+
   <v-form ref="form" @submit.prevent="submit" lazy-validation v-model="valid">
-		GOLF COURSE: {{form.golf_course}}
+    <v-alert type="warning" v-for="error in errors">
+      {{ error[0] }}
+    </v-alert>
+
     <v-text-field
       :label="labels.name"
       v-model="form.name"
@@ -17,6 +21,7 @@
 			:item-value="name"
 			item-text="name"
 			auto-select-first
+      required
 		>
 		</v-combobox>
 
@@ -110,7 +115,7 @@ export default {
 
   data: () => ({
     passwordHidden: true,
-
+    errors: [],
     form: {
       name: 'roger',
       email: 'roger@gmail.com',
@@ -132,7 +137,8 @@ export default {
             this.$emit('success', res.data)
           })
           .catch(err => {
-            this.handleErrors(err.response.data.errors)
+            this.handleErrors(err.response.data.errors);
+            this.errors = err.response.data.errors;
           })
           .then(() => {
             this.loading = false
