@@ -16,30 +16,25 @@
 		read -p "copy .env file?" yn
 		    case $yn in
 		        [Yy]* ) cp .env.prod .env;;
-		        * ) exit;;
 		    esac
 
 read -p "Create storage directories?" yn
     case $yn in
         [Yy]* ) mkdir -p storage/framework/{sessions,views,cache};;
-        * ) exit;;
     esac
 
 
 		read -p "Composer install?" yn
 		    case $yn in
 		        [Yy]* ) composer install;;
-		        * ) exit;;
 		    esac
 
 		read -p "php artisan key:generate?" yn
 		    case $yn in
 		        [Yy]* ) php artisan key:generate;;
-		        * ) exit;;
 		    esac
 
 		read -p "php artisan jwt:secret?" yn
 		    case $yn in
 		        [Yy]* ) php artisan jwt:secret;;
-		        * ) exit;;
 		    esac
