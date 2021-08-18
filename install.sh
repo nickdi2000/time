@@ -10,13 +10,12 @@
 					php artisan jwt:secret;
 					exit 0
 					;;
-					* ) exit;;
 			esac
 
 
 		read -p "copy .env file?" yn
 		    case $yn in
-		        [Yy]* ) cp .env.example .env;;
+		        [Yy]* ) cp .env.prod .env;;
 		        * ) exit;;
 		    esac
 
