@@ -17,6 +17,7 @@ export default [
     { path: '', component: require('$comp/admin/AdminWrapper').default, children:
       [
         { path: '', name: 'index', redirect: { name: 'profile' } },
+        { path: 'about', name: 'about', component: require('$comp/admin/about/About').default },
         { path: 'profile', component: require('$comp/admin/profile/ProfileWrapper').default, children:
           [
             { path: '', name: 'profile', component: require('$comp/admin/profile/Profile').default },

@@ -103,7 +103,9 @@
         Register
       </v-btn>
     </v-layout>
+			<button @click.prevent="fakeData">*</button>
   </v-form>
+
 </template>
 
 <script>
@@ -118,13 +120,21 @@ export default {
     passwordHidden: true,
     errors: [],
     form: {
-      name: 'roger',
-      email: 'roger@gmail.com',
-      password: 'password',
-      password_confirmation: 'password',
+      name: '',
+      email: '',
+      password: '',
+      password_confirmation: '',
 			user_type: '',
 			golf_course: '',
     },
+		  form_prefilled: {
+	      name: 'roger',
+	      email: 'roger@gmail.com',
+	      password: 'password',
+	      password_confirmation: 'password',
+				user_type: '2',
+				golf_course: 'Test Course',
+	    },
 		courses: []
   }),
 
@@ -156,6 +166,9 @@ export default {
 				.catch(err => {
             this.handleErrors(err.response.data.errors)
           })
+		},
+		fakeData(){
+			this.form = this.form_prefilled;
 		}
   },
 	mounted() {

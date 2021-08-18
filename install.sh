@@ -8,6 +8,7 @@
 					composer install;
 					php artisan key:generate;
 					php artisan jwt:secret;
+					php artisan migrate --seed;
 					exit 0
 					;;
 			esac
@@ -21,6 +22,11 @@
 read -p "Create storage directories?" yn
     case $yn in
         [Yy]* ) mkdir -p storage/framework/{sessions,views,cache};;
+    esac
+
+read -p "elevate storage folder permissions?" yn
+    case $yn in
+        [Yy]* ) chmod -R 777 storage/;;
     esac
 
 
@@ -38,3 +44,13 @@ read -p "Create storage directories?" yn
 		    case $yn in
 		        [Yy]* ) php artisan jwt:secret;;
 		    esac
+
+				read -p "Migrate DB?" yn
+				    case $yn in
+				        [Yy]* ) php artisan migrate;;
+				    esac
+
+						read -p "php artisan jwt:secret?" yn
+						    case $yn in
+						        [Yy]* ) php artisan db:seed;;
+						    esac

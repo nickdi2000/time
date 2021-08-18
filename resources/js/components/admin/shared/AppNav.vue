@@ -119,7 +119,8 @@ export default {
     navigation() {
       this.items = [
         [
-          { title: 'Profile', icon: 'person', to: {name: 'profile'}, exact: false }
+          { title: 'Profile', icon: 'person', to: {name: 'profile'}, exact: false },
+          { title: 'About', icon: 'info', to: {name: 'about'}, exact: false }
         ],
         [
           { title: 'Logout', icon: 'power_settings_new', action: this.logout }
