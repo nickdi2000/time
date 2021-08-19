@@ -6,12 +6,16 @@
 			<transition name="fade" mode="out-in">
         <router-view></router-view>
       </transition>
-    </v-container>
-  </v-content>
+	  </v-container>
+	  </v-content>
 </template>
 
 <script>
-export default {}
+import Pulse from '~/components/misc/Pulse'
+
+export default {
+	components: {Pulse}
+}
 </script>
 
 
@@ -26,5 +30,11 @@ export default {}
 	.logo {
 		width: 30%;
 		opacity: 0.6;
+	}
+
+	.pulse{
+		bottom: 15%;
+		width: 10%;
+		left: 45%;
 	}
 </style>

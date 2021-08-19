@@ -1,12 +1,33 @@
 <template>
 
-  <v-form ref="form" @submit.prevent="submit" lazy-validation v-model="valid">
+	<v-form v-if="form.user_type == ''">
+			<v-row
+			v-for="user in user_types"
+	    align="center"
+	    class="py-2"
+
+	  >
+
+				<v-btn
+				block
+				elevation="2"
+				color="default"
+				justify="space-around"
+				x-large
+				@click="form.user_type = user.id"
+				>
+					REGISTER AS {{user.name}}
+				</v-btn>
+		</v-row>
+	</v-form>
+
+  <v-form v-else ref="form" @submit.prevent="submit" lazy-validation v-model="valid">
     <v-alert type="warning" v-for="(error, index) in errors" :key="index">
       {{ error[0] }}
     </v-alert>
 
     <v-text-field
-      :label="labels.name"
+      label="Name (optional)"
       v-model="form.name"
       :error-messages="errors.name"
       :rules="[rules.required('name')]"
@@ -58,29 +79,6 @@
       @input="clearErrors('password')"
     ></v-text-field>
 
-		 <template v-slot:label>
-        <div>What is your role at the course?</div>
-      </template>
-
-		<label>User Type:</label>
-		<v-radio-group
-      	v-model="form.user_type"
-      	mandatory
-    >
-      <v-radio
-        label="I drive the drink cart"
-        value="0"
-      ></v-radio>
-      <v-radio
-        label="I manage the golf course"
-        value="1"
-      ></v-radio>
-			  <v-radio
-	        label="Other"
-	        value="2"
-	      ></v-radio>
-    </v-radio-group>
-
     <v-layout row class="mt-4 mx-0">
       <v-spacer></v-spacer>
       <v-btn
@@ -113,6 +111,7 @@ import axios from 'axios'
 import { api } from '~/config'
 import Form from '~/mixins/form'
 
+
 export default {
   mixins: [Form],
 
@@ -135,6 +134,10 @@ export default {
 				user_type: '2',
 				golf_course: 'Test Course',
 	    },
+			user_types: [
+				{id: 0, name: 'BEVERAGE CART ATTENDANT'},
+				{id: 1, name: 'COURSE MANAGEMENT'},
+			],
 		courses: []
   }),
 

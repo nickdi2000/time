@@ -5,7 +5,7 @@
     <v-card>
       <v-card-text>
         <v-text-field
-          label="Golf Coursed"
+          label="Golf Course"
           v-model="user.name"
           filled
           readonly

@@ -25,6 +25,7 @@
     ></v-text-field>
 
     <v-layout class="mt-4 mx-0">
+			<button @click.prevent="form = sampleForm">*</button>
       <v-spacer></v-spacer>
 
       <v-btn
@@ -63,7 +64,11 @@ export default {
     form: {
       email: null,
       password: null
-    }
+    },
+		sampleForm: {
+			email: 'example@email.com',
+			password: 'password',
+		}
   }),
 
   created() {
