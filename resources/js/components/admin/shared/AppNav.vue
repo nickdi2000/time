@@ -120,7 +120,8 @@ export default {
       this.items = [
         [
           { title: 'Profile', icon: 'person', to: {name: 'profile'}, exact: false },
-          { title: 'About', icon: 'info', to: {name: 'about'}, exact: false }
+          { title: 'About', icon: 'info', to: {name: 'about'}, exact: false },
+          { title: 'Map', icon: 'map', to: {name: 'map'}, exact: false }
         ],
         [
           { title: 'Logout', icon: 'power_settings_new', action: this.logout }

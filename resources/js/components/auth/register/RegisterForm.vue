@@ -1,22 +1,23 @@
 <template>
 
-	<v-form v-if="form.user_type == ''">
+	<v-form v-if="form.user_type == -1">
 			<v-row
 			v-for="user in user_types"
 	    align="center"
 	    class="py-2"
 
 	  >
-
+		<label>Register as:</label>
 				<v-btn
 				block
 				elevation="2"
 				color="default"
 				justify="space-around"
 				x-large
-				@click="form.user_type = user.id"
+
+				@click.prevent="form.user_type = user.id"
 				>
-					REGISTER AS {{user.name}}
+					<span style="white-space: normal;">{{user.name}}</span>
 				</v-btn>
 		</v-row>
 	</v-form>
@@ -30,7 +31,6 @@
       label="Name (optional)"
       v-model="form.name"
       :error-messages="errors.name"
-      :rules="[rules.required('name')]"
       :disabled="loading"
       @input="clearErrors('name')"
     ></v-text-field>
@@ -123,7 +123,7 @@ export default {
       email: '',
       password: '',
       password_confirmation: '',
-			user_type: '',
+			user_type: -1,
 			golf_course: '',
     },
 		  form_prefilled: {
