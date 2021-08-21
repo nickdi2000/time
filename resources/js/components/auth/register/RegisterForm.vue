@@ -1,13 +1,13 @@
 <template>
 
 	<v-form v-if="form.user_type == -1">
+		<h2>Sign up as:</h2>
 			<v-row
 			v-for="user in user_types"
 	    align="center"
 	    class="py-2"
 
 	  >
-		<label>Register as:</label>
 				<v-btn
 				block
 				elevation="2"
@@ -19,6 +19,7 @@
 				>
 					<span style="white-space: normal;">{{user.name}}</span>
 				</v-btn>
+
 		</v-row>
 	</v-form>
 
