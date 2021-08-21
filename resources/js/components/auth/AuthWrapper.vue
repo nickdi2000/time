@@ -1,11 +1,16 @@
 <template>
   <v-content>
 		<div class="logoDiv"><img :src="'/images/golf-ball.png'" class="logo"></div>
-    <v-container fluid fill-height justify-center align-center>
+    <v-container fluid justify-center align-center>
+      <v-container class="d-flex justify-center mt-3">
+        <h1>Caddy Snack</h1>
+      </v-container>
 
-			<transition name="fade" mode="out-in">
-        <router-view></router-view>
-      </transition>
+      <v-container fluid justify-center align-center fill-height>
+  			<transition name="fade" mode="out-in">
+          <router-view></router-view>
+        </transition>
+      </v-container>
 	  </v-container>
 	  </v-content>
 </template>
@@ -30,6 +35,7 @@ export default {
 	.logo {
 		width: 30%;
 		opacity: 0.6;
+    z-index: -99;
 	}
 
 	.pulse{
@@ -37,4 +43,10 @@ export default {
 		width: 10%;
 		left: 45%;
 	}
+
+  h1{
+    z-index: 99;
+  }
+
+
 </style>

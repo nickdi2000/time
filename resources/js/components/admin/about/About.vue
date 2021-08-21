@@ -8,7 +8,7 @@
       elevation="2"
     >
 				<h2>{{app_name}}</h2> <br/>
-				Welcome to the admin portal.  Currently we are still in production, but you will be notified as soon as we are ready to launch.
+				Welcome to the {{app_name}} admin portal.  Currently we are still in production, but you will be notified as soon as we are ready to launch.
 			</v-alert>
 
 			<v-alert>
@@ -27,7 +27,7 @@ export default {
   },
 
   data: () => ({
-		app_name: "Brew Caddy"
+		app_name: process.env.MIX_APP_NAME
   }),
 
   mounted() {

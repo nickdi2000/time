@@ -46,6 +46,7 @@
       required
 		>
 		</v-combobox>
+		<small style="line-height:0px;float:right;" class="p-4">{{form.golf_course.city}}</small>
 
     <v-text-field
       :label="labels.email"
@@ -55,6 +56,7 @@
       :rules="[rules.required('email')]"
       :disabled="loading"
       @input="clearErrors('email')"
+			class="pt-2"
     ></v-text-field>
 
     <v-text-field
