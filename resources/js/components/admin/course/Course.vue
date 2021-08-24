@@ -2,11 +2,12 @@
   <div>
     <h2 class="mb-4 primary--text headline">Your Golf Course</h2>
 
+		<v-card v-if="Object.keys(course).length === 0" class="my-4">
 		<v-progress-circular
-			v-if="Object.keys(course).length === 0"
       indeterminate
       color="primary"
     ></v-progress-circular>
+		</v-card>
 
 
     <v-card v-else class="mb-2">
@@ -39,15 +40,36 @@
 
 		<v-card>
 			<v-card-text>
-			<h3>Address</h3>
+			<h3>Course Address</h3>
 				<vue-google-autocomplete
 						id="g-map"
-						classname="form-control"
-						placeholder="Start typing"
+						class="form-control form-control-lg my-3"
+						placeholder="Find Address.."
 						v-on:placechanged="getAddressData"
-						class="form-control map"
 				>
 				</vue-google-autocomplete>
+
+				 <v-alert
+				 v-if="course.address"
+		      border="left"
+		      colored-border
+		      color="deep-purple accent-4"
+		      elevation="2"
+					class="mt-4"
+		    >
+				 <p v-html="this.$options.filters.address(course.address)"></p>
+
+				 <v-btn color="info" @click.prevent="saveAddress()">Use This Address <v-icon>check</v-icon></v-btn>
+				</v-alert>
+
+				<v-alert
+						class="mt-4"
+						border="left"
+			      colored-border
+			      type="warning"
+			      elevation="2">
+					The golf course address is not yet set-up
+				</v-alert>
 			</v-card-text>
 		</v-card>
 
@@ -64,13 +86,13 @@ import VueGoogleAutocomplete from 'vue-google-autocomplete'
 export default {
 	components: {VueGoogleAutocomplete},
   data: () => ({
-    course: {
-    },
+    course: {},
 		loading: true,
+		user: {}
   }),
 	methods: {
-		getData(){
-			axios.get('/api/my-course')
+		getCourseData(){
+			axios.get('/api/user/my-course')
 				.then(res => {
 					this.course = res.data;
 					this.loading = false;
@@ -78,19 +100,32 @@ export default {
 		},
 		getAddressData(v){
 			console.log(v);
+			this.course.address = v;
+		},
+		saveAddress(){
+				axios.put('/api/course/' + this.course.id, this.course.address)
+					.then(res => {
+						this.$toast.success(res.data.message);
+					}).error(err => {
+						console.log(err);
+					});
 		}
 	},
+	computed: mapGetters({
+    auth: 'auth/user'
+  }),
 
   mounted() {
-    this.getData();
+		this.user = Object.assign(this.user, this.auth);
+    this.getCourseData();
+
+
   }
 }
 </script>
 
 <style scoped>
 
-.map{
-	width: 100%;
-}
+
 
 </style>

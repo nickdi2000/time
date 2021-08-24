@@ -15,6 +15,22 @@ Vue.use(VueGoogleMaps, {
   }
 });
 
+Vue.filter("address", function(address) {
+	// call like: <p v-html="this.$options.filters.address(course.address)"></p>
+    let addr_string = `<b>Address: </b> ${address.street_number} ${address.locality}
+			<br/> <b>Country: </b> ${address.country}
+			<br/> <b>Postal: </b> ${address.postal_code}
+			<br/> (lon: ${address.longitude}, lat: ${address.latitude})
+			`;
+
+    if (address.name) {
+        addr_string = `${address.name}: ${addr_string}`;
+    }
+
+    return addr_string;
+});
+
+
 export const app = new Vue({
   router,
   store,

@@ -6,6 +6,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Models\Course;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -26,6 +27,11 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
     ];
+
+		public function course()
+		{
+			return $this->belongsTo(Course::class);
+		}
 
     /**
      * Generate random password

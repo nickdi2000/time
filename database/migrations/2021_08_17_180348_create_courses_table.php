@@ -18,6 +18,13 @@ class CreateCoursesTable extends Migration
 						$table->string("city")->nullable();
 						$table->string("name");
 						$table->string("address")->nullable();
+						$table->string("locality")->nullable();
+						$table->string("country")->nullable();
+						$table->string("administrative_area_level_1")->nullable();
+						$table->string("route")->nullable();
+						$table->string("street_number")->nullable();
+						$table->decimal("longitude", 10, 7)->nullable();
+						$table->decimal("latitude", 10, 7)->nullable();
 						$table->integer('created_by')->nullable()->default(0);
 						$table->timestamps();
 
