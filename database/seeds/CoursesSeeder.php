@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\Course;
 
 class CoursesSeeder extends Seeder
 {
@@ -14,7 +15,9 @@ class CoursesSeeder extends Seeder
 				DB::table('courses')->truncate();
 
         $courses = $this->getCourses();
-				DB::table('courses')->insert($courses);
+				Course::insert($courses);
+
+        DB::statement("UPDATE courses SET code = UPPER(substring(MD5(RAND()),1,5))");
     }
 
 		public function getCourses(){
