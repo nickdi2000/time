@@ -13,7 +13,7 @@
 
       <button @click="addLocationMarker">Add</button>
     </v-card>
-    
+
     <GmapMap
   :center="center"
   :zoom="zoom"
@@ -37,7 +37,7 @@
 <script>
 
 export default {
-  name: "map",
+  name: "google-map",
   data() {
     return {
       center: {

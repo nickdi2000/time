@@ -1,6 +1,6 @@
 export default [
   ...applyRules(['guest'], [
-    { path: '', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'login' }, children:
+    { path: '', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'register' }, children:
       [
         { path: '/login', name: 'login', component: require('$comp/auth/login/Login').default },
         { path: '/register', name: 'register', component: require('$comp/auth/register/Register').default },
@@ -24,7 +24,13 @@ export default [
             { path: '', name: 'profile', component: require('$comp/admin/profile/Profile').default },
             { path: 'edit', name: 'profile-edit', component: require('$comp/admin/profile/edit/ProfileEdit').default }
           ]
-        }
+        },
+				  { path: 'course', component: require('$comp/admin/course/CourseWrapper').default, children:
+	          [
+	            { path: '', name: 'course', component: require('$comp/admin/course/Course').default },
+	            { path: 'edit', name: 'course-edit', component: require('$comp/admin/course/CourseEdit').default }
+	          ]
+	        }
       ]
     },
   ]),

@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuetify, { VSnackbar, VBtn, VIcon } from 'vuetify/lib'
 import VuetifyToast from 'vuetify-toast-snackbar'
-
+import '@mdi/font/css/materialdesignicons.css'
 
 const theme = {
 		primary: '#1e88e5',
@@ -35,5 +35,8 @@ export default new Vuetify({
           dark: sleek,
           light: sleek,
         },
-      }
+      },
+			icons: {
+		    iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+		  },
 });

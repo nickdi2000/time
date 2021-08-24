@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Facades\App\Repository\Courses;
 
+use App\Models\Course;
+
 class CourseController extends Controller
 {
 
@@ -22,4 +24,10 @@ class CourseController extends Controller
 						echo $c->name . "<br>";
 					}
 	    }
+
+			public function myCourse()
+			{
+					$course = Course::find(1);
+					return response()->json($course);
+			}
 }

@@ -1,6 +1,5 @@
 <template>
   <v-content>
-		<div class="logoDiv"><img :src="'/images/golf-ball.png'" class="logo"></div>
     <v-container fluid justify-center align-center>
       <v-container class="d-flex justify-center mt-3">
         <h1>Caddy Snack</h1>
@@ -25,18 +24,13 @@ export default {
 
 
 <style scoped>
-	.logoDiv{
+	#logoDiv{
 			width:100%;
-			text-align: center;
-			position: fixed;
-			top: 3%;
+			height: 100%;
+			background: url("/images/golf-ball.png");
+			background-size: cover;
 	}
 
-	.logo {
-		width: 30%;
-		opacity: 0.6;
-    z-index: -99;
-	}
 
 	.pulse{
 		bottom: 15%;

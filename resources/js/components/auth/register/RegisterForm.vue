@@ -1,17 +1,18 @@
 <template>
 
 	<v-form v-if="form.user_type == -1">
-		<h2>Sign up as:</h2>
 			<v-row
-			v-for="user in user_types"
+			v-for="(user, index) in user_types"
 	    align="center"
-	    class="py-2"
+	    class="py-2 px-2"
+			:key="index"
 
 	  >
 				<v-btn
 				block
 				elevation="2"
 				color="default"
+				class="px-4"
 				justify="space-around"
 				x-large
 
@@ -20,6 +21,9 @@
 					<span style="white-space: normal;">{{user.name}}</span>
 				</v-btn>
 
+		</v-row>
+		<v-row class="py-4 justify-center">
+			<v-btn color="light" small>Back to Login</v-btn>
 		</v-row>
 	</v-form>
 
@@ -43,10 +47,9 @@
 			:item-value="name"
 			item-text="name"
 			auto-select-first
-      required
 		>
 		</v-combobox>
-		<small style="line-height:0px;float:right;" class="p-4">{{form.golf_course.city}}</small>
+		<small v-if="form.golf_course.city" style="line-height:0px;float:right;" class="p-4">{{form.golf_course.city}}</small>
 
     <v-text-field
       :label="labels.email"
@@ -121,6 +124,7 @@ export default {
   data: () => ({
     passwordHidden: true,
     errors: [],
+		name: "",
     form: {
       name: '',
       email: '',
@@ -179,6 +183,9 @@ export default {
   },
 	mounted() {
 		this.getCourses();
+
+	},
+	watch: {
 
 	}
 }
