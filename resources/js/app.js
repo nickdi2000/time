@@ -24,7 +24,7 @@ Vue.filter("address", function(address) {
 			`;
 
     if (address.name) {
-        addr_string = `${address.name}: ${addr_string}`;
+        addr_string = `${address.name}: <br /> ${addr_string}`;
     }
 
     return addr_string;

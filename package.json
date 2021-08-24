@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "vue-google-autocomplete": "^1.1.2",
+    "vue-qrcode": "^0.4.0",
     "vue2-google-maps": "^0.10.7"
   }
 }

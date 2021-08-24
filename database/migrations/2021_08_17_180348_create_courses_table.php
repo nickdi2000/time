@@ -17,6 +17,7 @@ class CreateCoursesTable extends Migration
             $table->bigIncrements('id');
 						$table->string("city")->nullable();
 						$table->string("name");
+						$table->string("code")->nullable();
 						$table->string("address")->nullable();
 						$table->string("locality")->nullable();
 						$table->string("country")->nullable();

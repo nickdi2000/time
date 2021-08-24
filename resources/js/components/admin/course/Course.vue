@@ -30,13 +30,33 @@
 	          class="mb-4"
 	        ></v-text-field>
 
-
-
-
-
       </v-card-text>
 
     </v-card>
+
+		  <v-card class="mb-2">
+	      <v-card-text>
+					<h3>Public Access Link</h3>
+					<h2 class="py-3 font-weight-bold">{{url()}}</h2>
+
+						  <v-text-field
+			          label="CODE"
+								id="code"
+			          v-model="course.code"
+			          filled
+			          hide-details
+			          class="mb-4"
+								@input="(val) => (course.code = course.code.toUpperCase())"
+			        ></v-text-field>
+
+							<v-alert class="d-flex justify-center">
+									<vue-qrcode :scale="8" :value="'https://caddysnack.ca/' + course.code" />
+							</v-alert>
+							<p class="font-weight-thin">Golfers may navigate to your unique url ({{url()}}), or scan this QR code.  Remember that if you change your code, the QR Code will change as well.</p>
+
+				</v-card-text>
+			</v-card>
+
 
 		<v-card>
 			<v-card-text>
@@ -44,8 +64,9 @@
 				<vue-google-autocomplete
 						id="g-map"
 						class="form-control form-control-lg my-3"
-						placeholder="Find Address.."
+						placeholder="Start Typing...."
 						v-on:placechanged="getAddressData"
+						v-model="query"
 				>
 				</vue-google-autocomplete>
 
@@ -59,7 +80,18 @@
 		    >
 				 <p v-html="this.$options.filters.address(course.address)"></p>
 
-				 <v-btn color="info" @click.prevent="saveAddress()">Use This Address <v-icon>check</v-icon></v-btn>
+				 <div v-if="changed">
+					 <v-btn
+						color="primary"
+						@click.prevent="saveAddress()"
+						>
+						Use This Address
+						<v-icon>save</v-icon>
+					</v-btn>
+
+					<v-btn color="light" @click.prevent="cancel()">Cancel</v-btn>
+				</div>
+
 				</v-alert>
 
 				<v-alert
@@ -67,7 +99,9 @@
 						border="left"
 			      colored-border
 			      type="warning"
-			      elevation="2">
+			      elevation="2"
+						v-if="!validAddress"
+						>
 					The golf course address is not yet set-up
 				</v-alert>
 			</v-card-text>
@@ -81,26 +115,30 @@
 import { mapGetters } from 'vuex'
 import axios from 'axios'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
-
+import VueQrcode from 'vue-qrcode'
 
 export default {
-	components: {VueGoogleAutocomplete},
+	components: {VueGoogleAutocomplete, VueQrcode},
   data: () => ({
     course: {},
 		loading: true,
-		user: {}
+		user: {},
+		query: '',
+		changed: false,
   }),
 	methods: {
 		getCourseData(){
 			axios.get('/api/user/my-course')
 				.then(res => {
 					this.course = res.data;
+					this.course.address = res.data;
 					this.loading = false;
 				});
 		},
 		getAddressData(v){
 			console.log(v);
 			this.course.address = v;
+			this.changed = true;
 		},
 		saveAddress(){
 				axios.put('/api/course/' + this.course.id, this.course.address)
@@ -109,6 +147,16 @@ export default {
 					}).error(err => {
 						console.log(err);
 					});
+		},
+		validAddress(){
+			return true;
+		},
+		url(){
+			return "CaddySnack.ca/" + (this.course.code ? this.course.code : '');
+		},
+		cancel(){
+			this.getCourseData();
+			this.changed = false;
 		}
 	},
 	computed: mapGetters({
@@ -125,7 +173,6 @@ export default {
 </script>
 
 <style scoped>
-
 
 
 </style>
