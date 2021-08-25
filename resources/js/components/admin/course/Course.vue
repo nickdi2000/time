@@ -34,31 +34,7 @@
 
     </v-card>
 
-		  <v-card class="mb-2">
-	      <v-card-text>
-					<h3>Public Access Link</h3>
-					<h2 class="py-3 font-weight-bold">{{url()}}</h2>
-
-						  <v-text-field
-			          label="CODE"
-								id="code"
-			          v-model="course.code"
-			          filled
-			          hide-details
-			          class="mb-4"
-								@input="(val) => (course.code = course.code.toUpperCase())"
-			        ></v-text-field>
-
-							<v-alert class="d-flex justify-center">
-									<vue-qrcode :scale="8" :value="'https://caddysnack.ca/' + course.code" />
-							</v-alert>
-							<p class="font-weight-thin">Golfers may navigate to your unique url ({{url()}}), or scan this QR code.  Remember that if you change your code, the QR Code will change as well.</p>
-
-				</v-card-text>
-			</v-card>
-
-
-		<v-card>
+		<v-card class="my-4">
 			<v-card-text>
 			<h3>Course Address</h3>
 				<vue-google-autocomplete
@@ -71,14 +47,14 @@
 				</vue-google-autocomplete>
 
 				 <v-alert
-				 v-if="course.address"
+				 v-if="course && course.country"
 		      border="left"
 		      colored-border
 		      color="deep-purple accent-4"
 		      elevation="2"
 					class="mt-4"
 		    >
-				 <p v-html="this.$options.filters.address(course.address)"></p>
+				 <p v-html="this.$options.filters.address(course)"></p>
 
 				 <div v-if="changed">
 					 <v-btn
@@ -100,12 +76,41 @@
 			      colored-border
 			      type="warning"
 			      elevation="2"
-						v-if="!validAddress"
+						v-if="!course.validAddress"
 						>
 					The golf course address is not yet set-up
 				</v-alert>
 			</v-card-text>
 		</v-card>
+
+		  <v-card class="mb-2">
+	      <v-card-text>
+					<h3>Public Access Link</h3>
+					<h2 class="py-3 font-weight-bold">{{url()}}</h2>
+
+						  <v-text-field
+			          label="CODE"
+								id="code"
+			          v-model="course.code"
+			          filled
+			          hide-details
+			          class="mb-4"
+								@input="(val) => (course.code = course.code.toUpperCase())"
+			        ></v-text-field>
+							<div class="d-flex flex-row-reverse">
+								<v-btn color="primary" @click="saveAddress()" v-if="showCodeSaveBtn"> Save <v-icon>save</v-icon></v-btn>
+							</div>
+
+							<v-alert class="d-flex justify-center">
+									<vue-qrcode :scale="8" :value="'https://caddysnack.ca/' + course.code" />
+							</v-alert>
+							<p class="font-weight-thin">Golfers may navigate to your unique url ({{url()}}), or scan this QR code.  Remember that if you change your code, the QR Code will change as well.</p>
+
+				</v-card-text>
+			</v-card>
+
+
+
 
 
   </div>
@@ -125,31 +130,31 @@ export default {
 		user: {},
 		query: '',
 		changed: false,
+		showCodeSaveBtn: false,
   }),
 	methods: {
 		getCourseData(){
 			axios.get('/api/user/my-course')
 				.then(res => {
 					this.course = res.data;
-					this.course.address = res.data;
 					this.loading = false;
 				});
 		},
 		getAddressData(v){
-			console.log(v);
-			this.course.address = v;
+			let id = this.course.id;
+			this.course = v;
+			this.course.id = id;
 			this.changed = true;
 		},
 		saveAddress(){
-				axios.put('/api/course/' + this.course.id, this.course.address)
+				axios.put('/api/course/' + this.course.id, this.course)
 					.then(res => {
 						this.$toast.success(res.data.message);
+						this.changed = false;
+						this.getCourseData();
 					}).error(err => {
 						console.log(err);
 					});
-		},
-		validAddress(){
-			return true;
 		},
 		url(){
 			return "CaddySnack.ca/" + (this.course.code ? this.course.code : '');
@@ -168,7 +173,15 @@ export default {
     this.getCourseData();
 
 
-  }
+  },
+	watch: {
+		"course.code": function(oldVal, newVal){
+			if(oldVal != newVal && (typeof newVal != 'undefined')){
+				this.showCodeSaveBtn = true;
+			}
+
+		}
+	}
 }
 </script>
 
