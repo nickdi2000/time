@@ -16,7 +16,7 @@
 				justify="space-around"
 				x-large
 
-				@click.prevent="form.user_type = user.id"
+				@click.prevent="updateUserType(user)"
 				>
 					<span style="white-space: normal;">{{user.name}}</span>
 				</v-btn>
@@ -176,6 +176,10 @@ export default {
 				.catch(err => {
             this.handleErrors(err.response.data.errors)
           })
+		},
+		updateUserType(user){
+			this.form.user_type = user.id;
+			this.$emit('set-user-type', user.name);
 		},
 		fakeData(){
 			this.form = this.form_prefilled;
