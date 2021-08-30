@@ -45,7 +45,7 @@ import VueQrcode from 'vue-qrcode'
 export default {
 	components: {VueGoogleAutocomplete, VueQrcode},
   data: () => ({
-    course: {},
+    //course: {},
 		loading: true,
 		user: {},
 		query: '',
@@ -85,12 +85,14 @@ export default {
 		}
 	},
 	computed: mapGetters({
-    auth: 'auth/user'
+    auth: 'auth/user',
+		course: 'course/course'
   }),
 
   mounted() {
+		console.log(this.course);
 		this.user = Object.assign(this.user, this.auth);
-    this.getCourseData();
+    //this.getCourseData();
 
 
   },
