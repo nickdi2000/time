@@ -1,6 +1,7 @@
 export default [
   ...applyRules(['guest'], [
-    { path: '/admin', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'register' }, children:
+		//player portal
+    { path: '', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'register' } ,children:
       [
         { path: '/login', name: 'login', component: require('$comp/auth/login/Login').default },
         { path: '/register', name: 'register', component: require('$comp/auth/register/Register').default },
@@ -14,7 +15,7 @@ export default [
     },
   ]),
   ...applyRules(['auth'], [
-    { path: '/admin', component: require('$comp/admin/AdminWrapper').default, children:
+    { path: '', component: require('$comp/admin/AdminWrapper').default, children:
       [
         { path: '', name: 'index', redirect: { name: 'profile' } },
         { path: '/about', name: 'about', component: require('$comp/admin/about/About').default },
@@ -34,7 +35,11 @@ export default [
       ]
     },
   ]),
-  { path: '*', redirect: { name: 'index' } }
+  		{ path: '*', component: require('$comp/public/PlayerWrapper.vue').default,
+			 	children: [
+					{ path: '', name: 'player', component: require('$comp/public/Player').default }
+				]
+			},
 ]
 
 function applyRules(rules, routes) {

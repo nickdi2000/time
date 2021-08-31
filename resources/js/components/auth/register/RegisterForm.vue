@@ -23,7 +23,7 @@
 
 		</v-row>
 		<v-row class="py-4 justify-center">
-			<v-btn color="light" small>Back to Login</v-btn>
+			<router-link :to="'/login'" color="light" small>Back to Login</router-link>
 		</v-row>
 	</v-form>
 

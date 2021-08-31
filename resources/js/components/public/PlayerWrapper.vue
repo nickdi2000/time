@@ -1,10 +1,6 @@
 <template>
   <v-content>
     <v-container fluid justify-center align-center>
-      <v-container class="d-flex justify-center mt-3">
-        <h1>Caddy Snack</h1>
-      </v-container>
-
       <v-container fluid justify-center align-center fill-height>
   			<transition name="fade" mode="out-in">
           <router-view></router-view>
