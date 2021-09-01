@@ -23,8 +23,12 @@
 
 		</v-row>
 		<v-row class="py-4 justify-center">
-			<router-link :to="'/login'" color="light" small>Back to Login</router-link>
+			<router-link :to="'/login'" color="secondary"tag="v-btn" >Back to Login</router-link>
 		</v-row>
+			<v-row class="py-4 justify-center">
+				<router-link :to="'/SAMPLELAKE'" >Sample Public Link</router-link>
+			</v-row>
+
 	</v-form>
 
   <v-form v-else ref="form" @submit.prevent="submit" lazy-validation v-model="valid">

@@ -18,6 +18,7 @@ class CoursesSeeder extends Seeder
 				Course::insert($courses);
 
         DB::statement("UPDATE courses SET code = UPPER(substring(MD5(RAND()),1,5))");
+        DB::statement("UPDATE courses SET code = 'CAISTOR' WHERE ID = 1");
     }
 
 		public function getCourses(){
