@@ -10,7 +10,7 @@
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet">
         <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
-    		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAu2LdngQaedWU8hJx3L80WS_hqEYbDw7A&libraries=places"></script>
+    		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA649et5eV3OtBMfcbEEgdCYedD8QVBonQ&libraries=places"></script>
 				<script>
             window.Laravel = {!! json_encode([
                 'siteName' => config('app.name'),
