@@ -8,19 +8,13 @@ use Carbon\Carbon;
 
 class Player extends Model
 {
-    protected $fillable = ['latitude', 'longitude'];
+    protected $fillable = ['latitude', 'longitude', 'name', 'hole'];
 		protected $tableName = 'players';
 		protected $modelName = 'Player';
 
-    public function __construct(array $attributes = array())
-    {
-
-    }
-
-
-	public function course()
-	{
-		return $this->belongsTo(Course::class);
-	}
+		public function course()
+		{
+			return $this->belongsTo(Course::class);
+		}
 
 }

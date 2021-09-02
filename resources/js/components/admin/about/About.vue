@@ -12,7 +12,7 @@
 			</v-alert>
 
 			<v-alert>
-				Contact: <a href="mailto:golf@webfly.io">Golf@webfly.io</a>
+				Contact: <a href="mailto:golf@webfly.io">CaddySnack@webfly.io</a>
 			</v-alert>
 
     </v-layout>

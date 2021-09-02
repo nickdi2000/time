@@ -26,9 +26,14 @@ Route::group(['middleware' => ['cors']], function() {
     Route::post('register', 'Auth\RegisterController@register');
 
 		Route::resource('course', 'CourseController');
+
 		Route::resource('player', 'PlayerController');
+		Route::get('me-player', 'PlayerController@me');
+
 		Route::get('course/get-by-code/{code}', 'CourseController@getCourseByCode');
 		Route::get('user/my-course', 'UserController@myCourse');
+
+
 });
 
 Route::group(['middleware' => ['jwt']], function() {

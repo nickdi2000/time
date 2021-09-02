@@ -26,7 +26,7 @@
 			<router-link :to="'/login'" color="secondary"tag="v-btn" >Back to Login</router-link>
 		</v-row>
 			<v-row class="py-4 justify-center">
-				<router-link :to="'/SAMPLELAKE'" >Sample Public Link</router-link>
+				<router-link :to="'/ABC'" >Sample Public Link</router-link>
 			</v-row>
 
 	</v-form>

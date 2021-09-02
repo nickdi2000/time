@@ -56,6 +56,8 @@ export const api = Object.assign(new URL(apiUrl), {
 
   me: 'me',
 
+	player: 'me-player',
+
   users: {
     url: 'users',
 

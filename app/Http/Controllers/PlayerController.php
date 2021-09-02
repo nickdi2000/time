@@ -14,11 +14,17 @@ class PlayerController extends Controller
   public function store(Request $request)
   {
     $data = $request->toArray();
-    $data['hole'] = "3";
-
     $record = Player::create($data);
     return $this->successResponse($record);
   }
+
+
+	    public function me()
+	    {
+	        $player = player()->player();
+
+	        return response()->json(compact('player'));
+	    }
 
 
 }

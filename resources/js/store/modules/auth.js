@@ -7,13 +7,38 @@ import * as types from '../mutation-types'
  */
 export const state = {
   user: null,
-  token: window.localStorage.getItem('token')
+  token: window.localStorage.getItem('token'),
+	player:null,
+  player_id: window.localStorage.getItem('player_id'),
+	player_status: window.localStorage.getItem('player_status')
 }
 
 /**
  * Mutations
  */
 export const mutations = {
+
+	/* PLAYERS */
+	  [types.SET_PLAYER](state, { player }) {
+	    state.player = player
+	  },
+
+	  [types.SET_PLAYER_ID](state, { id }) {
+	    state.player_id = id
+	    window.localStorage.setItem('player_id', id)
+	  },
+
+	  [types.SET_PLAYER_STATUS](state, { player_status }) {
+	    state.player_status = player_status
+	    window.localStorage.setItem('player_status', 1)
+	  },
+
+	  [types.FETCH_PLAYER_FAILURE](state) {
+	    state.player_id = null
+	    window.localStorage.removeItem('player_id')
+	  },
+
+		/*ADMINS*/
   [types.SET_USER](state, { user }) {
     state.user = user
   },
@@ -39,6 +64,30 @@ export const mutations = {
  * Actions
  */
 export const actions = {
+
+	/* PLAYER */
+
+	savePlayerId({ commit }, payload) {
+    commit(types.SET_PLAYER_ID, payload)
+		console.log(payload);
+  },
+	setPlayerStatus({ commit }, payload) {
+    commit(types.SET_PLAYER_STATUS, payload)
+  },
+
+	  async fetchPlayer({ commit }) {
+	    try {
+	      const { data } = await axios.get(api.path('player'))
+	      commit(types.SET_PLAYER, data)
+				console.log('fetchplayer?');
+	    } catch (e) {
+				commit(types.FETCH_PLAYER_FAILURE)
+	      console.log("failed to fetch player nd");
+	    }
+	  },
+
+
+	/* ADMINS */
   saveToken({ commit }, payload) {
     commit(types.SET_TOKEN, payload)
   },

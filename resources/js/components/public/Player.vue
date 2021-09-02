@@ -1,73 +1,82 @@
 <template>
   <v-flex sm8 md6 lg4>
-
-		<v-container class="w-100 d-flex" fluid justify-center align-center>
-				<transition name="slide-fade">
-					<v-img v-if="showLogo" src="/images/beer-logo.png" max-width="100"></v-img>
-				</transition>
+		<v-container v-if="loading" class="w-100 d-flex" fluid justify-center align-center>
+		<v-progress-circular
+			class="my-4 py-2"
+      indeterminate
+      color="purple"
+    ></v-progress-circular>
 		</v-container>
 
-
-
-    <v-card class="mx-auto">
-      <v-toolbar dark color="primary" flat>
-        <v-toolbar-title>CaddySnack.ca/{{ code }}</v-toolbar-title>
-      </v-toolbar>
-			<v-card-text >
-        <v-container v-if="notFound">
-          <v-alert
-           border="right"
-           colored-border
-           type="error"
-           elevation="2"
-         >
-          No CaddySnack profile exists for this course.. <br/><br/>
-          Suggest that they sign up at <b>CaddySnack.ca/register</b>
-         </v-alert>
-        </v-container>
-
-				<v-container style="text-align:center;" v-else fluid class="d-flex flex-column align-items-center justify-content-center">
-         <small>Welcome to</small>
-         <h3 class="animate__animated animate__bounce"> {{ course.name }} </h3>
-				<!--<v-text-field
-            v-model="name"
-            outlined
-            label="Name.."
-						persistent-hint
-						hint="Give us a name or nick-name to help us find you"
-						style="font-size:2em"
-          ></v-text-field>-->
-          <v-container v-if="!requested" class="p-4">
-	         <v-btn
-						color="default"
-						large
-						block
-						class="mt-4 px-6 w-100"
-            @click="request()"
-					>
-					<v-icon left dark>pan_tool</v-icon>
-					<h3 >Request Drink!</h3>
-					</v-btn>
-
-        </v-container>
-
-          <v-container v-else style="text-align:center;" class="d-flex flex-column align-items-center justify-content-center my-5">
-            <Pulse class="py-5"/>
-            <v-alert
-                dense
-                text
-                type="success"
-                class="mt-6"
-              >
-              Drink cart requested!
-              </v-alert>
-
-              <v-btn @click="cancel()" small>Cancel</v-btn>
-          </v-container >
+		<div v-else>
+				<v-container  class="w-100 d-flex" fluid justify-center align-center>
+						<transition name="slide-fade">
+							<v-img v-if="showLogo" src="/images/beer-logo.png" max-width="100"></v-img>
+						</transition>
 				</v-container>
-		</v-card-text>
-		</v-card>
-  </v-flex>
+
+
+
+		    <v-card class="mx-auto">
+		      <v-toolbar dark color="primary" flat>
+		        <v-toolbar-title>CaddySnack.ca/{{ code }}</v-toolbar-title>
+		      </v-toolbar>
+					<v-card-text >
+		        <v-container v-if="notFound">
+		          <v-alert
+		           border="right"
+		           colored-border
+		           type="warning"
+		           elevation="2"
+		         >
+		          No CaddySnack profile exists for this course.. <br/><br/>
+		          Suggest that they sign up at <b>CaddySnack.ca/register</b>
+		         </v-alert>
+		        </v-container>
+
+						<v-container style="text-align:center;" v-else fluid class="d-flex flex-column align-items-center justify-content-center">
+		         <small>Welcome to</small>
+		         <h2 class="animate__animated animate__bounce"> {{ course.name }} </h2>
+						<!--<v-text-field
+		            v-model="name"
+		            outlined
+		            label="Name.."
+								persistent-hint
+								hint="Give us a name or nick-name to help us find you"
+								style="font-size:2em"
+		          ></v-text-field>-->
+		          <v-container v-if="!requested" class="p-4">
+			         <v-btn
+								color="default"
+								large
+								block
+								class="mt-4 px-6 w-100"
+		            @click="request()"
+							>
+							<v-icon left dark>notifications</v-icon>
+							<h3 >Request Drink!</h3>
+							</v-btn>
+
+		        </v-container>
+
+		          <v-container v-else style="text-align:center;" class="d-flex flex-column align-items-center justify-content-center my-5">
+		            <Pulse class="py-5"/>
+		            <v-alert
+		                dense
+		                text
+		                type="success"
+		                class="mt-6"
+		              >
+		              Drink cart requested!
+		              </v-alert>
+
+		              <v-btn @click="cancel()" small>Cancel</v-btn>
+		          </v-container >
+						</v-container>
+				</v-card-text>
+				</v-card>
+			</div>
+		 </v-flex>
 </template>
 
 <script>
@@ -89,20 +98,14 @@ export default {
     course: {},
     notFound: false,
     requested: false,
-    position: {},
+    player: {},
+		loading: true,
   }),
   methods: {
-    success(data) {
-      this.$store.dispatch('auth/saveToken', data)
-      this.$store.dispatch('auth/setUser', data)
-      this.$router.push({ name: 'index' })
-    },
-		UserType(v) {
-			this.user_type = v;
-		},
     getCourse(){
       axios.get("/api/course/get-by-code/" + this.code)
         .then(res =>{
+					this.loading = false;
           if (!res.data){
             this.notFound = true;
             return;
@@ -111,34 +114,43 @@ export default {
         });
     },
     async request(){
-      await this.getLocation();
-      axios.post("/api/player", this.position)
+			this.loading = true;
+      const position = await this.getLocation();
+			console.log(position);
+
+      axios.post("/api/player", this.player)
         .then(res => {
-            console.log(res);
+						this.requested = true;
+						this.$store.dispatch('auth/savePlayerId', res.data.data);
+						//this.$store.dispatch('auth/setPlayerStatus', res.data.data);
+						this.$toast.success('Request sent for cart attendant');
+
+
         });
 
-      this.$toast.success('Request sent for cart attendant');
-      this.requested = true;
+
     },
     cancel(){
       this.$toast.error('Request Cancelled');
       this.requested = false;
     },
-    getLocation(){
-      const success = (position) => {
-            const latitude  = position.coords.latitude;
-            const longitude = position.coords.longitude;
+    async getLocation(){
+      	let lat = 0
+        let long = 0
+				let app = this
+        if(navigator.geolocation) {
+            await navigator.geolocation.getCurrentPosition( function(position) {
+                console.log(position.coords.latitude, position.coords.longitude)
+                lat = position.coords.latitude
+                long = position.coords.longitude
+								app.loading = false;
+								//app.player.latitude = lat;
+								//app.player.longitude = long;
+                console.log("LATLONG1: ", lat, long)
+            })
+        }
 
-            this.position = {
-              latitude: latitude, longitude: longitude
-            };
-
-        };
-
-        const error = (err) => {
-            console.log(error)
-        };
-        navigator.geolocation.getCurrentPosition(success, error);
+        return [lat,long]
     }
   },
 	mounted() {
