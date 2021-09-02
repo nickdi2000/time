@@ -47,4 +47,15 @@ class CourseController extends Controller
 					$course = Course::find(1);
 					return response()->json($course);
 			}
+
+      public function getCourseByCode($code)
+			{
+					$course = Course::where("code", $code)->first();
+
+          if(!$course){
+            return 0;
+          }
+					return response()->json($course);
+			}
+
 }
