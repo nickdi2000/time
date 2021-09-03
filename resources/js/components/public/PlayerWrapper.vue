@@ -10,9 +10,7 @@
 
 
 	  </v-container>
-				<v-container class="w-100 d-flex" fluid justify-center align-items-end>
 
-				</v-container>
 				<v-footer style="position: absolute; bottom: 0;width:100%" class="w-100">
 			    <v-col
 			      class="text-center"

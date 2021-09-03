@@ -75,6 +75,11 @@
 						</v-container>
 				</v-card-text>
 				</v-card>
+				<v-card v-if="dev">
+					CourseID: {{course.id}}
+					<br/>Current stored course: {{ player_course_id }}
+				</v-card>
+
 			</div>
 		 </v-flex>
 </template>
@@ -85,13 +90,15 @@ import Bell from '$comp/misc/Bell'
 import Pulse from '$comp/misc/Pulse'
 import VueStar from 'vue-star'
 import "animate.css"
-
+import { mapGetters } from 'vuex'
 
 import axios from 'axios'
 
 export default {
   components: { Beer,VueStar , Pulse},
   data: () => ({
+		dev: true,
+		player_course_id: 0,//this.$store.getters.player_course_id,
     name: "",
 		showLogo: false,
     code: '',
@@ -112,7 +119,7 @@ export default {
           }
           this.course = res.data;
 					this.player.course_id = res.data.id;
-					this.$store.dispatch('auth/setPlayerCourseId', res.data.id);
+					this.$store.dispatch('player/setPlayerCourseId', res.data.id);
         });
     },
     async request(){
@@ -129,7 +136,7 @@ export default {
 	        .then(res => {
 							console.log("Player stored", res);
 							this.requested = true;
-							this.$store.dispatch('auth/savePlayerId', res.data.data);
+							this.$store.dispatch('player/savePlayerId', res.data.data);
 							//this.$store.dispatch('auth/setPlayerStatus', res.data.data);
 							this.$toast.success('Request sent for cart attendant');
 	        });
@@ -151,6 +158,7 @@ export default {
 			        }, err => {
 								this.loading = false;
 			          reject(err);
+								this.$toast.error(err.message);
 			        });
 	        }
 			});
@@ -163,6 +171,9 @@ export default {
 		this.showLogo = true;
     this.code = this.$route.path.substring(1);
     this.getCourse();
+	},
+	computed: {
+
 	}
 }
 </script>

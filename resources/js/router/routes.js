@@ -1,7 +1,7 @@
 export default [
   ...applyRules(['guest'], [
 		//player portal
-    { path: '', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'register' } ,children:
+    { path: 'admin', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'register' } ,children:
       [
         { path: '/login', name: 'login', component: require('$comp/auth/login/Login').default },
         { path: '/register', name: 'register', component: require('$comp/auth/register/Register').default },
@@ -15,9 +15,9 @@ export default [
     },
   ]),
   ...applyRules(['auth'], [
-    { path: '', component: require('$comp/admin/AdminWrapper').default, children:
+    { path: 'admin', component: require('$comp/admin/AdminWrapper').default, children:
       [
-        { path: '', name: 'index', redirect: { name: 'profile' } },
+        { path: 'admin', name: 'index', redirect: { name: 'profile' } },
         { path: '/about', name: 'about', component: require('$comp/admin/about/About').default },
         { path: '/map', name: 'map', component: require('$comp/admin/map/Map').default },
         { path: '/profile', component: require('$comp/admin/profile/ProfileWrapper').default, children:
@@ -35,6 +35,7 @@ export default [
       ]
     },
   ]),
+			{ path: '', redirect: '/admin/register'},
   		{ path: '*', component: require('$comp/public/PlayerWrapper.vue').default,
 			 	children: [
 					{ path: '', name: 'player', component: require('$comp/public/Player').default }

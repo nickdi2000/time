@@ -15,6 +15,8 @@ class PlayerController extends Controller
   {
     $data = $request->toArray();
     $record = Player::create($data);
+		$record['status_id'] = 1; // starts out as active when new player is created
+
     return $this->successResponse($record);
   }
 
