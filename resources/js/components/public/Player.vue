@@ -1,5 +1,5 @@
 <template>
-  <v-flex sm8 md6 lg4>
+  <v-flex sm8 md6 lg4 >
 		<v-container v-if="loading" class="w-100 d-flex" fluid justify-center align-center>
 		<v-progress-circular
 			class="my-4 py-2"
@@ -19,7 +19,7 @@
 
 		    <v-card class="mx-auto">
 		      <v-toolbar dark color="primary" flat>
-		        <v-toolbar-title>CaddySnack.ca/{{ code }}</v-toolbar-title>
+		        <v-toolbar-title>{{ $app_name }}/{{ code }}</v-toolbar-title>
 		      </v-toolbar>
 					<v-card-text >
 		        <v-container v-if="notFound">
@@ -111,48 +111,54 @@ export default {
             return;
           }
           this.course = res.data;
+					this.player.course_id = res.data.id;
+					this.$store.dispatch('auth/setPlayerCourseId', res.data.id);
         });
     },
     async request(){
 			this.loading = true;
-      const position = await this.getLocation();
-			console.log(position);
-
-      axios.post("/api/player", this.player)
-        .then(res => {
-						this.requested = true;
-						this.$store.dispatch('auth/savePlayerId', res.data.data);
-						//this.$store.dispatch('auth/setPlayerStatus', res.data.data);
-						this.$toast.success('Request sent for cart attendant');
-
-
-        });
-
+			const coords = await this.getLocation();
+			console.log("coords recieved", coords);
+			this.player.latitude = coords.latitude;
+			this.player.longitude = coords.longitude;
+			this.storePlayer();
 
     },
+		storePlayer(){
+	      axios.post("/api/player", this.player)
+	        .then(res => {
+							console.log("Player stored", res);
+							this.requested = true;
+							this.$store.dispatch('auth/savePlayerId', res.data.data);
+							//this.$store.dispatch('auth/setPlayerStatus', res.data.data);
+							this.$toast.success('Request sent for cart attendant');
+	        });
+		},
     cancel(){
       this.$toast.error('Request Cancelled');
       this.requested = false;
     },
     async getLocation(){
-      	let lat = 0
-        let long = 0
-				let app = this
-        if(navigator.geolocation) {
-            await navigator.geolocation.getCurrentPosition( function(position) {
-                console.log(position.coords.latitude, position.coords.longitude)
-                lat = position.coords.latitude
-                long = position.coords.longitude
-								app.loading = false;
-								//app.player.latitude = lat;
-								//app.player.longitude = long;
-                console.log("LATLONG1: ", lat, long)
-            })
-        }
-
-        return [lat,long]
+			return new Promise((resolve, reject) => {
+				console.log('getLocation');
+	      	let lat = 0
+	        let long = 0
+					let app = this
+	        if(navigator.geolocation) {
+	            navigator.geolocation.getCurrentPosition(pos => {
+								this.loading = false;
+			          resolve(pos.coords);
+			        }, err => {
+								this.loading = false;
+			          reject(err);
+			        });
+	        }
+			});
     }
   },
+	async created () {
+
+	},
 	mounted() {
 		this.showLogo = true;
     this.code = this.$route.path.substring(1);
@@ -175,4 +181,25 @@ export default {
   transform: translateX(60px);
   opacity: 0;
 }
+
+.colorizer {
+	background: linear-gradient(-45deg, #ffffff, #e73c7e, #23a6d5, #ffffff);
+	background-size: 400% 400%;
+	animation: gradient 15s ease infinite;
+	height: 100vh;
+}
+
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
 </style>

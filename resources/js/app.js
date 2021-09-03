@@ -15,6 +15,8 @@ Vue.use(VueGoogleMaps, {
   }
 });
 
+Vue.prototype.$app_name = process.env.MIX_APP_NAME;
+
 Vue.filter("address", function(address) {
 	// call like: <p v-html="this.$options.filters.address(course.address)"></p>
     let addr_string = `<b>Address: </b> ${address.street_number} ${address.locality}

@@ -8,7 +8,8 @@ use Carbon\Carbon;
 
 class Player extends Model
 {
-    protected $fillable = ['latitude', 'longitude', 'name', 'hole'];
+    // protected $fillable = ['latitude', 'longitude', 'name', 'hole'];
+		protected $guarded = ['id'];
 		protected $tableName = 'players';
 		protected $modelName = 'Player';
 

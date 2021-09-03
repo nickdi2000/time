@@ -22,7 +22,6 @@ class PlayerController extends Controller
 	    public function me()
 	    {
 	        $player = player()->player();
-
 	        return response()->json(compact('player'));
 	    }
 
