@@ -20,12 +20,21 @@ class PlayerController extends Controller
     return $this->successResponse($record);
   }
 
+	public function update(Request $request, $id)
+	{
+				$data = $request->toArray();
+				$course = Player::findOrFail($id);
+				$course->update($data);
+				$return = $course->save();
+				return $this->successResponse($return, "Player status updated");
 
-	    public function me()
-	    {
-	        $player = player()->player();
-	        return response()->json(compact('player'));
-	    }
+	}
+
+  public function me()
+  {
+      $player = player()->player();
+      return response()->json(compact('player'));
+  }
 
 
 }

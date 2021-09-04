@@ -31,10 +31,10 @@ export const mutations = {
 	    window.localStorage.setItem('player_status', status_id)
 	  },
 
-		[types.SET_PLAYER_COURSE_ID](state, { id }) {
-	    state.player_course_id = id
-	    window.localStorage.setItem('player_course_id', id)
-			console.log("setting placyer course id: " + id);
+		[types.SET_PLAYER_COURSE_ID](state, { player_course_id }) {
+	    state.player_course_id = player_course_id
+	    window.localStorage.setItem('player_course_id', player_course_id)
+			console.log("setting placyer course id: " + player_course_id);
 	  },
 
 
@@ -59,9 +59,10 @@ export const actions = {
   },
 	setPlayerStatus({ commit }, payload) {
     commit(types.SET_PLAYER_STATUS, payload)
+		console.log("player status payload", payload)
   },
-	setPlayerCourseId({ commit }, course_id) {
-	  commit(types.SET_PLAYER_COURSE_ID, course_id)
+	setPlayerCourseId({ commit }, payload) {
+	  commit(types.SET_PLAYER_COURSE_ID, payload)
 	},
 
 	  async fetchPlayer({ commit }) {

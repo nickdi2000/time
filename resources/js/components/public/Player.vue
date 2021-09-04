@@ -77,7 +77,8 @@
 				</v-card>
 				<v-card v-if="dev">
 					CourseID: {{course.id}}
-					<br/>Current stored course: {{ player_course_id }}
+					<br/>Player id: {{ player_id }}<br/>
+					player status: {{ player_status }}
 				</v-card>
 
 			</div>
@@ -98,7 +99,6 @@ export default {
   components: { Beer,VueStar , Pulse},
   data: () => ({
 		dev: true,
-		player_course_id: 0,//this.$store.getters.player_course_id,
     name: "",
 		showLogo: false,
     code: '',
@@ -119,7 +119,7 @@ export default {
           }
           this.course = res.data;
 					this.player.course_id = res.data.id;
-					this.$store.dispatch('player/setPlayerCourseId', res.data.id);
+					this.$store.dispatch('player/setPlayerCourseId', {player_course_id: res.data.id});
         });
     },
     async request(){
@@ -144,6 +144,16 @@ export default {
     cancel(){
       this.$toast.error('Request Cancelled');
       this.requested = false;
+
+			let status = {status_id: 0};
+
+			axios.put("/api/player/" + this.player_id, status)
+				.then(res => {
+					console.log(res);
+					this.$store.dispatch('player/setPlayerStatus', status);
+				})
+
+
     },
     async getLocation(){
 			return new Promise((resolve, reject) => {
@@ -164,17 +174,20 @@ export default {
 			});
     }
   },
-	async created () {
-
+	created () {
+		if(this.player_status == 1){
+			this.requested = true;
+		}
 	},
 	mounted() {
 		this.showLogo = true;
     this.code = this.$route.path.substring(1);
     this.getCourse();
 	},
-	computed: {
-
-	}
+  computed: mapGetters({
+    player_id: 'player/player_id',
+    player_status: 'player/player_status'
+  }),
 }
 </script>
 
