@@ -10,12 +10,13 @@ import * as VueGoogleMaps from "vue2-google-maps"
 
 Vue.use(VueGoogleMaps, {
   load: {
-    key: "AIzaSyAu2LdngQaedWU8hJx3L80WS_hqEYbDw7A",
+    key: process.env.MIX_GOOGLE_MAPS_KEY,
     libraries: "places"
   }
 });
 
 Vue.prototype.$app_name = process.env.MIX_APP_NAME;
+Vue.prototype.$app_url = process.env.MIX_APP_URL;
 
 Vue.filter("address", function(address) {
 	// call like: <p v-html="this.$options.filters.address(course.address)"></p>

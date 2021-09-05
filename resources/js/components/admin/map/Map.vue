@@ -1,84 +1,105 @@
 <template>
-  <v-container fluid class="w-100">
-      <v-alert
-      border="top"
-      colored-border
-      type="info"
-      elevation="2"
-    >
-    View golfers that have requested a beverage
-		</v-alert>
-    <v-card>
-      <gmap-autocomplete @place_changed="initMarker"></gmap-autocomplete>
 
-      <button @click="addLocationMarker">Add</button>
+  <v-container fluid class="w-100">
+    <v-card style="height:100%">
+      <GmapMap :center="center"
+               :zoom="zoom"
+               map-type-id="terrain"
+               style="width: 100%; height: 600px">
+        <GmapMarker :key="index"
+                    v-for="(m, index) in markers"
+                    :position="m.position"
+                    :clickable="true"
+                    :draggable="true"
+                    @click="markerClicked(m)"
+                    :icon="golfIcon" />
+
+        <gmap-info-window
+           @closeclick="closeWindow()"
+           :opened="windowOpen"
+           :position="windowLocation"
+           >
+           <!--<formatted-location :location="currentLocation" />-->
+       </gmap-info-window>
+      </GmapMap>
     </v-card>
 
-    <GmapMap
-  :center="center"
-  :zoom="zoom"
-  map-type-id="terrain"
-  style="width: 100%; height: 400px"
->
-  <GmapMarker
-    :key="index"
-    v-for="(m, index) in locationMarkers"
-    :position="m.position"
-    :clickable="true"
-    :draggable="true"
-    @click="center=m.position"
-  />
-</GmapMap>
-
-
   </v-container>
+
 </template>
 
 <script>
 
-export default {
-  name: "google-map",
-  data() {
-    return {
-      center: {
-        lat: 43.24908519081348,
-        lng: -79.90995445791425
-      },
-      zoom: 16,
-      locationMarkers: [],
-      locPlaces: [],
-      existingPlace: null
-    };
-  },
+  import axios from 'axios'
+  //import FormattedLocation from '~/components/admin/shared/FormattedLocation';
 
-  mounted() {
-    this.locateGeoLocation();
-  },
+  export default {
+    name: 'google-map',
+    //components: {FormattedLocation},
+    data() {
+      return {
+        windowOpen: false,
+        windowLocation: null,
+        currentLocation: null,
+        center: {
+          lat: 43.2392954,
+          lng: -79.8775022
+        },
+        zoom: 14,
+        savedLocations: [],
+        locationMarkers: [],
+        locPlaces: [],
+        existingPlace: null,
+        locationDetails: {
+          name: '',
+          comments: ''
+        },
+				saving: false,
 
-  methods: {
-    initMarker(loc) {
-      this.existingPlace = loc;
-    },
-    addLocationMarker() {
-      if (this.existingPlace) {
-        const marker = {
-          lat: this.existingPlace.geometry.location.lat(),
-          lng: this.existingPlace.geometry.location.lng()
-        };
-        this.locationMarkers.push({ position: marker });
-        this.locPlaces.push(this.existingPlace);
-        this.center = marker;
-        this.existingPlace = null;
       }
     },
-    locateGeoLocation: function() {
-      navigator.geolocation.getCurrentPosition(res => {
-        this.center = {
-          lat: res.coords.latitude,
-          lng: res.coords.longitude
-        };
-      });
+    props: ['markers',],
+
+    mounted() {
+      this.locateGeoLocation();
+    },
+
+    methods: {
+      markerClicked(m){
+        console.log(m);
+        this.windowOpen = true;
+        this.windowLocation = m.position;
+        this.currentLocation = m;
+
+      },
+      closeWindow(){
+        this.windowOpen = false;
+      },
+      initMarker(loc) {
+        this.locationDetails.name = loc.name
+        this.existingPlace = loc
+      },
+      locateGeoLocation: function() {
+        navigator.geolocation.getCurrentPosition(res => {
+          this.center = {
+            lat: res.coords.latitude,
+            lng: res.coords.longitude
+          }
+        })
+      },
+    },
+    computed: {
+      golfIcon() {
+        return {
+          url: '/images/golf-red.png', // url
+          scaledSize: new google.maps.Size(50, 50), // scaled size
+          origin: new google.maps.Point(0, 0), // origin
+          anchor: new google.maps.Point(0, 0) // anchor
+        }
+      },
+
     }
   }
-};
+
 </script>
+\

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Facades\App\Repository\Users;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 use App\User;
 
@@ -33,8 +34,8 @@ class UserController extends Controller
 
 			public function myCourse()
 			{
-					$user_id = auth()->user()->id;
-					$course = User::with('course')->get()->pluck('course');
+          $user = auth()->user();
+					$course = User::where('id', $user->id)->with('course')->get()->pluck('course');
 					return response()->json($course[0]);
 			}
 

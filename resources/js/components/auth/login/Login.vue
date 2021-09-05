@@ -28,6 +28,9 @@ export default {
       //this.$store.dispatch('course/setCourse', data)
       this.$router.push({ name: 'index' })
     }
+  },
+  mounted () {
+    //console.log(this.$store.getters['auth/user']['course_id']);
   }
 }
 </script>

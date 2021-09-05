@@ -22,6 +22,7 @@ class CreatePlayersTable extends Migration
             $table->integer("hole")->nullable()->default(0);
             $table->integer("course_id")->nullable();
             $table->integer("group_size")->nullable();
+            $table->string("color")->nullable(); //hex color code
             $table->integer("status_id")->default(1); // 0 = cancelled, 1 = active, 2 = recieved drink
 
 

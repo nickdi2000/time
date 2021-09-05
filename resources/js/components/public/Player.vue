@@ -11,7 +11,11 @@
 		<div v-else>
 				<v-container  class="w-100 d-flex" fluid justify-center align-center>
 						<transition name="slide-fade">
-							<v-img v-if="showLogo" src="/images/beer-logo.png" max-width="100"></v-img>
+							<v-img v-if="showLogo"
+              src="/images/beer-logo.png"
+              max-width="100"
+              v-on:dblclick="dev=true"
+              ></v-img>
 						</transition>
 				</v-container>
 
@@ -75,7 +79,7 @@
 						</v-container>
 				</v-card-text>
 				</v-card>
-				<v-card v-if="dev">
+				<v-card v-if="dev" class="py-4 px-4 my-4">
 					CourseID: {{course.id}}
 					<br/>Player id: {{ player_id }}<br/>
 					player status: {{ player_status }}
@@ -98,7 +102,7 @@ import axios from 'axios'
 export default {
   components: { Beer,VueStar , Pulse},
   data: () => ({
-		dev: true,
+		dev: false,
     name: "",
 		showLogo: false,
     code: '',
@@ -132,14 +136,25 @@ export default {
 
     },
 		storePlayer(){
-	      axios.post("/api/player", this.player)
+        if(this.player_id){
+          this.player.status_id = 1;
+          axios.put("/api/player/" + this.player_id, this.player)
+            .then(res => {
+                console.log("Player request resent", res);
+                this.requested = true;
+                this.$store.dispatch('player/setPlayerStatus', {status_id: 1});
+                this.$toast.success('Request re-sent');
+
+            });
+        }else{
+          axios.post("/api/player", this.player)
 	        .then(res => {
 							console.log("Player stored", res);
 							this.requested = true;
 							this.$store.dispatch('player/savePlayerId', res.data.data);
-							//this.$store.dispatch('auth/setPlayerStatus', res.data.data);
 							this.$toast.success('Request sent for cart attendant');
 	        });
+        }
 		},
     cancel(){
       this.$toast.error('Request Cancelled');

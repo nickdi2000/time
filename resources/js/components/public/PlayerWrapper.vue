@@ -6,24 +6,15 @@
           <router-view></router-view>
         </transition>
       </v-container>
-
-
-
 	  </v-container>
-
-				<v-footer style="position: absolute; bottom: 0;width:100%" class="w-100">
-			    <v-col
-			      class="text-center"
-			      cols="12"
-			    >
-			      {{ new Date().getFullYear() }} — <small>Work at the course? | <router-link :to="'/register'">Sign Up</router-link></small>
-			    </v-col>
-			  </v-footer>
+				<PublicFooter />
 	  </v-content>
 </template>
 
 <script>
+import PublicFooter from '$comp/ui/PublicFooter';
 
 export default {
+  components: {PublicFooter}
 }
 </script>

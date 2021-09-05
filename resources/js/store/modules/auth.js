@@ -7,18 +7,13 @@ import * as types from '../mutation-types'
  */
 export const state = {
   user: null,
-  token: window.localStorage.getItem('token'),
-	player:null
+  token: window.localStorage.getItem('token')
 }
 
 /**
  * Mutations
  */
 export const mutations = {
-
-
-
-		/*ADMINS*/
   [types.SET_USER](state, { user }) {
     state.user = user
   },
@@ -44,8 +39,6 @@ export const mutations = {
  * Actions
  */
 export const actions = {
-
-	/* ADMINS */
   saveToken({ commit }, payload) {
     commit(types.SET_TOKEN, payload)
   },

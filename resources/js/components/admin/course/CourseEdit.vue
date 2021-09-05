@@ -102,7 +102,7 @@
 							</div>
 
 							<v-alert class="d-flex justify-center">
-									<vue-qrcode :scale="8" :value="'https://caddysnack.ca/' + course.code" />
+									<vue-qrcode :scale="8" :value="'https://caddysnack.ca/' + this.course.code" />
 							</v-alert>
 							<p class="font-weight-thin">Golfers may navigate to your unique url ({{url()}}), or scan this QR code.  Remember that if you change your code, the QR Code will change as well.</p>
 
@@ -117,7 +117,6 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import axios from 'axios'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
 import VueQrcode from 'vue-qrcode'
@@ -125,21 +124,14 @@ import VueQrcode from 'vue-qrcode'
 export default {
 	components: {VueGoogleAutocomplete, VueQrcode},
   data: () => ({
-    course: {},
 		loading: true,
 		user: {},
 		query: '',
 		changed: false,
 		showCodeSaveBtn: false,
   }),
+  props: ['course'],
 	methods: {
-		getCourseData(){
-			axios.get('/api/user/my-course')
-				.then(res => {
-					this.course = res.data;
-					this.loading = false;
-				});
-		},
 		getAddressData(v){
 			let id = this.course.id;
 			this.course = v;
@@ -160,19 +152,13 @@ export default {
 			return "CaddySnack.ca/" + (this.course.code ? this.course.code : '');
 		},
 		cancel(){
-			this.getCourseData();
+			//this.getCourseData();
 			this.changed = false;
 		}
 	},
-	computed: mapGetters({
-    auth: 'auth/user'
-  }),
 
   mounted() {
-		this.user = Object.assign(this.user, this.auth);
-    this.getCourseData();
-
-
+    //
   },
 	watch: {
 		"course.code": function(oldVal, newVal){

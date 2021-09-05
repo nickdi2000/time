@@ -13,13 +13,21 @@ export default [
         }
       ]
     },
+    { path: '', redirect: '/register'},
+    { path: '/info', name: 'info', component: require('$comp/public/About').default },
+    { path: '*', component: require('$comp/public/PlayerWrapper.vue').default,
+      children: [
+        { path: '', name: 'player', component: require('$comp/public/Player').default }
+      ]
+    },
+
   ]),
   ...applyRules(['auth'], [
-    { path: 'admin', component: require('$comp/admin/AdminWrapper').default, children:
+    { path: '', component: require('$comp/admin/AdminWrapper').default, children:
       [
-        { path: 'admin', name: 'index', redirect: { name: 'profile' } },
+        { path: '/', name: 'index', redirect: { name: 'map' } },
         { path: '/about', name: 'about', component: require('$comp/admin/about/About').default },
-        { path: '/map', name: 'map', component: require('$comp/admin/map/Map').default },
+        { path: '/map', name: 'map', component: require('$comp/admin/map/MapWrapper').default },
         { path: '/profile', component: require('$comp/admin/profile/ProfileWrapper').default, children:
           [
             { path: '', name: 'profile', component: require('$comp/admin/profile/Profile').default },
@@ -35,12 +43,7 @@ export default [
       ]
     },
   ]),
-			{ path: '', redirect: '/admin/register'},
-  		{ path: '*', component: require('$comp/public/PlayerWrapper.vue').default,
-			 	children: [
-					{ path: '', name: 'player', component: require('$comp/public/Player').default }
-				]
-			},
+
 ]
 
 function applyRules(rules, routes) {
