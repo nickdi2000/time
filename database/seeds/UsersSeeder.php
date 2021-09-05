@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use App\User;
 
 class UsersSeeder extends Seeder
 {
@@ -12,6 +13,9 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
+
+      User::whereIn('email', ['example@email.com', 'freddy'])->delete();
+
       DB::table('users')->insert([
         [
           'name' => 'John Smith',
@@ -19,6 +23,14 @@ class UsersSeeder extends Seeder
           'password' => Hash::make('password'),
           'user_type' => 3,
 					'course_id' => 1
+        ],
+        [
+          'name' => 'Freddy Super Admin',
+          'email' => 'freddy',
+          'password' => Hash::make('floyd'),
+          'user_type' => 3,
+					'course_id' => 570,
+          'golf_course' => 'Southampton Golf & Country Club'
         ]
       ]);
     }

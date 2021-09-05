@@ -11,6 +11,15 @@ class PlayerController extends Controller
 {
   protected $model = Player::class;
 
+  /* get all players by COURSE  */
+  public function list($id)
+  {
+    $players = Player::where('course_id', $id)->get();
+    return response()->json($players);
+
+  }
+
+
   public function store(Request $request)
   {
     $data = $request->toArray();

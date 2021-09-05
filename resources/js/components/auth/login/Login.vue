@@ -25,7 +25,6 @@ export default {
     success(data) {
       this.$store.dispatch('auth/saveToken', data)
       this.$store.dispatch('auth/setUser', data)
-      //this.$store.dispatch('course/setCourse', data)
       this.$router.push({ name: 'index' })
     }
   },

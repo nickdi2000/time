@@ -18,4 +18,8 @@ class Player extends Model
 			return $this->belongsTo(Course::class);
 		}
 
+		protected $casts = [
+        'latitude' => 'double',
+        'longitude' => 'double',
+    ];
 }

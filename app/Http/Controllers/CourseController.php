@@ -26,11 +26,15 @@ class CourseController extends Controller
 					}
 	    }
 
+      // Get Course with all players data.
+
 			public function show($id)
 			{
-				$course = Course::find($id);
+				//$course = Course::where('id', $id)->with('players')->get();
+        $course = Course::find($id);
 				return response()->json($course);
 			}
+
 
 			public function update(Request $request, $id)
 			{

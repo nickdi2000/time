@@ -62,6 +62,7 @@
           ripple
           :exact="item.exact !== undefined ? item.exact : true"
           :key="item.title"
+          color="green"
         >
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
@@ -101,12 +102,19 @@ export default {
 
   mounted() {
     this.name = this.auth.name
-    this.navigation()
+    this.navigation();
+
   },
 
   methods: {
     navToggle() {
       this.$emit('nav-toggle')
+    },
+    initSuperAdmin(){
+      console.log('init super');
+      this.items.push([{
+           title: 'Super Admin', icon: 'lock', to: {name: 'super'}, exact: false
+      }]);
     },
 
     async logout() {
@@ -127,7 +135,11 @@ export default {
         [
           { title: 'Logout', icon: 'power_settings_new', action: this.logout }
         ]
-      ]
+      ];
+      if(this.auth.super === true){
+        this.initSuperAdmin();
+      }
+
     }
   }
 }

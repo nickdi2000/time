@@ -3,7 +3,7 @@
     <v-text-field
       :label="labels.email"
       v-model="form.email"
-      type="email"
+      type="text"
       :error-messages="errors.email"
       :rules="[rules.required('email')]"
       :disabled="loading"

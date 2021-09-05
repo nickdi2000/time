@@ -19,6 +19,7 @@
 import AppNav from './shared/AppNav'
 import TopMenu from './shared/TopMenu'
 import AppFooter from './shared/AppFooter'
+import { mapGetters } from 'vuex'
 
 export default {
   data: () => ({

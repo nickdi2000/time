@@ -53,7 +53,8 @@ export const actions = {
   },
 
   setUser({ commit }, payload) {
-    commit(types.SET_USER, payload)
+    console.log("setUser payload", payload);
+    commit(types.SET_USER, payload);
   },
 
   async logout({ commit }) {
@@ -63,8 +64,10 @@ export const actions = {
 
   destroy({ commit }) {
     commit(types.LOGOUT)
-  }
+  },
+
 }
+
 
 /**
  * Getters
@@ -72,5 +75,6 @@ export const actions = {
 export const getters = {
   user: state => state.user,
   check: state => state.user !== null,
-  token: state => state.token
+  token: state => state.token,
+  isSuper: state => state.user.super === true
 }

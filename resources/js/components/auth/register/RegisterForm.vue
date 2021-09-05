@@ -53,7 +53,7 @@
 			auto-select-first
 		>
 		</v-combobox>
-		<small v-if="form.golf_course.city" style="line-height:0px;float:right;" class="p-4">{{form.golf_course.city}}</small>
+		<small v-if="form.golf_course" style="line-height:0px;float:right;" class="p-4">{{form.golf_course.city}}</small>
 
     <v-text-field
       :label="labels.email"
@@ -143,7 +143,6 @@ export default {
 	      password: 'password',
 	      password_confirmation: 'password',
 				user_type: '2',
-				golf_course: 'Test Course',
 	    },
 			user_types: [
 				{id: 0, name: 'BEVERAGE CART ATTENDANT'},
@@ -186,6 +185,8 @@ export default {
 			this.$emit('set-user-type', user.name);
 		},
 		fakeData(){
+			let v = parseInt(Math.random() * (1000 - 5) + 5);
+			this.form_prefilled.email = 'roger' + v + '@gmail.com';
 			this.form = this.form_prefilled;
 		}
   },

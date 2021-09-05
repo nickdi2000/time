@@ -22,22 +22,27 @@
     </v-tabs>
 
     <v-tabs-items v-model="tab" fill-height>
-      <v-tab-item value="tab-map" v-if="locations">
+      <v-tab-item value="tab-map">
         <v-card flat >
           <gMap
-					:markers="locations"
-					 @get-locations="getLocations()" />
+          v-if="Object.keys(course).length !== 0"
+          :course="course"
+					:markers="players"
+					 @get-players="getPlayers()" />
+
+           <v-alert v-else>Loading...</v-alert>
         </v-card>
       </v-tab-item>
 
       <v-tab-item value="tab-list">
-        <v-card flat>
-          <List :locations="locations"
-                @get-locations="getLocations()" />
+        <v-card flat v-if="players">
+          <List :players="players"
+                @get-players="getPlayers()" />
         </v-card>
       </v-tab-item>
 
     </v-tabs-items>
+    COURSE: {{ course}}
   </v-container>
 
 </template>
@@ -47,6 +52,8 @@
   import axios from 'axios'
   import gMap from './Map'
   import List from './List'
+  import { mapGetters } from 'vuex'
+
 
   export default {
     components: {
@@ -56,25 +63,38 @@
     data() {
       return {
         tab: null,
-        locations: [
+        course: {},
+        players: [
           {
             position: {
-              lat: 43.2392954,
-              lng: -79.8775022
+              lat: 0, //43.2392954,
+              lng: 0 //-79.8775022
             }
           }
         ],
       }
     },
     methods: {
-      getLocations() {
-        axios.get('/api/location').then(res => {
-          this.locations = res.data
+      getPlayers() {
+        axios.get('/api/player/list/' + this.user.course_id).then(res => {
+          this.players = res.data
         })
+      },
+      getCourse() {
+        console.log('getting course');
+        axios.get('/api/course/' + this.user.course_id)
+          .then(res => {
+            this.course = res.data;
+            this.getPlayers();
+          })
       }
     },
+    computed: mapGetters({
+      user: 'auth/user'
+    }),
+
     mounted() {
-      //this.getLocations()
+      this.getCourse();
     }
   }
 

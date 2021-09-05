@@ -18,6 +18,10 @@ export default {
     navToggle() {
       this.$emit('nav-toggle')
     }
+	},
+	mounted() {
+		console.log('geatters', this.$store.getters['auth/user']);
+		this.siteName = this.$store.getters['auth/user']['golf_course'] ? this.$store.getters['auth/user']['golf_course'] : 'Welcome';
 	}
 }
 </script>

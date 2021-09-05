@@ -51,7 +51,7 @@ export default {
 		changed: false,
 		showCodeSaveBtn: false,
   }),
-  props: ['course'],
+  props: ['course', 'user'],
 	methods: {
 		getAddressData(v){
 			let id = this.course.id;
@@ -79,7 +79,7 @@ export default {
 	},
 
   mounted() {
-    console.log('cours id?' + this.$store.getters['auth/user']['course_id']);
+    console.log('cours id?', this.user);
 		//console.log(this.course);
 		//this.user = Object.assign(this.user, this.auth);
     //this.getCourseData();

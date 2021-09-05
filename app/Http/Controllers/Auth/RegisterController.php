@@ -74,8 +74,8 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'email' => 'required|string|email|max:191|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            'user_type' => 'required',
             'golf_course' => 'required',
-            'user_type' => 'required'
         ]);
     }
 
@@ -87,16 +87,17 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-				$courseName = isset($data['golf_course']['name']) ? $data['golf_course']['name'] : $data['golf_course'];
-
+        //if the request contains the full golf course obj, then we use that golf course, else make a new course
 				if(!isset( $data['golf_course']['id'] )){
 					$course = Course::create([
 						'name' => $data['golf_course']
 					]);
 					$course->save();
 					$courseId = $course->id;
+          $courseName = $data['golf_course'];
 				}else{
 					$courseId = $data['golf_course']['id'];
+          $courseName = $data['golf_course']['name'];
 				}
 
         return User::create([
@@ -104,7 +105,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
 						'user_type' => $data['user_type'],
 						'golf_course' => $courseName,
-						'golf_course_id' => $courseId,
+						'course_id' => $courseId,
             'password' => bcrypt($data['password']),
         ]);
     }

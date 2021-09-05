@@ -25,9 +25,10 @@ export default [
   ...applyRules(['auth'], [
     { path: '', component: require('$comp/admin/AdminWrapper').default, children:
       [
-        { path: '/', name: 'index', redirect: { name: 'map' } },
+        { path: '', name: 'index', redirect: { name: 'map' } },
         { path: '/about', name: 'about', component: require('$comp/admin/about/About').default },
         { path: '/map', name: 'map', component: require('$comp/admin/map/MapWrapper').default },
+        { path: '/super', name: 'super', component: require('$comp/admin/superadmin/Index').default },
         { path: '/profile', component: require('$comp/admin/profile/ProfileWrapper').default, children:
           [
             { path: '', name: 'profile', component: require('$comp/admin/profile/Profile').default },

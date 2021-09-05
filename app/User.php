@@ -12,6 +12,7 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
+    //protected $appends = ['course_name'];
     /**
      * The attributes that are mass assignable.
      *

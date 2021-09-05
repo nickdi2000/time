@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Facades\App\Repository\Users;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 use App\User;
@@ -13,13 +12,13 @@ class UserController extends Controller
 
     public function index()
     {
-    		$users = Users::all();
+    		$users = User::with('course')->get();
         return response()->json($users);
     }
 
 		  public function list()
 	    {
-	    		$users = Users::all('name');
+	    		$users = User::all('name');
 
 					foreach($users as $c){
 						echo $c->name . "<br>";

@@ -15,7 +15,7 @@ class Course extends Model
 
     public function __construct(array $attributes = array())
     {
-      
+
         $this->setRawAttributes(array(
           'code' => $this->randomCode()
         ), true);
@@ -27,6 +27,11 @@ class Course extends Model
 	{
 		return $this->hasMany(User::class);
 	}
+
+  public function players()
+  {
+    return $this->hasMany(Player::class);
+  }
 
 	public function getValidAddressAttribute()
 	{

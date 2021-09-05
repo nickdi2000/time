@@ -38,7 +38,10 @@ Route::group(['middleware' => ['cors']], function() {
 
 Route::group(['middleware' => ['jwt']], function() {
     Route::post('logout', 'Auth\LoginController@logout');
+    Route::resource('user', 'UserController');
 
+    Route::get('player/list/{id}', 'PlayerController@list');
+    Route::resource('course', 'CourseController');
     Route::get('me', 'Auth\LoginController@me');
     Route::put('profile', 'ProfileController@update');
 });

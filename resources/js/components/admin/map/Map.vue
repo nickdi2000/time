@@ -2,7 +2,9 @@
 
   <v-container fluid class="w-100">
     <v-card style="height:100%">
-      <GmapMap :center="center"
+      <GmapMap
+              v-if="Object.keys(center).length !== 0"
+              :center="center"
                :zoom="zoom"
                map-type-id="terrain"
                style="width: 100%; height: 600px">
@@ -41,13 +43,13 @@
         windowOpen: false,
         windowLocation: null,
         currentLocation: null,
-        center: {
+        center_: {
           lat: 43.2392954,
           lng: -79.8775022
         },
+        center: {},
         zoom: 14,
         savedLocations: [],
-        locationMarkers: [],
         locPlaces: [],
         existingPlace: null,
         locationDetails: {
@@ -58,13 +60,20 @@
 
       }
     },
-    props: ['markers',],
-
+    props: ['markers','course'],
     mounted() {
+      console.log('map course', this.course.latitude);
+      this.setCenter();
       this.locateGeoLocation();
-    },
 
+    },
     methods: {
+      setCenter(){
+        this.center = {
+          lat: parseFloat(this.course.latitude),
+          lng: parseFloat(this.course.longitude)
+        };
+      },
       markerClicked(m){
         console.log(m);
         this.windowOpen = true;
@@ -97,6 +106,7 @@
           anchor: new google.maps.Point(0, 0) // anchor
         }
       },
+
 
     }
   }

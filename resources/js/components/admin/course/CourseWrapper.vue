@@ -3,7 +3,7 @@
     <v-layout row justify-center wrap>
       <v-flex lg7 sm8 xs12>
         <transition name="fade" mode="out-in">
-          <router-view :course="course"></router-view>
+          <router-view :course="course" :user="auth"></router-view>
         </transition>
       </v-flex>
       <v-flex lg3 sm4 xs12 mt-12>
@@ -15,8 +15,8 @@
 
 <script>
 import Sidemenu from '$comp/ui/Sidemenu'
-import { mapGetters } from 'vuex'
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -27,7 +27,9 @@ export default {
     items: [],
     course: {}
   }),
-
+  computed: mapGetters({
+    auth: 'auth/user'
+  }),
   mounted() {
     this.navigation();
     this.getCourseData();

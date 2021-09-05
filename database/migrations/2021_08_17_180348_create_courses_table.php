@@ -16,6 +16,7 @@ class CreateCoursesTable extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->bigIncrements('id');
 						$table->string("city")->nullable();
+						$table->string("province")->nullable();
 						$table->string("name");
 						$table->string("code")->nullable();
 						$table->string("address")->nullable();
@@ -24,8 +25,8 @@ class CreateCoursesTable extends Migration
 						$table->string("administrative_area_level_1")->nullable();
 						$table->string("route")->nullable();
 						$table->string("street_number")->nullable();
-						$table->decimal("longitude", 10, 7)->nullable();
-						$table->decimal("latitude", 10, 7)->nullable();
+						$table->decimal("longitude", 22, 13)->nullable();
+						$table->decimal("latitude", 22, 13)->nullable();
 						$table->integer('created_by')->nullable()->default(0);
 						$table->timestamps();
 
