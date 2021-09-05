@@ -1,63 +1,50 @@
 <template>
 
   <v-container fluid class="w-100 my-0">
-    <v-card v-for="(loc, index) in locations"
+    <transition-group name="list" tag="p">
+    <v-card v-for="(player, index) in players"
             class="mx-auto my-2 "
             outlined
-            :key="index">
-      <v-list-item three-line>
-        <v-list-item-content>
-          <v-list-item-title class="text-h4 mb-1">
-            <b>{{loc.name}}</b>
-          </v-list-item-title>
-          <v-list-item-subtitle>
+            :key="player.id">
 							 <v-alert
 						      border="left"
 						      colored-border
 						      type="success"
 						      elevation="2"
 						    >
-								<v-icon small>mdi-format-quote-open</v-icon>	{{ loc.comments }} <v-icon small>mdi-format-quote-close</v-icon>
-						    </v-alert>
-					</v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
+                <b v-if="player.name">{{ player.name}}</b>
+                <i v-else> {{player.alias}}</i>
 
-      <v-card-actions>
-        <v-btn text x-small
-               color="primary"
-               @click="revealInfo(index)">
-          More Details <v-icon>vdi-menu-down</v-icon>
-        </v-btn>
-
-      </v-card-actions>
-
-      <v-expand-transition>
-        <v-alert v-if="isRevealed(index)"
-                 class="transition-fast-in-fast-out v-card--reveal mx-2 px-2 my-2 py-2"
-                 color="primary"
-                 border="left"
-                 elevation="2"
-                 colored-border
-                 icon="mdi-silverware">
-          <div>
-            nothing
-          </div>
-
-        </v-alert>
-
-      </v-expand-transition>
-
+                <div class="d-flex flex-row-reverse justify-space-between">
+                  <b>{{player.created_at | moment("h:mm a") }}</b>
+                  <small>{{ timeAgo(player.created_at) | duration('humanize', true) }}</small>
+                </div>
+                </v-alert>
     </v-card>
+
+  </transition-group>
+
+  <v-alert
+      v-if="players.length"
+      text
+      outlined
+      color="deep-orange"
+      icon="mdi-fire"
+      style="position:relative;top:40px;opacity:0.7"
+    >
+      {{ players.length }} requests.
+    </v-alert>
+
   </v-container>
 
 </template>
 
 <script>
 import axios from 'axios'
+import moment from 'moment'
 
   export default {
-    props: ['locations'],
+    props: ['players'],
     data() {
       return {
         revealed: null,
@@ -69,8 +56,21 @@ import axios from 'axios'
       },
       isRevealed(i){
         return this.revealed == i;
+      },
+      timeAgo(time){
+        return moment(time).fromNow();// | duration('humanize', true);
       }
     }
   }
 
 </script>
+
+<style scoped>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
+</style>

@@ -14,6 +14,7 @@ Vue.use(VueGoogleMaps, {
     libraries: "places"
   }
 });
+Vue.use(require('vue-moment'));
 
 Vue.prototype.$app_name = process.env.MIX_APP_NAME;
 Vue.prototype.$app_url = process.env.MIX_APP_URL;

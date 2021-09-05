@@ -42,7 +42,6 @@
       </v-tab-item>
 
     </v-tabs-items>
-    COURSE: {{ course}}
   </v-container>
 
 </template>

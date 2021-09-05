@@ -21,7 +21,7 @@
            :opened="windowOpen"
            :position="windowLocation"
            >
-           <!--<formatted-location :location="currentLocation" />-->
+           <formatted-player :player="currentLocation" />
        </gmap-info-window>
       </GmapMap>
     </v-card>
@@ -33,11 +33,11 @@
 <script>
 
   import axios from 'axios'
-  //import FormattedLocation from '~/components/admin/shared/FormattedLocation';
+  import FormattedPlayer from '$comp/admin/shared/FormattedPlayer';
 
   export default {
     name: 'google-map',
-    //components: {FormattedLocation},
+    components: {FormattedPlayer},
     data() {
       return {
         windowOpen: false,
@@ -48,7 +48,7 @@
           lng: -79.8775022
         },
         center: {},
-        zoom: 14,
+        zoom: 16,
         savedLocations: [],
         locPlaces: [],
         existingPlace: null,
