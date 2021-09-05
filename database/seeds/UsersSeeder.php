@@ -22,7 +22,8 @@ class UsersSeeder extends Seeder
           'email' => 'example@email.com',
           'password' => Hash::make('password'),
           'user_type' => 3,
-					'course_id' => 1
+					'course_id' => 1,
+          'golf_course' => 'ABC Meadows'
         ],
         [
           'name' => 'Freddy Super Admin',
