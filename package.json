@@ -42,6 +42,7 @@
     "vue-moment": "^4.1.0",
     "vue-qrcode": "^0.4.0",
     "vue-star": "0.0.4",
-    "vue2-google-maps": "^0.10.7"
+    "vue2-google-maps": "^0.10.7",
+    "vuex-persistedstate": "^4.0.0"
   }
 }

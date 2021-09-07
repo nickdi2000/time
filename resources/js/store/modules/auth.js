@@ -7,7 +7,8 @@ import * as types from '../mutation-types'
  */
 export const state = {
   user: null,
-  token: window.localStorage.getItem('token')
+  token: window.localStorage.getItem('token'),
+
 }
 
 /**
@@ -76,5 +77,5 @@ export const getters = {
   user: state => state.user,
   check: state => state.user !== null,
   token: state => state.token,
-  isSuper: state => state.user.super === true
+  isSuper: state => state.user.super !== null ? true : false
 }

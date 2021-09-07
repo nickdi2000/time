@@ -1,7 +1,7 @@
 export default [
   ...applyRules(['guest'], [
 		//player portal
-    { path: 'admin', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'register' } ,children:
+    { path: '/admin', name: 'admin', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'register' } ,children:
       [
         { path: '/login', name: 'login', component: require('$comp/auth/login/Login').default },
         { path: '/register', name: 'register', component: require('$comp/auth/register/Register').default },
@@ -28,7 +28,8 @@ export default [
         { path: '', name: 'index', redirect: { name: 'map' } },
         { path: '/about', name: 'about', component: require('$comp/admin/about/About').default },
         { path: '/map', name: 'map', component: require('$comp/admin/map/MapWrapper').default },
-        { path: '/super', name: 'super', component: require('$comp/admin/superadmin/Index').default },
+        { path: '/super', name: 'super', component: require('$comp/admin/superadmin/SuperWrapper').default},
+        { path: '/course-info', name: 'course-info', component: require('$comp/admin/superadmin/CourseInfo').default},
         { path: '/profile', component: require('$comp/admin/profile/ProfileWrapper').default, children:
           [
             { path: '', name: 'profile', component: require('$comp/admin/profile/Profile').default },

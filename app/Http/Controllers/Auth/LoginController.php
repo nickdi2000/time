@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use App\User;
@@ -26,12 +28,7 @@ class LoginController extends Controller
      */
     public function me()
     {
-        $user = auth()->user();
-                
-        if(strtolower($user['email']) == 'freddy'){
-          $user['super'] = true;
-        }
-
+        $user = $this->checkSuper(auth()->user());
         return response()->json(compact('user'));
     }
 
@@ -49,8 +46,7 @@ class LoginController extends Controller
             return response()->json(['message' => 'Invalid login credential.'], 401);
         }
 
-        $user = $request->user();
-
+        $user = $this->checkSuper($request->user());
         return response()->json(compact('token', 'user'));
     }
 
@@ -66,6 +62,19 @@ class LoginController extends Controller
         return response()->json(compact('token'));
     }
 
+    /*
+    * Check if super Admin
+    *
+    */
+    public function checkSuper($user)
+    {
+      if(strtolower($user['email']) == 'freddy'){
+        $user['super'] = true;
+      }
+
+      return $user;
+
+    }
     /**
      * Log the user out.
      *

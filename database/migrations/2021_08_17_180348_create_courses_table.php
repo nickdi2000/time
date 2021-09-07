@@ -18,6 +18,7 @@ class CreateCoursesTable extends Migration
 						$table->string("city")->nullable();
 						$table->string("province")->nullable();
 						$table->string("name");
+						$table->string("color");
 						$table->string("code")->nullable();
 						$table->string("address")->nullable();
 						$table->string("locality")->nullable();

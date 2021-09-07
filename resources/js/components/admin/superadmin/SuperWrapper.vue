@@ -3,15 +3,7 @@
     <v-flex >
       <v-card class="py-4 px-4">
       <h2>SUPER ADMIN</h2>
-
-      <v-data-table
-        :headers="headers"
-        :items="users"
-        :items-per-page="5"
-        class="elevation-1"
-      ></v-data-table>
-
-
+    <Users :users="users" />
     </v-card>
   </v-flex>
   </v-container>
@@ -20,20 +12,15 @@
 <script>
 import axios from 'axios'
 import { mapGetters } from 'vuex'
+import Users from './Users';
 
 export default {
   components: {
-
+    Users
   },
 
   data: () => ({
 		app_name: process.env.MIX_APP_NAME,
-    headers: [
-      {text: "Name", value: "name"},
-      {text: "Email", value: "email"},
-      {text: "Signed Up", value: "created_at"},
-      {text: "Course", value: "course.name"}
-    ],
     users: []
   }),
 
@@ -48,6 +35,9 @@ export default {
           console.log(res);
           this.users = res.data;
         })
+    },
+    getCourse(course){
+      return course ? course.name : '--';
     }
   }
 }

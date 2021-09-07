@@ -34,7 +34,6 @@ Vue.filter("address", function(address) {
     return addr_string;
 });
 
-
 export const app = new Vue({
   router,
   store,

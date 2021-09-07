@@ -9,6 +9,7 @@ export const state = {
   player_id: window.localStorage.getItem('player_id'),
 	player_status: window.localStorage.getItem('player_status'),
 	player_course_id: window.localStorage.getItem('player_course_id')
+
 }
 
 /**
@@ -16,11 +17,12 @@ export const state = {
  */
 export const mutations = {
 
-	/* PLAYERS */
-	  [types.SET_PLAYER](state, { player }) {
-	    state.player = player
+	/* PLAYERS
+	  [types.SET_PLAYER_DATA](state, { player }) {
+	    state.playerData = player
 	  },
-
+    */
+    
 	  [types.SET_PLAYER_ID](state, { id }) {
 	    state.player_id = id
 	    window.localStorage.setItem('player_id', id)
@@ -52,6 +54,14 @@ export const actions = {
 
 	/* PLAYER */
 
+  // not used currently
+  /*
+  setPlayer({ commit }, payload) {
+    console.log("sePlayer payload", payload);
+    commit(types.SET_PLAYER_DATA, payload);
+  },
+  */
+
 	savePlayerId({ commit }, payload) {
     commit(types.SET_PLAYER_ID, payload)
 		commit(types.SET_PLAYER_STATUS, payload)
@@ -65,16 +75,18 @@ export const actions = {
 	  commit(types.SET_PLAYER_COURSE_ID, payload)
 	},
 
+  /*
 	  async fetchPlayer({ commit }) {
 	    try {
-	      const { data } = await axios.get(api.path('player'))
-	      commit(types.SET_PLAYER, data)
-				console.log('fetchplayer?');
+	      const { data } = await axios.get('/me-player/' + state.player_id)
+	      commit(types.SET_PLAYER_DATA, data.data)
+        console.log('fetching: ', data.data);
 	    } catch (e) {
 				commit(types.FETCH_PLAYER_FAILURE)
 	      console.log("failed to fetch player nd");
 	    }
 	  },
+    */
 
 }
 

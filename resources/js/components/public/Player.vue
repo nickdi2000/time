@@ -2,7 +2,7 @@
   <v-flex sm8 md6 lg4 >
 		<v-container v-if="loading" class="w-100 d-flex" fluid justify-center align-center>
 		<v-progress-circular
-			class="my-4 py-2"
+			class="my-4 pb-4 pt-1"
       indeterminate
       color="purple"
     ></v-progress-circular>
@@ -23,7 +23,7 @@
 
 		    <v-card class="mx-auto">
 		      <v-toolbar dark color="primary" flat>
-		        <v-toolbar-title>{{ $app_name }}/{{ code }}</v-toolbar-title>
+		        <v-toolbar-title>{{ $app_url }}/{{ code }}</v-toolbar-title>
 		      </v-toolbar>
 					<v-card-text >
 		        <v-container v-if="notFound">
@@ -39,8 +39,10 @@
 		        </v-container>
 
 						<v-container style="text-align:center;" v-else fluid class="d-flex flex-column align-items-center justify-content-center">
-		         <small>Welcome to</small>
-		         <h2 class="animate__animated animate__bounce"> {{ course.name }} </h2>
+		         <span v-if="!requested">
+               <small>Welcome to</small>
+		             <h2 class="animate__animated animate__bounce"> {{ course.name }} </h2>
+            </span>
 						<!--<v-text-field
 		            v-model="name"
 		            outlined
@@ -51,7 +53,7 @@
 		          ></v-text-field>-->
 		          <v-container v-if="!requested" class="p-4">
 			         <v-btn
-								color="default"
+								color="success"
 								large
 								block
 								class="mt-4 px-6 w-100"
@@ -64,17 +66,47 @@
 		        </v-container>
 
 		          <v-container v-else style="text-align:center;" class="d-flex flex-column align-items-center justify-content-center my-5">
-		            <Pulse class="py-5"/>
-		            <v-alert
-		                dense
-		                text
-		                type="success"
-		                class="mt-6"
-		              >
-		              Drink cart requested!
-		              </v-alert>
+		            <Pulse class="py-4" />
 
-		              <v-btn @click="cancel()" small>Cancel</v-btn>
+                <div class="column align-items-end mt-4" style="height: 100%;" fill-height>
+                    <v-btn @click="cancel()" color="error" outlined x-small style="opacity:0.7">
+                      <v-icon left small>remove_circle</v-icon>
+                      Cancel
+                    </v-btn>
+                </div>
+                  <div v-if="!edit">
+
+    		            <v-alert
+    		                dense
+    		                text
+    		                type="success"
+    		                class="mt-6"
+    		              >
+    		              <strong>DRINK CART REQUESTED!</strong>
+    		              </v-alert>
+
+
+                      <div v-if="player" class="mb-4">
+                        Your Name: <br/>
+                        <h2>
+                          {{ player.name }}
+                        </h2>
+                        <v-btn
+                          small
+                          raised
+                          color="accent"
+                          @click="edit=true"
+                          class="my-2"
+                          >
+                          More Options <v-icon right>expand_more</v-icon>
+                        </v-btn>
+                      </div>
+                </div>
+
+                <transition name="fade" v-else>
+                  <EditPlayer :player="player" @hide-edit="edit=false" />
+                </transition>
+
 		          </v-container >
 						</v-container>
 				</v-card-text>
@@ -82,7 +114,8 @@
 				<v-card v-if="dev" class="py-4 px-4 my-4">
 					CourseID: {{course.id}}
 					<br/>Player id: {{ player_id }}<br/>
-					player status: {{ player_status }}
+					player status: {{ player_status }}<br/>
+          Player Data: {{ player }}
 				</v-card>
 
 			</div>
@@ -96,13 +129,16 @@ import Pulse from '$comp/misc/Pulse'
 import VueStar from 'vue-star'
 import "animate.css"
 import { mapGetters } from 'vuex'
+import EditPlayer from './EditPlayer';
 
 import axios from 'axios'
 
 export default {
-  components: { Beer,VueStar , Pulse},
+  components: { Beer,VueStar , Pulse, EditPlayer},
   data: () => ({
+    edit: false,
 		dev: false,
+    pulseSize: 1.3,
     name: "",
 		showLogo: false,
     code: '',
@@ -121,13 +157,17 @@ export default {
             this.notFound = true;
             return;
           }
+          console.log('get course', res.data);
           this.course = res.data;
-					this.player.course_id = res.data.id;
+					//this.player.course_id = res.data.id;
 					this.$store.dispatch('player/setPlayerCourseId', {player_course_id: res.data.id});
         });
     },
     async request(){
 			this.loading = true;
+
+      let audio = new Audio('/sounds/confirm.wav');
+      audio.play();
 			const coords = await this.getLocation();
 			console.log("coords recieved", coords);
 			this.player.latitude = coords.latitude;
@@ -140,16 +180,15 @@ export default {
           this.player.status_id = 1;
           axios.put("/api/player/" + this.player_id, this.player)
             .then(res => {
-                console.log("Player request resent", res);
-                this.requested = true;
+                this.player = res.data.data;
                 this.$store.dispatch('player/setPlayerStatus', {status_id: 1});
+                this.requested = true;
                 this.$toast.success('Request re-sent');
 
             });
         }else{
           axios.post("/api/player", this.player)
 	        .then(res => {
-							console.log("Player stored", res);
 							this.requested = true;
 							this.$store.dispatch('player/savePlayerId', res.data.data);
 							this.$toast.success('Request sent for cart attendant');
@@ -187,6 +226,13 @@ export default {
 			        });
 	        }
 			});
+    },
+    fetchPlayer(){
+      axios.get('/api/player/' + this.player_id)
+        .then(res => {
+          console.log('fetchedplaye Data', res.data);
+          this.player = res.data;
+        });
     }
   },
 	created () {
@@ -198,10 +244,14 @@ export default {
 		this.showLogo = true;
     this.code = this.$route.path.substring(1);
     this.getCourse();
+
+    if(this.player_id){
+      this.fetchPlayer();
+    }
 	},
   computed: mapGetters({
     player_id: 'player/player_id',
-    player_status: 'player/player_status'
+    player_status: 'player/player_status',
   }),
 }
 </script>
@@ -228,6 +278,12 @@ export default {
 	height: 100vh;
 }
 
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 
 @keyframes gradient {
 	0% {

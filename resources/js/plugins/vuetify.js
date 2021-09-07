@@ -13,12 +13,25 @@ const theme = {
 
 const sleek = {
 	primary: '#116466',
-	secondary: '#2C3531',
+	secondary: '#2C3531', //darkgreen
 	success_: '#D9B08C',
 	success: '#21c1d6',
 	accent: 'FFCB9A',
 	default: 'D1E8E2',
 }
+
+const sandstone = {
+		primary_: '#325d88',
+		primary: '#264728',
+		secondary: '#8e8c84',
+    info: '#29abe0',
+    success: '#93c54b',
+    accent: '#f47c3c',
+		warning: '#f47c3c',
+    default: '#6f8c4a',
+		danger: '#d9534f',
+}
+
 
 Vue.use(Vuetify, {
   components: {
@@ -32,8 +45,8 @@ Vue.use(VuetifyToast)
 export default new Vuetify({
     theme: {
         themes: {
-          dark: sleek,
-          light: sleek,
+          dark: sandstone,
+          light: sandstone,
         },
       },
 			icons: {
