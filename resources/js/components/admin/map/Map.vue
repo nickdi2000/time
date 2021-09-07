@@ -1,7 +1,7 @@
 <template>
 
   <v-container fluid class="w-100">
-    <v-card style="height:100%">
+    <v-card style="height:100%;width:100%;">
       <GmapMap
               v-if="Object.keys(center).length !== 0"
               :center="center"

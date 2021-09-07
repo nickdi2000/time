@@ -45,6 +45,13 @@ class PlayerController extends Controller
       return response()->json($player);
   }
 
+  public function destroy($id)
+  {
+      $player = Player::findOrFail($id);
+      $player->delete();
+      return $this->successResponse($player, "Player Archived");
+  }
+
 
 
 }

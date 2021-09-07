@@ -5,9 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Player extends Model
 {
+		use SoftDeletes;
+		
     // protected $fillable = ['latitude', 'longitude', 'name', 'hole'];
 		protected $guarded = ['id'];
 		protected $tableName = 'players';

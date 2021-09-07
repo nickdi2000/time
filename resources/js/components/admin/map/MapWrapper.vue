@@ -1,11 +1,11 @@
 <template>
-  <v-container fluid class="no-margins">
+  <v-container class="no-margins" style="width:100%;padding:0;margin:0">
     <v-tabs v-model="tab"
             fill-height
             centered
             dark
             icons-and-text
-            style="height:100%;"
+            style="height:100%;width:100%"
             class="px-0 mx-0">
       <v-tabs-slider></v-tabs-slider>
 

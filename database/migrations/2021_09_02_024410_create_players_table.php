@@ -24,7 +24,7 @@ class CreatePlayersTable extends Migration
             $table->integer("group_size")->nullable();
             $table->string("color")->nullable(); //hex color code
             $table->integer("status_id")->default(1); // 0 = cancelled, 1 = active, 2 = recieved drink
-
+            $table->softDeletes();
 
         });
     }

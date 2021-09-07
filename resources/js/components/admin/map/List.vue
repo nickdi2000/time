@@ -9,20 +9,35 @@
 							 <v-alert
 						      border="left"
 						      colored-border
-						      type="success"
+						      :type="player.status_id ? 'success' : 'warning'"
 						      elevation="2"
 						    >
+                <i v-if="!player.status_id">[player cancelled]</i>
                 <b v-if="player.name">{{ player.name}}</b>
                 <i v-else> {{player.alias}}</i>
-
+                <span v-if="player.hole"> Hole: {{player.hole}}</span>
                 <div class="d-flex flex-row-reverse justify-space-between">
                   <b>{{player.created_at | moment("h:mm a") }}</b>
                   <small>{{ timeAgo(player.created_at) | duration('humanize', true) }}</small>
                 </div>
+                <div>
+                  <v-btn color="error" outlined x-small @click="destroy(player.id)"><v-icon left small>delete</v-icon>remove</v-btn>
+                </div>
+
                 </v-alert>
     </v-card>
 
   </transition-group>
+
+  <v-container class="text-center">
+    <v-btn
+      color="success"
+      small
+      @click="$emit('get-players')"
+      >Refresh
+      <v-icon right>refresh</v-icon>
+    </v-btn>
+  </v-container>
 
   <v-alert
       v-if="players.length"
@@ -59,6 +74,13 @@ import moment from 'moment'
       },
       timeAgo(time){
         return moment(time).fromNow();// | duration('humanize', true);
+      },
+      destroy(id){
+        axios.delete('/api/player/' + id)
+          .then(res => {
+            this.$toast.success(res.data.message);
+            this.$emit('get-players');
+          })
       }
     }
   }

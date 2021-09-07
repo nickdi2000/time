@@ -162,7 +162,7 @@ export default {
           }
           console.log('get course', res.data);
           this.course = res.data;
-					//this.player.course_id = res.data.id;
+					this.player.course_id = res.data.id;
 					this.$store.dispatch('player/setPlayerCourseId', {player_course_id: res.data.id});
         });
     },
