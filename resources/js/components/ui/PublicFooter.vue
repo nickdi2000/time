@@ -6,6 +6,7 @@
 				cols="12"
 			>
 				 <small>
+					<router-link :to="'/find'">Find Course</router-link> |
 					<router-link :to="'/register'">Sign Up</router-link> |
 					<router-link :to="'/login'">Login</router-link> |
 					<router-link :to="'/info'">About</router-link> |

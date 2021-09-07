@@ -19,6 +19,8 @@ class CoursesSeeder extends Seeder
 
         DB::statement("UPDATE courses SET code = UPPER(substring(MD5(RAND()),1,5))");
         DB::statement("UPDATE courses SET code = 'ABC' WHERE ID = 1");
+        DB::statement("UPDATE courses SET code = 'south' WHERE name = 'Southampton Golf & Country Club'");
+        DB::statement("UPDATE courses SET active = 1 WHERE name in ('ABC Meadows', 'Southampton Golf & Country Club')");
     }
 
 		public function getCourses(){

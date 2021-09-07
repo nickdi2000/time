@@ -18,7 +18,7 @@ class CreateCoursesTable extends Migration
 						$table->string("city")->nullable();
 						$table->string("province")->nullable();
 						$table->string("name");
-						$table->string("color");
+						$table->string("color")->nullable();
 						$table->string("code")->nullable();
 						$table->string("address")->nullable();
 						$table->string("locality")->nullable();
@@ -29,6 +29,7 @@ class CreateCoursesTable extends Migration
 						$table->decimal("longitude", 22, 13)->nullable();
 						$table->decimal("latitude", 22, 13)->nullable();
 						$table->integer('created_by')->nullable()->default(0);
+						$table->integer('active')->default(0);
 						$table->timestamps();
 
         });

@@ -42,9 +42,9 @@ class PlayerController extends Controller
   public function show($id)
   {
       $player = Player::findOrFail($id);
-      return response()->json(compact('player'));
+      return response()->json($player);
   }
-  
+
 
 
 }

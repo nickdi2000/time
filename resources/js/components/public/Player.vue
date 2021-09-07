@@ -157,6 +157,9 @@ export default {
             this.notFound = true;
             return;
           }
+          if(!res.data.active){
+            this.$router.push({name: 'find-course', params: {error: 'not-active'}});
+          }
           console.log('get course', res.data);
           this.course = res.data;
 					//this.player.course_id = res.data.id;
@@ -169,7 +172,7 @@ export default {
       let audio = new Audio('/sounds/confirm.wav');
       audio.play();
 			const coords = await this.getLocation();
-			console.log("coords recieved", coords);
+			//console.log("coords recieved", coords);
 			this.player.latitude = coords.latitude;
 			this.player.longitude = coords.longitude;
 			this.storePlayer();
@@ -189,6 +192,8 @@ export default {
         }else{
           axios.post("/api/player", this.player)
 	        .then(res => {
+              console.log('new player', res.data);
+              this.player = res.data.data;
 							this.requested = true;
 							this.$store.dispatch('player/savePlayerId', res.data.data);
 							this.$toast.success('Request sent for cart attendant');

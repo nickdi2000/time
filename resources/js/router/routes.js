@@ -15,6 +15,7 @@ export default [
     },
     { path: '', redirect: '/register'},
     { path: '/info', name: 'info', component: require('$comp/public/About').default },
+    { path: '/find', name: 'find-course', component: require('$comp/public/Find').default },
     { path: '*', component: require('$comp/public/PlayerWrapper.vue').default,
       children: [
         { path: '', name: 'player', component: require('$comp/public/Player').default }

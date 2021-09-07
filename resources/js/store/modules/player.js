@@ -22,7 +22,7 @@ export const mutations = {
 	    state.playerData = player
 	  },
     */
-    
+
 	  [types.SET_PLAYER_ID](state, { id }) {
 	    state.player_id = id
 	    window.localStorage.setItem('player_id', id)
@@ -44,6 +44,15 @@ export const mutations = {
 	    state.player_id = null
 	    window.localStorage.removeItem('player_id')
 	  },
+
+    [types.PLAYER_LOGOUT](state) {
+      state.player_id = null
+      state.player_status = null
+      state.player_course_id = null
+      window.localStorage.removeItem('player_id')
+      window.localStorage.removeItem('player_status')
+      window.localStorage.removeItem('player_course_id')
+    },
 
 }
 
@@ -87,6 +96,10 @@ export const actions = {
 	    }
 	  },
     */
+
+    destroy({ commit }) {
+      commit(types.PLAYER_LOGOUT)
+    },
 
 }
 

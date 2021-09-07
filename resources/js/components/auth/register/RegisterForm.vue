@@ -170,7 +170,7 @@ export default {
       }
     },
 		getCourses(){
-			let url = "/api/course";
+			let url = "/api/guest-course";
 
 			axios.get(url)
 				.then(res => {
