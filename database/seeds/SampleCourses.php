@@ -19,5 +19,23 @@ class SampleCourses extends Seeder
           'longitude' => -81.35237355853343,
           'latitude' => 44.51078892636201,
         ]);
+
+        Course::updateOrCreate([
+          'name' => 'Claremont Lodge',
+          'code' => 'arcade'],
+          [
+          'address' => '6 Arcade Crescent',
+          'longitude' => -79.87848425290058,
+          'latitude' => 43.24505612916131,
+        ]);
+
+        Course::updateOrCreate([
+          'name' => 'Glen Moor Meadows',
+          'code' => 'glen'],
+          [
+          'address' => '625 Glen Moor Cres',
+          'longitude' => -79.78060366644432,
+          'latitude' => 43.35204261017828,
+        ]);
     }
 }

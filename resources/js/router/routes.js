@@ -29,6 +29,7 @@ export default [
         { path: '', name: 'index', redirect: { name: 'map' } },
         { path: '/about', name: 'about', component: require('$comp/admin/about/About').default },
         { path: '/map', name: 'map', component: require('$comp/admin/map/MapWrapper').default },
+        { path: '/test', name: 'map', component: require('$comp/admin/map/Test').default },
         { path: '/super', name: 'super', component: require('$comp/admin/superadmin/SuperWrapper').default},
         { path: '/course-info', name: 'course-info', component: require('$comp/admin/superadmin/CourseInfo').default},
         { path: '/profile', component: require('$comp/admin/profile/ProfileWrapper').default, children:

@@ -11,7 +11,9 @@
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet">
         <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
     		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA649et5eV3OtBMfcbEEgdCYedD8QVBonQ&libraries=places"></script>
-				<script>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+
+        <script>
             window.Laravel = {!! json_encode([
                 'siteName' => config('app.name'),
                 'siteUrl' => config('app.url'),
