@@ -22,9 +22,17 @@ class Controller extends BaseController
     public function store(Request $request)
     {
       $data = $request->toArray();
-      $data['hole'] = "3";
 
       $record = $this->model::create($data);
+      return $this->successResponse($record);
+    }
+
+    public function update(Request $request, $id)
+    {
+      $data = $request->toArray();
+      $record = $this->model::findOrFail($id);
+
+      $record->update($data);
       return $this->successResponse($record);
     }
 

@@ -102,7 +102,7 @@
         const self = this;
         this.interval = setInterval(function(){
             self.getCurrentLocation();
-            console.log ('refresh location');
+            //console.log ('refresh location');
         }, 3000);
       },
       getCurrentLocation: function() {

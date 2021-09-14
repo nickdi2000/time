@@ -10,6 +10,8 @@ use App\User;
 class UserController extends Controller
 {
 
+    protected $model = User::class;
+
     public function index()
     {
     		$users = User::with('course')->get();
