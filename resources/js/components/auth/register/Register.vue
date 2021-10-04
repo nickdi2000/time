@@ -2,7 +2,7 @@
   <v-flex sm8 md6 lg4>
     <v-card>
       <v-toolbar dark color="primary" flat>
-        <v-toolbar-title>Register As: {{ user_type }}</v-toolbar-title>
+        <v-toolbar-title>Register As:: {{ user_type }}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
         <register-form @success="success" @set-user-type="UserType"></register-form>
