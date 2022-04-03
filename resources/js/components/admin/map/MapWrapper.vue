@@ -86,6 +86,9 @@
             this.course = res.data;
             this.getPlayers();
           })
+      },
+      handlePlayerEvent(){
+        console.log("PLAYING EVENT!");
       }
     },
     computed: mapGetters({
@@ -94,6 +97,13 @@
 
     mounted() {
       this.getCourse();
+
+      var playerEvents = window.pusher.subscribe('players-1'); //TODO: make dynamic course_id
+      playerEvents.bind('PlayerAdded', function(e) {
+        console.log("pindedEvent");
+        app.handlePlayerEvent(e);
+      });
+
     }
   }
 

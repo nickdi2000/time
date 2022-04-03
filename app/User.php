@@ -20,6 +20,7 @@ class User extends Authenticatable implements JWTSubject
      */
     protected $guarded = ['id'];
 
+		protected $appends = ['course_name', 'super'];
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -34,6 +35,16 @@ class User extends Authenticatable implements JWTSubject
 			return $this->belongsTo(Course::class);
 		}
 
+		public function getCourseNameAttribute()
+		{
+			return $this->course->name;
+		}
+
+		//determine if user is super admin (dev, staff, etc)
+		public function getSuperAttribute()
+		{
+			return $this->email == 'freddy' ? true : false;
+		}
     /**
      * Generate random password
      */

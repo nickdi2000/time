@@ -32,6 +32,11 @@ const sandstone = {
 		danger: '#d9534f',
 }
 
+const course = {
+	primary: '#86af49',
+	default: '#b2ad7f'
+}
+
 
 Vue.use(Vuetify, {
   components: {
@@ -45,9 +50,10 @@ Vue.use(VuetifyToast)
 export default new Vuetify({
     theme: {
         themes: {
-          dark: sandstone,
+					dark: course,
           light: sandstone,
         },
+				dark: true,
       },
 			icons: {
 		    iconfont: 'mdi', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'

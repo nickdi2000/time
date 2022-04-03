@@ -26,7 +26,7 @@ export default [
   ...applyRules(['auth'], [
     { path: '', component: require('$comp/admin/AdminWrapper').default, children:
       [
-        { path: '', name: 'index', redirect: { name: 'map' } },
+        { path: '', name: 'index', redirect: { name: 'course' } },
         { path: '/about', name: 'about', component: require('$comp/admin/about/About').default },
         { path: '/map', name: 'map', component: require('$comp/admin/map/MapWrapper').default },
         { path: '/test', name: 'map', component: require('$comp/admin/map/Test').default },

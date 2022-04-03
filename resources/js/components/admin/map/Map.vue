@@ -1,7 +1,7 @@
 <template>
 
   <v-container fluid class="w-100">
-    <v-card style="height:100%;width:100%;">
+    <v-card style="height:100%;width:100%;" v-if="center.lat">
       <GmapMap
               v-if="Object.keys(center).length !== 0"
               :center="center"
@@ -31,6 +31,15 @@
       </GmapMap>
     </v-card>
 
+    <v-card v-else class="py-2 px-2">
+      <v-alert color="warning">
+        Location is not set up for this courset yet.  Please configure the address.
+        <br/>
+
+      </v-alert>
+        <v-btn :to="{ name: 'course-edit' }" elevation="2" color="default">SET UP ADDRESS</v-btn>
+    </v-card>
+
   </v-container>
 
 </template>
@@ -39,6 +48,7 @@
 
   import axios from 'axios'
   import FormattedPlayer from '$comp/admin/shared/FormattedPlayer';
+  import {gmapApi} from 'vue2-google-maps'
 
   export default {
     name: 'google-map',
@@ -64,17 +74,21 @@
           comments: ''
         },
 				saving: false,
-
+        icons: [],
       }
     },
     props: ['markers','course'],
-    mounted() {
+    async mounted() {
       console.log('map course', this.course.latitude);
-      this.setCenter();
-      //this.getCurrentLocation();
-      this.liveLocation();
 
+    },
+    async created() {
+       this.$gmapApiPromiseLazy().then(() => {
+        //this.initialize();  //init once  library has been loaded
+          console.log("map has loaded!");
+          this.getCurrentLocation();
 
+       });
     },
     methods: {
       setCenter(){
@@ -82,6 +96,10 @@
           lat: parseFloat(this.course.latitude),
           lng: parseFloat(this.course.longitude)
         };
+        if(!this.center.lat){
+          console.log("no center!");
+          //this.center = this.center_;
+        }
         console.log('setting center as', this.center);
       },
       markerClicked(m){
@@ -100,39 +118,40 @@
       },
       liveLocation(){
         const self = this;
-        this.interval = setInterval(function(){
-            self.getCurrentLocation();
-            //console.log ('refresh location');
-        }, 3000);
+        //this.getCurrentLocation();
+        //this.interval = setInterval(function(){ self.getCurrentLocation(); }, 7000);
       },
-      getCurrentLocation: function() {
+      async getCurrentLocation() {
         console.log("getCurrentLocation");
-        navigator.geolocation.getCurrentPosition(res => {
+        await navigator.geolocation.getCurrentPosition(res => {
           this.currentLocation = {
             lat: res.coords.latitude,
             lng: res.coords.longitude
           };
 
-        })
+        });
+        this.setCenter();
+        //this.liveLocation();
       },
     },
     computed: {
       golfIcon() {
         return {
-          url: '/images/golf-red.png', // url
-          scaledSize: new google.maps.Size(50, 50), // scaled size
-          origin: new google.maps.Point(0, 0), // origin
-          anchor: new google.maps.Point(0, 0) // anchor
+          url: '/images/golfer.png', // url
+          scaledSize: {width: 38, height: 38}, //new gmapApi.maps.Size(50, 50), // scaled size
+          //origin: new gmapApi.maps.Point(0, 0), // origin
+          //anchor: new gmapApi.maps.Point(0, 0) // anchor
         }
       },
       cartGlow() {
         return {
           url: '/images/cart-glow.png', // url
-          scaledSize: new google.maps.Size(50, 50), // scaled size
-          origin: new google.maps.Point(0, 0), // origin
-          anchor: new google.maps.Point(0, 0) // anchor
+          scaledSize: {width: 38, height: 38}, //new gmapApi.maps.Size(50, 50), // scaled size
+          //origin: new gmapApi.maps.Point(0, 0), // origin
+          //anchor: new gmapApi.maps.Point(0, 0) // anchor
         }
       },
+
       myIcon() {
         return  {
           //path: "M10.453 14.016l6.563-6.609-1.406-1.406-5.156 5.203-2.063-2.109-1.406 1.406zM12 2.016q2.906 0 4.945 2.039t2.039 4.945q0 1.453-0.727 3.328t-1.758 3.516-2.039 3.070-1.711 2.273l-0.75 0.797q-0.281-0.328-0.75-0.867t-1.688-2.156-2.133-3.141-1.664-3.445-0.75-3.375q0-2.906 2.039-4.945t4.945-2.039z",
@@ -142,9 +161,10 @@
           strokeWeight: 0,
           rotation: 0,
           scale: 2,
-          anchor: new google.maps.Point(15, 30),
+          //anchor: new gmapApi.maps.Point(15, 30),
         };
       },
+
 
 
     }

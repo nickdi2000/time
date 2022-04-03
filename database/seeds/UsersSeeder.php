@@ -22,8 +22,7 @@ class UsersSeeder extends Seeder
           'email' => 'example@email.com',
           'password' => Hash::make('password'),
           'user_type' => 3,
-					'course_id' => 1,
-          'golf_course' => 'ABC Meadows'
+					'course_id' => 1
         ],
         [
           'name' => 'Freddy Super Admin',
@@ -31,7 +30,6 @@ class UsersSeeder extends Seeder
           'password' => Hash::make('floyd'),
           'user_type' => 3,
 					'course_id' => 570,
-          'golf_course' => 'Southampton Golf & Country Club'
         ]
       ]);
     }
