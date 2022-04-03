@@ -46,7 +46,6 @@ export default {
 	components: {VueGoogleAutocomplete, VueQrcode},
   data: () => ({
 		loading: true,
-		user: {},
 		query: '',
 		changed: false,
 		showCodeSaveBtn: false,
@@ -59,15 +58,9 @@ export default {
 			this.course.id = id;
 			this.changed = true;
 		},
-		saveAddress(){
-				axios.put('/api/course/' + this.course.id, this.course)
-					.then(res => {
-						this.$toast.success(res.data.message);
-						this.changed = false;
-						this.getCourseData();
-					}).error(err => {
-						console.log(err);
-					});
+		async saveAddress(){
+		  const res = api.saveCourseData(this.course);
+      this.$toast.success(res.message);
 		},
 		url(){
 			return this.$app_url + '/' + (this.course.code ? this.course.code : '');

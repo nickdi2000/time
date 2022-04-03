@@ -86,8 +86,9 @@
 		  <v-card class="mb-2">
 	      <v-card-text>
 					<h3>Public Access Link</h3>
-					<h2 class="py-3 font-weight-bold">{{url()}}</h2>
-
+					<v-alert color="info">
+            <h2 class="py-3 font-weight-bold upper">{{url()}}</h2>
+          </v-alert>
 						  <v-text-field
 			          label="CODE"
 								id="code"
@@ -120,6 +121,7 @@
 import axios from 'axios'
 import VueGoogleAutocomplete from 'vue-google-autocomplete'
 import VueQrcode from 'vue-qrcode'
+import api from '~/api';
 
 export default {
 	components: {VueGoogleAutocomplete, VueQrcode},
@@ -138,15 +140,11 @@ export default {
 			this.course.id = id;
 			this.changed = true;
 		},
-		saveAddress(){
-				axios.put('/api/course/' + this.course.id, this.course)
-					.then(res => {
-						this.$toast.success(res.data.message);
-						this.changed = false;
-						this.getCourseData();
-					}).error(err => {
-						console.log(err);
-					});
+		async saveAddress(){
+      console.log("new save");
+		  const res = await api.saveCourseData(this.course);
+      this.$toast.success(res.message);
+      this.changed = false;
 		},
 		url(){
 			return "CaddySnack.ca/" + (this.course.code ? this.course.code : '');

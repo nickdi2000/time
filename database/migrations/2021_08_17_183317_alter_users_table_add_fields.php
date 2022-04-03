@@ -14,8 +14,6 @@ class AlterUsersTableAddFields extends Migration
     public function up()
     {
           Schema::table('users', function (Blueprint $table) {
-							// course and course_id may not sync up if user entered course manually
-							$table->string("golf_course")->nullable(); //shouldn't use after relationship creates course
 							$table->integer("course_id")->nullable();
 							$table->integer('user_type');
 	        });

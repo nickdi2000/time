@@ -3,14 +3,15 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="author" content="Vitaly Kasymov">
+        <meta name="author" content="Webfly.io">
         <meta name="description" content="">
 
         <title>{{ config('app.name') }}</title>
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet">
         <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
-    		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA649et5eV3OtBMfcbEEgdCYedD8QVBonQ&libraries=places"></script>
+    		<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCdhcVHiGS_-Ez-Sxj9-aBUKYi8oYlgHts&libraries=places"></script>
+        -->
         <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 
         <script>
