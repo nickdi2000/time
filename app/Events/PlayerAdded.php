@@ -17,21 +17,21 @@ class PlayerAdded extends BaseEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    //public $game, $game_id;
+    //public $game_id;
 
     protected $broadcastName = "PlayerAdded";
 
-    public function __construct()
+    public function __construct($data = null)
     {
-        //$this->game_id = $game_id;
+        //'new_golfer' => 123;
         //$this->game = Game::where('id', $game_id)->first();
     }
 
     public function broadcastWith()
     {
-      //$gamePlay = json_encode($this->game->game_play);
       return [
-        'playerData' => 'Georgio Cargica!!!'
+        'players' => 'test',
+        'refresh_all' => 'test123'
       ];
     }
 
