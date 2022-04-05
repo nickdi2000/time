@@ -190,10 +190,14 @@ export default {
     },
     async updateLocation(){
       const coords = await this.getLocation();
-      console.log("Coords are: ", coords);
-      this.player.latitude = coords.latitude;
-			this.player.longitude = coords.longitude;
-      const res = await api.updatePlayer(this.player_id, this.player);
+      //console.log("Coords are: ", coords);
+      if(this.player.latitude != coords.latitude || this.player.longitude != coords.longitude){
+          this.player.latitude = coords.latitude;
+    			this.player.longitude = coords.longitude;
+          const res = await api.updatePlayer(this.player_id, this.player);
+          console.log("Coords updated: ", coords);
+      }
+
     },
 		async storePlayer(){
         if(this.player_id){

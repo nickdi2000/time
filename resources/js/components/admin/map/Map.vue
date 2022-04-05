@@ -84,10 +84,9 @@
     },
     async created() {
        this.$gmapApiPromiseLazy().then(() => {
-        //this.initialize();  //init once  library has been loaded
           console.log("map has loaded!");
           this.getCurrentLocation();
-
+          this.liveLocation();
        });
     },
     methods: {
@@ -100,7 +99,7 @@
           console.log("no center!");
           //this.center = this.center_;
         }
-        console.log('setting center as', this.center);
+        //console.log('setting center as', this.center);
       },
       markerClicked(m){
         console.log(m);
@@ -118,11 +117,10 @@
       },
       liveLocation(){
         const self = this;
-        //this.getCurrentLocation();
-        //this.interval = setInterval(function(){ self.getCurrentLocation(); }, 7000);
+        this.interval = setInterval(function(){ self.getCurrentLocation(); }, 2000);
       },
       async getCurrentLocation() {
-        console.log("getCurrentLocation");
+        console.log("refreshing location...");
         await navigator.geolocation.getCurrentPosition(res => {
           this.currentLocation = {
             lat: res.coords.latitude,
@@ -131,7 +129,6 @@
 
         });
         this.setCenter();
-        //this.liveLocation();
       },
     },
     computed: {
@@ -145,7 +142,7 @@
       },
       cartGlow() {
         return {
-          url: '/images/golf-caddy.png', // url
+          url: '/images/course.png', // url
           scaledSize: {width: 38, height: 38}, //new gmapApi.maps.Size(50, 50), // scaled size
           //origin: new gmapApi.maps.Point(0, 0), // origin
           //anchor: new gmapApi.maps.Point(0, 0) // anchor
