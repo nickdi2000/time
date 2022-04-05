@@ -12,22 +12,32 @@
 						      :type="player.status_id ? 'success' : 'warning'"
 						      elevation="2"
 						    >
-                <i v-if="!player.status_id">[player cancelled]</i>
+                <i v-if="player.status_id !== 1">[player cancelled]</i>
                 <b v-if="player.name">{{ player.name}}</b>
                 <i v-else> {{player.alias}}</i>
-                <span v-if="player.hole"> Hole: {{player.hole}}</span>
+                <div v-if="player.hole > 1"> Hole: {{player.hole}}</div>
                 <div class="d-flex flex-row-reverse justify-space-between">
-                  <b>{{player.created_at | moment("h:mm a") }}</b>
-                  <small>{{ timeAgo(player.created_at) | duration('humanize', true) }}</small>
+                  <b>{{player.updated_at | moment("h:mm a") }}</b>
+                  <small>Updated {{ timeAgo(player.updated_at) | duration('humanize', true) }}</small>
                 </div>
+
+                <div>{{ player.position.lat }}, {{player.position.lng }}</div>
                 <div>
-                  <v-btn color="error" outlined x-small @click="destroy(player.id)"><v-icon left small>delete</v-icon>remove</v-btn>
+                  <v-btn color="warning" outlined x-small @click="destroy(player.id)">
+                    <v-icon left small>delete</v-icon>
+                    DELETE
+                  </v-btn>
                 </div>
 
                 </v-alert>
     </v-card>
 
+
   </transition-group>
+
+      <v-card v-if="!players.length">
+        <v-alert color="info">There are currently no requests</v-alert>
+      </v-card>
 
   <v-container class="text-center">
     <v-btn
@@ -37,6 +47,8 @@
       >Refresh
       <v-icon right>refresh</v-icon>
     </v-btn>
+
+    <v-btn color="warning" small @click="$emit('clear-all')">Delete All</v-btn>
   </v-container>
 
   <v-alert
@@ -45,7 +57,7 @@
       outlined
       color="deep-orange"
       icon="mdi-fire"
-      style="position:relative;top:40px;opacity:0.7"
+      class="requestBanner"
     >
       {{ players.length }} requests.
     </v-alert>
@@ -93,6 +105,13 @@ import moment from 'moment'
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+
+.classBanner{
+  position: absolute;
+  opacity: 0.7;
+  width: 100%;
+  bottom: 0;
 }
 
 </style>

@@ -35,7 +35,7 @@
     </v-container>
 
       <v-btn color="success" @click="save()">Save</v-btn>
-      <v-btn @click="$emit('hide-edit')">Cancel</v-btn>
+      <v-btn @click="$emit('hide-edit')">Back</v-btn>
 </v-card>
 	 </v-content>
 

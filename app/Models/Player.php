@@ -11,12 +11,12 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Player extends Model
 {
 		use SoftDeletes;
-		
+
     // protected $fillable = ['latitude', 'longitude', 'name', 'hole'];
 		protected $guarded = ['id'];
 		protected $tableName = 'players';
 		protected $modelName = 'Player';
-		protected $appends = ['position'];
+		protected $appends = ['position', 'status'];
 
 		public function course()
 		{
@@ -28,6 +28,11 @@ class Player extends Model
 				"lat" => (float) $this->attributes['latitude'],
 				"lng" => (float) $this->attributes['longitude']
 			);
+		}
+
+		public function getStatusAttribute() {
+			$statuses = config('enums.statuses');
+			return $statuses[$this->status_id];
 		}
 
 		protected $casts = [

@@ -145,7 +145,7 @@
       },
       cartGlow() {
         return {
-          url: '/images/cart-glow.png', // url
+          url: '/images/golf-caddy.png', // url
           scaledSize: {width: 38, height: 38}, //new gmapApi.maps.Size(50, 50), // scaled size
           //origin: new gmapApi.maps.Point(0, 0), // origin
           //anchor: new gmapApi.maps.Point(0, 0) // anchor

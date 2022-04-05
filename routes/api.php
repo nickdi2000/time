@@ -28,6 +28,7 @@ Route::group(['middleware' => ['cors']], function() {
 		Route::resource('guest-course', 'CourseController');
 
 		Route::resource('player', 'PlayerController');
+		Route::post('clear-all-players/{course_id}', 'PlayerController@clearAll');
 		Route::get('me-player/{id}', 'PlayerController@me');
 
 		Route::get('course/get-by-code/{code}', 'CourseController@getCourseByCode');
@@ -36,12 +37,14 @@ Route::group(['middleware' => ['cors']], function() {
 
 });
 
+Route::resource('course', 'CourseController');
+
 Route::group(['middleware' => ['jwt']], function() {
     Route::post('logout', 'Auth\LoginController@logout');
     Route::resource('user', 'UserController');
 
     Route::get('player/list/{id}', 'PlayerController@list');
-    Route::resource('course', 'CourseController');
+
     Route::get('me', 'Auth\LoginController@me');
     Route::put('profile', 'ProfileController@update');
 });

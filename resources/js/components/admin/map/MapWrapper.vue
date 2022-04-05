@@ -37,7 +37,9 @@
       <v-tab-item value="tab-list">
         <v-card flat v-if="players">
           <List :players="players"
-                @get-players="getPlayers()" />
+                @get-players="getPlayers()"
+                @clear-all="clearAll()"
+                />
         </v-card>
       </v-tab-item>
 
@@ -52,7 +54,7 @@
   import gMap from './Map'
   import List from './List'
   import { mapGetters } from 'vuex'
-
+  import api from '~/api';
 
   export default {
     components: {
@@ -63,17 +65,18 @@
       return {
         tab: null,
         course: {},
-        players: [
-          {
-            position: {
-              lat: 0, //43.2392954,
-              lng: 0 //-79.8775022
-            }
-          }
-        ],
+        players: [],
       }
     },
     methods: {
+      async clearAll(){
+        if (confirm("Clear all requests?, Players can submit another request if they choose to")){
+          console.log("clearing all");
+          const res = await api.clearAll(this.course.id);
+          console.log(res);
+          this.players = [];
+        }
+      },
       getPlayers() {
         axios.get('/api/player/list/' + this.user.course_id).then(res => {
           this.players = res.data
@@ -87,8 +90,18 @@
             this.getPlayers();
           })
       },
-      handlePlayerEvent(){
-        console.log("PLAYING EVENT!");
+      handlePlayerEvent(data){
+        console.log("PLAYING EVENT!", data);
+        if(data.playerExists === false){
+            this.players.push(data.playerData);
+            this.$toast.success("New Request!");
+            return;
+        }
+
+        const index = this.players.findIndex(q => q.id === data.playerData.id);
+        this.players.splice(index, 1, data.playerData);
+        console.log("splayer is: ", this.players[index]);
+
       }
     },
     computed: mapGetters({
@@ -97,10 +110,9 @@
 
     mounted() {
       this.getCourse();
-
+      let app = this;
       var playerEvents = window.pusher.subscribe('players-1'); //TODO: make dynamic course_id
       playerEvents.bind('PlayerAdded', function(e) {
-        console.log("pindedEvent");
         app.handlePlayerEvent(e);
       });
 

@@ -82,7 +82,7 @@
     		                type="success"
     		                class="mt-6"
     		              >
-    		              <strong>DRINK CART REQUESTED!</strong>
+    		              <strong><h2>DRINK CART REQUESTED!</h2></strong>
     		              </v-alert>
 
 
@@ -111,6 +111,9 @@
 						</v-container>
 				</v-card-text>
 				</v-card>
+
+        <small v-if="player" color="secondary" class="statusText d-flex flex-column align-items-center">Status: {{ player.status }} </small>
+
 				<v-card v-if="dev" class="py-4 px-4 my-4">
 					CourseID: {{course.id}}
 					<br/>Player id: {{ player_id }}<br/>
@@ -130,6 +133,7 @@ import VueStar from 'vue-star'
 import "animate.css"
 import { mapGetters } from 'vuex'
 import EditPlayer from './EditPlayer';
+import api from '~/api';
 
 import axios from 'axios'
 
@@ -144,9 +148,10 @@ export default {
     code: '',
     course: {},
     notFound: false,
-    requested: false,
+    //requested: false,
     player: {},
 		loading: true,
+    locationInterval: null
   }),
   methods: {
     getCourse(){
@@ -160,7 +165,6 @@ export default {
           if(!res.data.active){
             this.$router.push({name: 'find-course', params: {error: 'not-active'}});
           }
-          console.log('get course', res.data);
           this.course = res.data;
 					this.player.course_id = res.data.id;
 					this.$store.dispatch('player/setPlayerCourseId', {player_course_id: res.data.id});
@@ -168,51 +172,60 @@ export default {
     },
     async request(){
 			this.loading = true;
-
       let audio = new Audio('/sounds/confirm.wav');
       audio.play();
-			const coords = await this.getLocation();
-			//console.log("coords recieved", coords);
+      const coords = await this.getLocation();
 			this.player.latitude = coords.latitude;
 			this.player.longitude = coords.longitude;
-			this.storePlayer();
-
+      this.storePlayer();
+      this.loading = false;
+      this.startInterval();
     },
-		storePlayer(){
+    async startInterval(){
+      let app = this;
+      this.locationInterval = setInterval(async function (){
+        console.log("Getting location...");
+        app.updateLocation();
+      }, 6000);
+    },
+    async updateLocation(){
+      const coords = await this.getLocation();
+      console.log("Coords are: ", coords);
+      this.player.latitude = coords.latitude;
+			this.player.longitude = coords.longitude;
+      const res = await api.updatePlayer(this.player_id, this.player);
+    },
+		async storePlayer(){
         if(this.player_id){
           this.player.status_id = 1;
-          axios.put("/api/player/" + this.player_id, this.player)
-            .then(res => {
-                this.player = res.data.data;
-                this.$store.dispatch('player/setPlayerStatus', {status_id: 1});
-                this.requested = true;
-                this.$toast.success('Request re-sent');
+          const res = await api.updatePlayer(this.player_id, this.player);
+          this.player = res.data.data;
+          this.$store.dispatch('player/setPlayerStatus', {status_id: 1});
 
-            });
         }else{
           axios.post("/api/player", this.player)
 	        .then(res => {
               console.log('new player', res.data);
               this.player = res.data.data;
-							this.requested = true;
+							//this.requested = true;
 							this.$store.dispatch('player/savePlayerId', res.data.data);
 							this.$toast.success('Request sent for cart attendant');
 	        });
         }
 		},
     cancel(){
-      this.$toast.error('Request Cancelled');
-      this.requested = false;
-
 			let status = {status_id: 0};
-
 			axios.put("/api/player/" + this.player_id, status)
 				.then(res => {
-					console.log(res);
-					this.$store.dispatch('player/setPlayerStatus', status);
+					console.log('returnedd', res.data.data);
+          this.player = res.data.data;
+					this.revokeRequest(0);
 				})
-
-
+    },
+    revokeRequest(id){
+      let status = {status_id: id};
+      this.$store.dispatch('player/setPlayerStatus', status);
+      this.$toast.error('Request Cancelled');
     },
     async getLocation(){
 			return new Promise((resolve, reject) => {
@@ -232,19 +245,34 @@ export default {
 	        }
 			});
     },
-    fetchPlayer(){
-      axios.get('/api/player/' + this.player_id)
-        .then(res => {
-          console.log('fetchedplaye Data', res.data);
-          this.player = res.data;
-        });
+    async fetchPlayer(){
+      try {
+        const player = await api.getPlayer(this.player_id);
+        console.log("Res: ", player.data);
+        this.player = player.data;
+        if(this.player.status_id === 1){
+          console.log("starting interval");
+            this.startInterval();
+          }
+        } catch(err) {
+           console.log("Destroying player.", err);
+           this.$store.dispatch('player/destroy');
+        };
+    },
+    async handleGolferEvent(e){
+      console.log("handled golfer!", e.playerData);
+      if (e.playerData.status_id !== 1){
+        await this.revokeRequest(e.playerData.status_id);
+      }
+      if(e.playerData.deleted_at !== null){
+        console.log("Player Deleted!");
+        this.$store.dispatch('player/destroy');
+        this.player = [];
+        return;
+      }
+      this.player = e.playerData;
     }
   },
-	created () {
-		if(this.player_status == 1){
-			this.requested = true;
-		}
-	},
 	mounted() {
 		this.showLogo = true;
     this.code = this.$route.path.substring(1);
@@ -253,11 +281,36 @@ export default {
     if(this.player_id){
       this.fetchPlayer();
     }
+
+    let app = this;
+    var golferEvents = window.pusher.subscribe('golfer-'+this.player_id);
+    golferEvents.bind('GolferEvent', function(e) {
+      app.handleGolferEvent(e);
+    });
 	},
-  computed: mapGetters({
-    player_id: 'player/player_id',
-    player_status: 'player/player_status',
-  }),
+  watch: {
+    player: {
+      deep: true,
+      handler(val){
+        if(val && val.status_id !== 1){
+          console.log("It changed to " + val.status_id);
+          clearInterval(this.locationInterval);
+        }
+      }
+    }
+  },
+  computed: {
+    ...mapGetters({
+      player_id: 'player/player_id',
+      player_status: 'player/player_status',
+    }),
+    requested() {
+      if(this.player_status == 1){
+        return true;
+      }
+      return false;
+    }
+  }
 }
 </script>
 
@@ -300,6 +353,13 @@ export default {
 	100% {
 		background-position: 0% 50%;
 	}
+}
+
+.statusText{
+  text-align:center;
+  width: 100%;
+  color: gray;
+  font-size: 0.8em;
 }
 
 </style>

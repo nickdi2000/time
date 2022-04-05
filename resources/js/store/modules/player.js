@@ -17,12 +17,6 @@ export const state = {
  */
 export const mutations = {
 
-	/* PLAYERS
-	  [types.SET_PLAYER_DATA](state, { player }) {
-	    state.playerData = player
-	  },
-    */
-
 	  [types.SET_PLAYER_ID](state, { id }) {
 	    state.player_id = id
 	    window.localStorage.setItem('player_id', id)
@@ -36,7 +30,6 @@ export const mutations = {
 		[types.SET_PLAYER_COURSE_ID](state, { player_course_id }) {
 	    state.player_course_id = player_course_id
 	    window.localStorage.setItem('player_course_id', player_course_id)
-			console.log("setting placyer course id: " + player_course_id);
 	  },
 
 
@@ -48,10 +41,10 @@ export const mutations = {
     [types.PLAYER_LOGOUT](state) {
       state.player_id = null
       state.player_status = null
-      state.player_course_id = null
+      //state.player_course_id = null
       window.localStorage.removeItem('player_id')
       window.localStorage.removeItem('player_status')
-      window.localStorage.removeItem('player_course_id')
+      //window.localStorage.removeItem('player_course_id')
     },
 
 }

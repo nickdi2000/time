@@ -30,10 +30,12 @@ axios.interceptors.response.use((response,metrics) => {
     if (error) {
         //localStorage.removeItem('token');
         //store.commit('unsetUser');
-        console.log("Error from API");
+        console.log("Error from API", error);
+        /*
         if(router.currentRoute.path != '/'){
           router.push('/');
         }
+        */
 
     }
 
@@ -69,11 +71,19 @@ export default {
       return response.data;
     },
     getCourseData: async function (id) {
-      //const response = await axios.post('register', data);
-      //return response.data;
-      console.log("getting courso");
+      const response = await axios.get('course/' + id);
+      return response.data;
     },
-
-
-
+    updatePlayer: async function (id, data){
+      const response = await axios.put("player/" + id, data);
+      return response.data;
+    },
+    getPlayer: async function (id){
+      const response = await axios.get("player/" + id);
+      return response;
+    },
+    clearAll: async function (course_id){
+      const response = await axios.post("clear-all-players/" + course_id);
+      return response.data;
+    }
 };

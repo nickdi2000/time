@@ -13,30 +13,31 @@ use App\Models\Player;
 //use Illuminate\Support\Facades\Log;
 
 
-class PlayerAdded extends BaseEvent implements ShouldBroadcast
+class GolferEvent extends BaseEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $playerData, $playerExists;
+    public $playerData, $getGeo;
 
-    protected $broadcastName = "PlayerAdded";
+    protected $broadcastName = "GolferEvent";
 
-    public function __construct($data = null, $playerExists = true)
+    public function __construct($data = null, $getGeo = false)
     {
         $this->playerData = $data;
-        $this->playerExists = $playerExists;
+        $this->getGeo = $getGeo;
+      //  $this->playerExists = $playerExists;
     }
 
     public function broadcastWith()
     {
       return [
         'playerData' => $this->playerData,
-        'exists' => $this->playerExists
+        'getGeo' => $this->getGeo
       ];
     }
 
     public function broadcastOn()
     {
-        return new Channel("players-1"); //TODO make dynamc
+        return new Channel("golfer-" . $this->playerData->id); //TODO make dynamc
     }
 }

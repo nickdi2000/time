@@ -13,6 +13,7 @@
 
 <script>
 import RegisterForm from './RegisterForm'
+import api from '~/api';
 
 export default {
   components: {
@@ -30,6 +31,14 @@ export default {
 		UserType(v) {
 			this.user_type = v;
 		}
+  },
+  async mounted() {
+    if (this.$store.getters['player/player_course_id']){
+      let course_id = this.$store.getters['player/player_course_id'];
+      const course = await api.getCourseData(course_id);
+      console.log("course: ", course);
+      //this.$router.push('/' + course.code);
+    }
   }
 }
 </script>
