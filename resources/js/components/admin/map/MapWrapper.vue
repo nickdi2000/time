@@ -28,7 +28,9 @@
           v-if="Object.keys(course).length !== 0"
           :course="course"
 					:markers="players"
-					 @get-players="getPlayers()" />
+					 @get-players="getPlayers()"
+           @delete-player="deletePlayer"
+           />
 
            <v-alert v-else>Loading...</v-alert>
         </v-card>
@@ -89,6 +91,11 @@
             this.course = res.data;
             this.getPlayers();
           })
+      },
+      async deletePlayer(id){
+        const res = await api.deletePlayer(id);
+        this.$toast.success(res.message);
+        this.getPlayers();
       },
       handlePlayerEvent(data){
         console.log("PLAYING EVENT!", data);

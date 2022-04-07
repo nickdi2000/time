@@ -74,6 +74,25 @@ export default {
       const response = await axios.get('course/' + id);
       return response.data;
     },
+    findClosestCourse: async function (data) {
+      //data is location object returned from geoLocate browser
+      let coords = {
+        longitude: data.longitude,
+        latitude: data.latitude
+      };
+      console.log("thecoords -- ", coords.longitude);
+      const response = await axios.post('course/find-closest', coords);
+      return response.data;
+    },
+    updateCourseCoords: async function (id, data) {
+      let coords = {
+        longitude: data.longitude,
+        latitude: data.latitude
+      };
+      const response = await axios.put('course/' + id, coords);
+
+      return response.data;
+    },
     updatePlayer: async function (id, data){
       const response = await axios.put("player/" + id, data);
       return response.data;
@@ -81,6 +100,13 @@ export default {
     getPlayer: async function (id){
       const response = await axios.get("player/" + id);
       return response;
+    },
+    deletePlayer: async function (id){
+      const response = await axios.delete('player/' + id);
+          //this.$toast.success(res.data.message);
+          //this.$emit('get-players');
+          return response.data;
+
     },
     clearAll: async function (course_id){
       const response = await axios.post("clear-all-players/" + course_id);

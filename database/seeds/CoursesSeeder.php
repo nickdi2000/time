@@ -15,18 +15,19 @@ class CoursesSeeder extends Seeder
 				DB::table('courses')->truncate();
 
         $courses = $this->getCourses();
-				Course::insert($courses);
-
-        DB::statement("UPDATE courses SET code = UPPER(substring(MD5(RAND()),1,5))");
-        DB::statement("UPDATE courses SET code = 'ABC' WHERE ID = 1");
-        DB::statement("UPDATE courses SET code = 'south' WHERE name = 'Southampton Golf & Country Club'");
-        DB::statement("UPDATE courses SET active = 1 WHERE name in ('ABC Meadows', 'Southampton Golf & Country Club')");
-    }
+			//	Course::insert($courses);
+        foreach($courses as $course){
+          $course['code'] = isset($course['code']) ? $course['code'] : str_replace(' ', '', (substr($course['name'], 0, 7)));;
+          Course::create($course);
+        }
+      }
 
 		public function getCourses(){
 
 			return Array(
-				["province" => "ON", "city" => "Pleasantville", "name" => "ABC Meadows"],
+				["province" => "ON", "city" => "Pleasantville", "code" => "ABC", "active" => 1, "name" => "ABC Meadows", "longitude" => -79.9080001949330, "latitude" => 43.2489036554070],
+				["province" => "ON", "city" => "Hamilton", "name" => "Frill Islands", "active" => 1, "longitude" => -79.88084120228466, "latitude" => 43.22971906543001],
+				["province" => "ON", "city" => "Hamilton", "name" => "Mellvile Baily Meadows", "active" => 1, "longitude" => -79.87934248791802, "latitude" => 43.24173508806528, "code" => "mell"],
 				["province" => "ON", "city" => "Caistorville", "name" => "Caistorville Golf Club"],
 				["province" => "ON", "city" => "Calabogie", "name" => "Calabogie Highlands Golf Resort"],
 				["province" => "ON", "city" => "Erin", "name" => "Calerin Golf Club"],
@@ -47,7 +48,7 @@ class CoursesSeeder extends Seeder
 				["province" => "ON", "city" => "Manotick", "name" => "Carleton Golf & Yacht Club"],
 				["province" => "ON", "city" => "Carleton Place", "name" => "Carlbeck Golf & Country Club"],
 				["province" => "ON", "city" => "Carlisle", "name" => "Carlisle Golf And Country Club"],
-				["province" => "ON", "city" => "Ajax", "name" => "Carruther’s Creek Golf & Country Club"],
+				["province" => "ON", "city" => "Ajax", "name" => "Carruther's Creek Golf & Country Club"],
 				["province" => "ON", "city" => "King", "name" => "Carrying Place Golf & Country Club"],
 				["province" => "ON", "city" => "Casselman", "name" => "Casselview Golf & Country Club"],
 				["province" => "ON", "city" => "Kingston", "name" => "Cataraqui Golf and Country Club"],
@@ -66,7 +67,7 @@ class CoursesSeeder extends Seeder
 				["province" => "ON", "city" => "Troy", "name" => "Century Pines Golf Club"],
 				["province" => "ON", "city" => "Edwards", "name" => "Champions Nest Golf Club"],
 				["province" => "ON", "city" => "Thunder Bay", "name" => "Chapples Golf Course"],
-				["province" => "ON", "city" => "Hamilton", "name" => "Chedoke Municipal Golf Club"],
+				["province" => "ON", "city" => "Hamilton", "name" => "Chedoke Municipal Golf Club", "active" => 1, "longitude" => -79.9080001949330, "latitude" => 43.2489036554070, "code" => "CHEDOKE"],
 				["province" => "ON", "city" => "Chelmsford", "name" => "Chelmsford Golf Course"],
 				["province" => "ON", "city" => "Pickering", "name" => "Cherry Downs Golf Club"],
 				["province" => "ON", "city" => "Ridgeway", "name" => "Cherry Hill Club"],
@@ -174,7 +175,7 @@ class CoursesSeeder extends Seeder
 				["province" => "ON", "city" => "Gloucester", "name" => "Falcon Ridge Golf Club"],
 				["province" => "ON", "city" => "London", "name" => "Fanshawe Golf Course"],
 				["province" => "ON", "city" => "Fergus", "name" => "Fergus Golf Club"],
-				["province" => "ON", "city" => "Scotland", "name" => "Fescue’s Edge Golf Course"],
+				["province" => "ON", "city" => "Scotland", "name" => "Fescue's Edge Golf Course"],
 				["province" => "ON", "city" => "West Grey", "name" => "Ferns Golf Course"],
 				["province" => "ON", "city" => "Komoka", "name" => "FireRock Golf Club"],
 				["province" => "ON", "city" => "Copetown", "name" => "Flamborough Hills Golf & Country Club"],
@@ -307,7 +308,7 @@ class CoursesSeeder extends Seeder
 				["province" => "ON", "city" => "Fort Frances", "name" => "Kitchen Creek Golf Course"],
 				["province" => "ON", "city" => "Ancaster, Hamilton", "name" => "Knollwood Golf Club"],
 				["province" => "ON", "city" => "Peterborough", "name" => "Kawartha Golf & Country Club"],
-				["province" => "ON", "city" => "Hawkesbury", "name" => "La Cité Golf Club"],
+				["province" => "ON", "city" => "Hawkesbury", "name" => "La Cite Golf Club"],
 				["province" => "ON", "city" => "Thornhill", "name" => "Ladies' Golf Club of Toronto"],
 				["province" => "ON", "city" => "Port Carling", "name" => "The Lake Joseph Club"],
 				["province" => "ON", "city" => "Orillia", "name" => "Lake Saint George Golf & Country Club"],

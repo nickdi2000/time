@@ -13,7 +13,7 @@
 						      elevation="2"
 						    >
                 <i v-if="player.status_id !== 1">[player cancelled]</i>
-                <b v-if="player.name">{{ player.name}}</b>
+                <b v-if="player.name">{{ player.name}} </b> <v-chip v-if="player.group_size">Party of {{player.group_size}}</v-chip>
                 <i v-else> {{player.alias}}</i>
                 <div v-if="player.hole > 1"> Hole: {{player.hole}}</div>
                 <div class="d-flex flex-row-reverse justify-space-between">
@@ -69,6 +69,7 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
+import api from '~/api';
 
   export default {
     props: ['players'],
@@ -87,12 +88,10 @@ import moment from 'moment'
       timeAgo(time){
         return moment(time).fromNow();// | duration('humanize', true);
       },
-      destroy(id){
-        axios.delete('/api/player/' + id)
-          .then(res => {
-            this.$toast.success(res.data.message);
-            this.$emit('get-players');
-          })
+      async destroy(id){
+        const res = await api.deletePlayer(id);
+        this.$toast.success(res.message);
+        this.$emit('get-players');
       }
     }
   }

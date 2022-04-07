@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Facades\App\Repository\Courses;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\Course;
 use App\User;
 
@@ -35,6 +35,27 @@ class CourseController extends Controller
 				return response()->json($course);
 			}
 
+			public function findClosest(Request $request)
+			{
+        $lon = $request->input('longitude');
+        $lat = $request->input('latitude');
+
+        $course = DB::table("courses")
+                    ->select("courses.name", "courses.code", "courses.id"
+                        ,DB::raw("6371 * acos(cos(radians(" . $lat . "))
+                        * cos(radians(courses.latitude))
+                        * cos(radians(courses.longitude) - radians(" . $lon . "))
+                        + sin(radians(" .$lat. "))
+                        * sin(radians(courses.latitude))) AS distance"))
+				                ->where('courses.longitude', '!=', null)
+                        ->groupBy("courses.id")
+		                    ->orderBy('distance')
+                        ->first();
+
+                $course->distance = round($course->distance, 1);
+        return $this->successResponse($course, "Course Found");
+			}
+
 
 			public function update(Request $request, $id)
 			{
@@ -45,6 +66,8 @@ class CourseController extends Controller
 				return $this->successResponse($return, "Course Successfully Updated");
 
 			}
+
+
 
 			public function myCourse()
 			{

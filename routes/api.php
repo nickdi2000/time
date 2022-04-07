@@ -32,8 +32,10 @@ Route::group(['middleware' => ['cors']], function() {
 		Route::get('me-player/{id}', 'PlayerController@me');
 
 		Route::get('course/get-by-code/{code}', 'CourseController@getCourseByCode');
+		Route::post('course/update-coords/{id}', 'CourseController@updateCoords');
 		Route::get('user/my-course', 'UserController@myCourse');
 
+    Route::post('course/find-closest', 'CourseController@findClosest');
 
 });
 

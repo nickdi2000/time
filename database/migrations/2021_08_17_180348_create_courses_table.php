@@ -32,16 +32,12 @@ class CreateCoursesTable extends Migration
 						$table->integer('created_by')->nullable()->default(0);
 						$table->integer('active')->default(0);
             $table->boolean('is_open')->default(0);
+            $table->string('access_code')->default('eagle');
 						$table->timestamps();
 
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('courses');

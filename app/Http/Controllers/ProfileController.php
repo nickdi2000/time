@@ -13,7 +13,7 @@ class ProfileController extends Controller
      * @param  Request $request
      * @return App\User
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $rules = [
             'name' => 'required|string|max:191',

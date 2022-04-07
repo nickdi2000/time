@@ -129,7 +129,7 @@ export default {
         [
           { title: 'Dashboard', icon: 'map', to: {name: 'map'}, exact: false },
           { title: 'Profile', icon: 'person', to: {name: 'profile'}, exact: false },
-          { title: 'About', icon: 'info', to: {name: 'about'}, exact: false },
+          { title: 'Help', icon: 'info', to: {name: 'about'}, exact: false },
           { title: 'Course', icon: 'radar', to: {name: 'course'}, exact: false }
 
         ],

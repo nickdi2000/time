@@ -48,8 +48,13 @@ class PlayerController extends Controller
 
   public function show($id)
   {
-      $player = Player::findOrFail($id);
-      return response()->json($player);
+      try {
+        $player = Player::findOrFail($id);
+      } catch (Exception $e){
+        return $this->errorResponse('Player Not Found', 400);
+      }
+
+      return $this->successResponse($player, "Player Retrieved");
   }
 
   public function destroy($id)

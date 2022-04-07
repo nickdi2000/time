@@ -8,7 +8,8 @@ import * as types from '../mutation-types'
 export const state = {
   player_id: window.localStorage.getItem('player_id'),
 	player_status: window.localStorage.getItem('player_status'),
-	player_course_id: window.localStorage.getItem('player_course_id')
+	player_course_id: window.localStorage.getItem('player_course_id'),
+	player_course_data: window.localStorage.getItem('player_course_data')
 
 }
 
@@ -30,6 +31,11 @@ export const mutations = {
 		[types.SET_PLAYER_COURSE_ID](state, { player_course_id }) {
 	    state.player_course_id = player_course_id
 	    window.localStorage.setItem('player_course_id', player_course_id)
+	  },
+
+		[types.SET_PLAYER_COURSE_DATA](state, player_course_data ) {
+	    state.player_course_data = player_course_data
+	    window.localStorage.setItem('player_course_data', JSON.stringify(player_course_data))
 	  },
 
 
@@ -76,7 +82,10 @@ export const actions = {
 	setPlayerCourseId({ commit }, payload) {
 	  commit(types.SET_PLAYER_COURSE_ID, payload)
 	},
-
+	setPlayerCourseData({ commit }, payload) {
+    console.log("setting to: ", payload);
+	  commit(types.SET_PLAYER_COURSE_DATA, payload)
+	},
   /*
 	  async fetchPlayer({ commit }) {
 	    try {
@@ -102,5 +111,6 @@ export const actions = {
 export const getters = {
 	  player_id: state => state.player_id,
 		player_status: state => state.player_status,
-  	player_course_id: state => state.player_course_id,
+  	player_course_id: state => state.player_course_data.id,
+  	player_course_data: state => JSON.parse(state.player_course_data)
 }
