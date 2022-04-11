@@ -18,14 +18,15 @@
 
       <v-card class="mx-auto">
         <v-toolbar dark color="primary" flat>
-          <v-toolbar-title>{{ $app_url }}/{{ code }}</v-toolbar-title>
+          <v-toolbar-title>{{ golfURL }}</v-toolbar-title>
         </v-toolbar>
         <v-card-text>
           <v-container v-if="notFound">
-            <v-alert border="right" colored-border
+            <v-alert border="right" outlined
                      type="warning"
                      elevation="2">
-              No CaddySnack profile exists for this course.. <br/><br/> Suggest that they sign up at <b>CaddySnack.ca/register</b>
+              <h3>No {{ $app_name }} profile exists for this course..</h3>
+              <br/>Suggest that they sign up at <b>{{ $domain }}/register</b>
             </v-alert>
           </v-container>
 
@@ -101,6 +102,9 @@
       </v-card>
 
     </div>
+    <div class="mt-4" v-if="!loading">
+      <QrModal :url="golfURL" />
+    </div>
   </v-flex>
 
 </template>
@@ -115,11 +119,12 @@
   import { mapGetters } from 'vuex'
   import EditPlayer from './EditPlayer'
   import api from '~/api'
+  import QrModal from '$comp/partials/QrModal';
 
   import axios from 'axios'
 
   export default {
-    components: { Beer, VueStar, Pulse, EditPlayer },
+    components: { Beer, VueStar, Pulse, EditPlayer, QrModal },
     data: () => ({
       edit: false,
       dev: false,
@@ -297,6 +302,9 @@
           return true
         }
         return false
+      },
+      golfURL() {
+        return this.$app_url + '/' + this.code;
       }
     }
   }

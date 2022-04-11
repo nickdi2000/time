@@ -194,6 +194,10 @@
         this.setCenter();
       },
     },
+    beforeDestroy(){
+      console.log("leaving..");
+      clearInterval(this.interval);
+    },
     computed: {
       golfIcon() {
         return {

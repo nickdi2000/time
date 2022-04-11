@@ -38,5 +38,11 @@ mix.webpackConfig({
   }
 })
 
+mix.options({
+    hmrOptions: {
+        host: '127.0.0.1',  // mysite.test is my local domain used for testing
+        port: 9090,
+    }
+ });
 
 mix.browserSync(process.env.APP_URL)
