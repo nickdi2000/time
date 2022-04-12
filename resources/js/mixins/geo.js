@@ -13,13 +13,14 @@ export default {
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             pos => {
-              this.loading = false
+              app.loading = false
               resolve(pos.coords)
             },
             err => {
-              this.loading = false
+              app.loading = false
+              console.log("Location err: ", err);
               reject(err)
-              this.$toast.error(err.message)
+              app.$toast.error(err.message)
             }
           )
         }

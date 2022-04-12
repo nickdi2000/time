@@ -1,6 +1,16 @@
 <template>
   <div>
     <h2 class="mb-4 primary--text headline">Your Golf Course</h2>
+    <v-card class="my-4">
+      <v-alert type="info" outlined dark>
+        COURSE STATUS:
+        <v-chip :class="course.active ? 'success' : 'error'">
+          {{ course.active ? 'Active' : 'Inactive/Closed' }}
+        </v-chip>
+
+
+      </v-alert>
+    </v-card>
 
 		<v-card v-if="!course" class="my-4">
 		<v-progress-circular

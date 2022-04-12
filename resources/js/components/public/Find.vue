@@ -6,7 +6,7 @@
         <v-alert dense outlined
                  type="error"
                  v-if="$route.params.error">
-          This course has not been registered yet. Courses may sign up for free at
+          This course is either inactive, or has not been registered yet. Courses may sign up for free at
           <a :href="$app_url + '/register'">{{$app_url}}/register</a>
         </v-alert>
 
@@ -40,6 +40,9 @@
             {{ closestCourse ? 'Try Again' : 'Use My Location' }}
             <v-icon right>mdi-crosshairs-gps</v-icon>
           </v-btn>
+          <v-alert type="error"  class="my-3" v-if="error">
+            {{ error }}
+          </v-alert>
 
           <div v-if="closestCourse" class="mt-3 mx-auto d-flex flex-column">
             The closest course we found is {{closestCourse.distance}}KM away:<br/>
@@ -78,7 +81,8 @@
       disabled: true,
       selectedCourse: null,
       loading: false,
-      closestCourse: null
+      closestCourse: null,
+      error: null
     }),
     methods: {
       go() {
@@ -97,15 +101,21 @@
           })
       },
       async useMyLocation(){
+        this.error = null;
         this.loading = true;
         const loc = await this.getLocation();
-        console.log(loc);
-        const course = await api.findClosestCourse(loc);
-        console.log('course::', course.data.distance);
-        if(course.data.distance > 12){
-          this.closestCourse = course.data;
-        } else {
-          this.$router.push('/' + course.data.code);
+        let app = this;
+        try {
+          const course = await api.findClosestCourse(loc);
+          console.log('course::', course);
+          if(course.data.distance > 12){
+            app.closestCourse = course.data;
+          } else {
+            app.$router.push('/' + course.data.code);
+          }
+        } catch (error) {
+          console.log("caught an error: ", error);
+          this.error = "Unable to fetch location.  Please make sure your devices location is enabled.";
         }
       },
       hint() {

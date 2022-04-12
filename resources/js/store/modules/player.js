@@ -77,13 +77,11 @@ export const actions = {
   },
 	setPlayerStatus({ commit }, payload) {
     commit(types.SET_PLAYER_STATUS, payload)
-		console.log("player status payload", payload)
   },
 	setPlayerCourseId({ commit }, payload) {
 	  commit(types.SET_PLAYER_COURSE_ID, payload)
 	},
 	setPlayerCourseData({ commit }, payload) {
-    console.log("setting to: ", payload);
 	  commit(types.SET_PLAYER_COURSE_DATA, payload)
 	},
   /*

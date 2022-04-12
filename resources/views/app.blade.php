@@ -37,3 +37,25 @@
         <script src="{{ mix('/js/app.js') }}"></script>
     </body>
 </html>
+
+<style>
+
+#app {
+    position: relative;
+    z-index: 1;
+}
+
+  #app::before {
+    background: url('/images/course-art.jpeg') center center;
+    z-index: -1;
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    opacity: 0.2;
+    width: 100%;
+    height: 100%;
+  }
+</style>

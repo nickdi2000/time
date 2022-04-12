@@ -30,7 +30,8 @@ axios.interceptors.response.use((response,metrics) => {
     if (error) {
         //localStorage.removeItem('token');
         //store.commit('unsetUser');
-        console.log("Error from API", error);
+        console.log("Error from API.js", error);
+        return error.response;
         /*
         if(router.currentRoute.path != '/'){
           router.push('/');
