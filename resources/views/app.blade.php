@@ -15,7 +15,7 @@
 
         <meta property="og:title" content="Order beer from the course." />
         <meta property="og:description" content="Share your location with the cart-person and get your drinks faster than ever." />
-        <meta property="og:image" content="https://caddysnack.ca/images/beer-and-golf.jpg" />
+        <meta property="og:image" content="{{config('app.url')}}/images/beer-and-golf.jpg" />
 
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons" rel="stylesheet">
         <link href="{{ mix('/css/app.css') }}" rel="stylesheet">
