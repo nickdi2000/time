@@ -23,9 +23,10 @@
           <v-alert type="info" condensed >
             Let a fellow golfer scan this so they can order a drink when they're ready.
           </v-alert>
-          
 
-				<vue-qrcode :value="link" />
+        <div class="qr-container">
+				      <vue-qrcode :value="link" />
+        </div>
         <br/>
         <i>*NOTE: If the QR code fails, users can navigate to this link manually: <b>{{ url }}</b></i>
         </v-card-text>
@@ -64,3 +65,17 @@ import VueQrcode from 'vue-qrcode'
     }
   }
 </script>
+
+<style>
+
+.qr-container{
+  text-align: center;
+}
+
+.qr-container > img {
+  width: 60%;
+  margin: auto;
+  display: block;
+}
+
+</style>
