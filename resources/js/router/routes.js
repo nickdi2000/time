@@ -39,6 +39,11 @@ export default [
             { path: 'edit', name: 'profile-edit', component: require('$comp/admin/profile/edit/ProfileEdit').default }
           ]
         },
+        { path: '/menu', component: require('$comp/admin/menu/MenuWrapper').default, children:
+          [
+            { path: '', name: 'menu', component: require('$comp/admin/menu/Menu').default }
+          ]
+        },
 				  { path: '/course', component: require('$comp/admin/course/CourseWrapper').default, children:
 	          [
 	            { path: '', name: 'course', component: require('$comp/admin/course/Course').default },
