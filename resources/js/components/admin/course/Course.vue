@@ -32,7 +32,7 @@
 					<h3>Public Access Link</h3>
 					<h2 class="py-3 font-weight-bold">{{url()}}</h2>
 							<v-alert class="d-flex justify-center">
-									<vue-qrcode :scale="8" :value="'https://caddysnack.ca/' + this.course.code" />
+									<vue-qrcode :scale="8" :value="url(true)" />
 							</v-alert>
 							<p class="font-weight-thin">Golfers may navigate to your unique url ({{url()}}), or scan this QR code.  Remember that if you change your code, the QR Code will change as well.</p>
 
@@ -72,8 +72,8 @@ export default {
 		  const res = api.saveCourseData(this.course);
       this.$toast.success(res.message);
 		},
-		url(){
-			return this.$app_url + '/' + (this.course.code ? this.course.code : '');
+		url(ssl = null){
+			return (ssl ? 'https://' : '') + this.$app_url + '/' + (this.course.code ? this.course.code : '');
 		},
 		cancel(){
 			this.getCourseData();

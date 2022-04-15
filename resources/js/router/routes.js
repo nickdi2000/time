@@ -4,7 +4,8 @@ export default [
     { path: '/admin', name: 'admin', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'register' } ,children:
       [
         { path: '/login', name: 'login', component: require('$comp/auth/login/Login').default },
-        { path: '/register', name: 'register', component: require('$comp/auth/register/Register').default },
+        { path: '/registerr', name: 'register', component: require('$comp/auth/register/Register').default },
+        { path: '/register', name: 'register-contact', component: require('$comp/auth/register/RegisterClosed').default },
         { path: '/password', component: require('$comp/auth/password/PasswordWrapper').default, children:
           [
             { path: '', name: 'forgot', component: require('$comp/auth/password/password-forgot/PasswordForgot').default },

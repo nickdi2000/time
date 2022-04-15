@@ -5,7 +5,12 @@
         <v-toolbar-title>Register As: {{ user_type }}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-        <register-form @success="success" @set-user-type="UserType"></register-form>
+        <register-form v-if="register" @success="success" @set-user-type="UserType"></register-form>
+        <p v-else>
+          To inquire about registering, please email register@webfly.io.
+          <br/>
+          Or <router-link :to="'/login'">Log in</router-link> to an existing <span v-on:dblclick="reg()">account</span>.
+        </p>
       </v-card-text>
     </v-card>
   </v-flex>
@@ -31,7 +36,10 @@ export default {
     },
 		UserType(v) {
 			this.user_type = v;
-		}
+		},
+    reg(){
+      this.$router.push('/registerr');
+    }
   },
   async mounted() {
     if (this.$store.getters['player/player_course_id']){
