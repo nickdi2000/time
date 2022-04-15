@@ -26,20 +26,18 @@ class CreateCoursesTable extends Migration
 						$table->string("administrative_area_level_1")->nullable();
 						$table->string("route")->nullable();
 						$table->string("street_number")->nullable();
+						$table->text("closed_message")->nullable();
 						$table->decimal("longitude", 22, 13)->nullable();
 						$table->decimal("latitude", 22, 13)->nullable();
 						$table->integer('created_by')->nullable()->default(0);
 						$table->integer('active')->default(0);
+            $table->boolean('is_open')->default(0);
+            $table->string('access_code')->default('eagle');
 						$table->timestamps();
 
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('courses');

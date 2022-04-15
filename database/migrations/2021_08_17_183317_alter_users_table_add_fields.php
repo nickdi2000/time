@@ -15,6 +15,7 @@ class AlterUsersTableAddFields extends Migration
     {
           Schema::table('users', function (Blueprint $table) {
 							$table->integer("course_id")->nullable();
+							$table->boolean("active")->default(0);
 							$table->integer('user_type');
 	        });
     }

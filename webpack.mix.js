@@ -40,8 +40,8 @@ mix.webpackConfig({
 
 mix.options({
     hmrOptions: {
-        host: 'golf.test',  // mysite.test is my local domain used for testing
-        port: 8090,
+        host: '127.0.0.1',  // mysite.test is my local domain used for testing
+        port: 9090,
     }
  });
 

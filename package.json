@@ -8,10 +8,8 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "upload-dev": "scp -r ./public/* root@93.188.162.139:/home/admin/web/19th.live/public_html/public",
-    "upload-prod": "scp -r ./public/* root@93.188.162.139:/home/admin/web/caddysnack.ca/public_html/public",
-    "deploy": "npm run production && npm run upload-prod",
-    "deploy-dev": "npm run production && npm run upload-dev"
+    "upload-prod": "scp -r ./public/* root@93.188.162.139:/home/admin/web/19th.live/public_html/public",
+    "deploy": "cp .env .env.local && cp .env.production .env && npm run production && npm run upload-prod && cp .env.local .env"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.6.0",

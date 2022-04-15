@@ -8,7 +8,8 @@ import * as types from '../mutation-types'
 export const state = {
   player_id: window.localStorage.getItem('player_id'),
 	player_status: window.localStorage.getItem('player_status'),
-	player_course_id: window.localStorage.getItem('player_course_id')
+	player_course_id: window.localStorage.getItem('player_course_id'),
+	player_course_data: window.localStorage.getItem('player_course_data')
 
 }
 
@@ -16,12 +17,6 @@ export const state = {
  * Mutations
  */
 export const mutations = {
-
-	/* PLAYERS
-	  [types.SET_PLAYER_DATA](state, { player }) {
-	    state.playerData = player
-	  },
-    */
 
 	  [types.SET_PLAYER_ID](state, { id }) {
 	    state.player_id = id
@@ -36,7 +31,11 @@ export const mutations = {
 		[types.SET_PLAYER_COURSE_ID](state, { player_course_id }) {
 	    state.player_course_id = player_course_id
 	    window.localStorage.setItem('player_course_id', player_course_id)
-			console.log("setting placyer course id: " + player_course_id);
+	  },
+
+		[types.SET_PLAYER_COURSE_DATA](state, player_course_data ) {
+	    state.player_course_data = player_course_data
+	    window.localStorage.setItem('player_course_data', JSON.stringify(player_course_data))
 	  },
 
 
@@ -48,10 +47,10 @@ export const mutations = {
     [types.PLAYER_LOGOUT](state) {
       state.player_id = null
       state.player_status = null
-      state.player_course_id = null
+      //state.player_course_id = null
       window.localStorage.removeItem('player_id')
       window.localStorage.removeItem('player_status')
-      window.localStorage.removeItem('player_course_id')
+      //window.localStorage.removeItem('player_course_id')
     },
 
 }
@@ -78,12 +77,13 @@ export const actions = {
   },
 	setPlayerStatus({ commit }, payload) {
     commit(types.SET_PLAYER_STATUS, payload)
-		console.log("player status payload", payload)
   },
 	setPlayerCourseId({ commit }, payload) {
 	  commit(types.SET_PLAYER_COURSE_ID, payload)
 	},
-
+	setPlayerCourseData({ commit }, payload) {
+	  commit(types.SET_PLAYER_COURSE_DATA, payload)
+	},
   /*
 	  async fetchPlayer({ commit }) {
 	    try {
@@ -109,5 +109,6 @@ export const actions = {
 export const getters = {
 	  player_id: state => state.player_id,
 		player_status: state => state.player_status,
-  	player_course_id: state => state.player_course_id,
+  	player_course_id: state => state.player_course_data.id,
+  	player_course_data: state => JSON.parse(state.player_course_data)
 }

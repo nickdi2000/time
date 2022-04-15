@@ -127,10 +127,13 @@ export default {
     navigation() {
       this.items = [
         [
+          { title: 'Dashboard', icon: 'map', to: {name: 'map'}, exact: false },
           { title: 'Profile', icon: 'person', to: {name: 'profile'}, exact: false },
-          { title: 'About', icon: 'info', to: {name: 'about'}, exact: false },
           { title: 'Course', icon: 'radar', to: {name: 'course'}, exact: false },
-          { title: 'Map', icon: 'map', to: {name: 'map'}, exact: false }
+          { title: 'Menu', icon: 'restaurant', to: {name: 'menu'}, exact: false },
+          { title: 'Help', icon: 'info', to: {name: 'about'}, exact: false }
+
+
         ],
         [
           { title: 'Logout', icon: 'power_settings_new', action: this.logout }

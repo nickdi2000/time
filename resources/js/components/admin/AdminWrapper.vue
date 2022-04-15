@@ -36,6 +36,12 @@ export default {
     navToggle() {
       this.mini = !this.mini
     }
+  },
+  computed: mapGetters({
+    user: 'auth/user'
+  }),
+  mounted(){
+    console.log("User is", this.user);
   }
 }
 </script>

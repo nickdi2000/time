@@ -4,7 +4,8 @@ export default [
     { path: '/admin', name: 'admin', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'register' } ,children:
       [
         { path: '/login', name: 'login', component: require('$comp/auth/login/Login').default },
-        { path: '/register', name: 'register', component: require('$comp/auth/register/Register').default },
+        { path: '/registerr', name: 'register', component: require('$comp/auth/register/Register').default },
+        { path: '/register', name: 'register-contact', component: require('$comp/auth/register/RegisterClosed').default },
         { path: '/password', component: require('$comp/auth/password/PasswordWrapper').default, children:
           [
             { path: '', name: 'forgot', component: require('$comp/auth/password/password-forgot/PasswordForgot').default },
@@ -13,7 +14,7 @@ export default [
         }
       ]
     },
-    { path: '', redirect: '/register'},
+    { path: '', redirect: '/find'},
     { path: '/info', name: 'info', component: require('$comp/public/About').default },
     { path: '/find', name: 'find-course', component: require('$comp/public/Find').default },
     { path: '*', component: require('$comp/public/PlayerWrapper.vue').default,
@@ -26,7 +27,7 @@ export default [
   ...applyRules(['auth'], [
     { path: '', component: require('$comp/admin/AdminWrapper').default, children:
       [
-        { path: '', name: 'index', redirect: { name: 'course' } },
+        { path: '', name: 'index', redirect: { name: 'map' } },
         { path: '/about', name: 'about', component: require('$comp/admin/about/About').default },
         { path: '/map', name: 'map', component: require('$comp/admin/map/MapWrapper').default },
         { path: '/test', name: 'map', component: require('$comp/admin/map/Test').default },
@@ -36,6 +37,11 @@ export default [
           [
             { path: '', name: 'profile', component: require('$comp/admin/profile/Profile').default },
             { path: 'edit', name: 'profile-edit', component: require('$comp/admin/profile/edit/ProfileEdit').default }
+          ]
+        },
+        { path: '/menu', component: require('$comp/admin/menu/MenuWrapper').default, children:
+          [
+            { path: '', name: 'menu', component: require('$comp/admin/menu/Menu').default }
           ]
         },
 				  { path: '/course', component: require('$comp/admin/course/CourseWrapper').default, children:

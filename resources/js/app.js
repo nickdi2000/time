@@ -19,8 +19,9 @@ Vue.use(VueGoogleMaps, {
 Vue.use(require('vue-moment'));
 
 Vue.prototype.$app_name = process.env.MIX_APP_NAME;
-Vue.prototype.$app_url = process.env.MIX_APP_URL;
+Vue.prototype.$app_url = process.env.MIX_APP_URL.replace(/^https?:\/\//, '').toUpperCase();
 Vue.prototype.$is_prod = process.env.APP_ENV == "production";
+Vue.prototype.$domain = window.location.host;
 
 Vue.filter("address", function(address) {
 	// call like: <p v-html="this.$options.filters.address(course.address)"></p>

@@ -30,10 +30,13 @@ axios.interceptors.response.use((response,metrics) => {
     if (error) {
         //localStorage.removeItem('token');
         //store.commit('unsetUser');
-        console.log("Error from API");
+        console.log("Error from API.js", error);
+        return error.response;
+        /*
         if(router.currentRoute.path != '/'){
           router.push('/');
         }
+        */
 
     }
 
@@ -69,11 +72,45 @@ export default {
       return response.data;
     },
     getCourseData: async function (id) {
-      //const response = await axios.post('register', data);
-      //return response.data;
-      console.log("getting courso");
+      const response = await axios.get('course/' + id);
+      return response.data;
     },
+    findClosestCourse: async function (data) {
+      //data is location object returned from geoLocate browser
+      let coords = {
+        longitude: data.longitude,
+        latitude: data.latitude
+      };
+      console.log("thecoords -- ", coords.longitude);
+      const response = await axios.post('course/find-closest', coords);
+      return response.data;
+    },
+    updateCourseCoords: async function (id, data) {
+      let coords = {
+        longitude: data.longitude,
+        latitude: data.latitude
+      };
+      const response = await axios.put('course/' + id, coords);
 
+      return response.data;
+    },
+    updatePlayer: async function (id, data){
+      const response = await axios.put("player/" + id, data);
+      return response.data;
+    },
+    getPlayer: async function (id){
+      const response = await axios.get("player/" + id);
+      return response;
+    },
+    deletePlayer: async function (id){
+      const response = await axios.delete('player/' + id);
+          //this.$toast.success(res.data.message);
+          //this.$emit('get-players');
+          return response.data;
 
-
+    },
+    clearAll: async function (course_id){
+      const response = await axios.post("clear-all-players/" + course_id);
+      return response.data;
+    }
 };

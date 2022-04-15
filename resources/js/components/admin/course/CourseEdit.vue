@@ -1,6 +1,18 @@
 <template>
   <div>
     <h2 class="mb-4 primary--text headline">Your Golf Course</h2>
+    <v-card class="my-4">
+      <v-card-text>
+         <v-switch
+            v-model="course.active"
+            :label="course.active ? 'Active' : 'Inactive'"
+            @change="saveAddress()"
+          ></v-switch>
+          <p class="text-muted">
+            Players will not be able to submit requests when the course is not activated
+          </p>
+      </v-card-text>
+    </v-card>
 
 		<v-card v-if="Object.keys(course).length === 0" class="my-4">
 		<v-progress-circular
@@ -147,7 +159,7 @@ export default {
       this.changed = false;
 		},
 		url(){
-			return "CaddySnack.ca/" + (this.course.code ? this.course.code : '');
+			return this.$app_url + '/' + (this.course.code ? this.course.code : '');
 		},
 		cancel(){
 			//this.getCourseData();
