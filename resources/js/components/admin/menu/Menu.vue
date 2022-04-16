@@ -2,15 +2,16 @@
 
   <v-container fluid class="w-100 my-0">
     <v-card class="px-3 my-2 py-2">
-      <h2>Menu</h2>
-
         <v-card-text>
-             <v-switch
-              :label="'Activate Menu'"
-              @change=""
-              class="mb-v pb-0"
-            ></v-switch>
-            <ToolTip :message="'The app will still allow requests to be made with an inactive menu -- the users just won\'t be able to select what they want specifically. This can be useful when your inventory is low or inconsistent.'"/>
+             <div class="mx-auto">
+                 <v-switch
+                :label="'Activate Menu'"
+                @change=""
+                class="mb-v pb-0"
+              ></v-switch>
+              <ToolTip style="float:right;" :message="'The app will still allow requests to be made with an inactive menu -- the users just won\'t be able to select what they want specifically. This can be useful when your inventory is low or inconsistent.'"/>
+              <br/>
+            </div>
         </v-card-text>
 
     </v-card>
@@ -28,17 +29,31 @@
                     :key="i"
                   >
                     <v-list-item-icon>
-                      <v-icon v-text="item.icon"></v-icon>
+                      <v-icon v-text="item.icon ? item.icon : 'mdi-food'"></v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                       <v-list-item-title v-text="item.text"></v-list-item-title>
                     </v-list-item-content>
                   </v-list-item>
+
+                  <v-list-item v-if="addFormVisible">
+                    <v-text-field
+                    label="Name of Item"
+                    v-model="form.text"
+                    v-on:keyup.enter="saveForm()"
+                    >
+                    </v-text-field>
+                    <v-btn color="success" @click="saveForm()">
+                      Save
+                    </v-btn>
+                  </v-list-item>
+
                 </v-list-item-group>
               </v-list>
         </v-card-text>
 
         <v-btn
+            @click="addFormVisible = true"
             color="pink"
             fab
             dark
@@ -71,7 +86,9 @@ import ToolTip from '~/components/admin/shared/ToolTip';
     data() {
       return {
         revealed: null,
-         selectedItem: null,
+         selectedItem: {},
+         addFormVisible: false,
+         form: {},
          items: [
             { text: 'Beer', icon: 'mdi-beer' },
             { text: 'Snacks', icon: 'mdi-food' },
@@ -80,6 +97,11 @@ import ToolTip from '~/components/admin/shared/ToolTip';
       }
     },
     methods: {
+      saveForm(){
+        this.items.push(this.form);
+        this.addFormVisible = false;
+        this.form = {};
+      }
     }
   }
 
@@ -93,11 +115,8 @@ import ToolTip from '~/components/admin/shared/ToolTip';
   opacity: 0;
 }
 
-.classBanner{
-  position: absolute;
-  opacity: 0.7;
-  width: 100%;
-  bottom: 0;
+.v-input--switch{
+  display:inline;
+  width: 30px;
 }
-
 </style>

@@ -1,20 +1,18 @@
 <template>
   <span>
+    <v-btn
+      v-bind="attrs"
+      @click="dialog=true"
+      elevation="2"
+      small
+    >
+      <v-icon>mdi-help-circle</v-icon>
+    </v-btn>
+
     <v-dialog
       v-model="dialog"
       width="500"
     >
-      <template v-slot:activator="{ on, attrs }">
-        <v-btn
-          v-bind="attrs"
-          v-on="on"
-          elevation="2"
-          small
-        >
-          <v-icon>mdi-help-circle</v-icon>
-        </v-btn>
-      </template>
-
       <v-card>
         <v-card-title class="text-h5">
           Tip!
