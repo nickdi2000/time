@@ -1,34 +1,23 @@
 <template>
 
   <v-container fluid class="w-100 my-0">
-    <v-card class="px-3 my-2">
+    <v-card class="px-3 my-2 py-2">
       <h2>Menu</h2>
 
         <v-card-text>
-           <v-row no-gutters>
-             <v-col cols="6">
              <v-switch
-              :label="'Active Menu'"
+              :label="'Activate Menu'"
               @change=""
+              class="mb-v pb-0"
             ></v-switch>
-          </v-col>
-            <v-col>
-            <ToolTip />
-          </v-col>
-          </v-row>
-
+            <ToolTip :message="'The app will still allow requests to be made with an inactive menu -- the users just won\'t be able to select what they want specifically. This can be useful when your inventory is low or inconsistent.'"/>
         </v-card-text>
-
-      <v-alert condensed type="info" outline text>
-        The app will still allow requests to be made with an inactive menu -- the users just won't be able to select what they want specifically.  To de-activate the app temporarily,
-        navigate to the main <router-link :to="'/course'">Course Setup</router-link> page.
-      </v-alert>
 
     </v-card>
 
     <v-card class="px-3 my-2">
         <v-card-text>
-              <v-list flat>
+              <v-list>
                 <v-subheader>ITEMS</v-subheader>
                 <v-list-item-group
                   v-model="selectedItem"
@@ -48,6 +37,22 @@
                 </v-list-item-group>
               </v-list>
         </v-card-text>
+
+        <v-btn
+            color="pink"
+            fab
+            dark
+            small
+            absolute
+            bottom
+            right
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+    </v-card>
+
+    <v-card v-if="selectedItem" class="px-3 my-2 py-2">
+      selected: {{ selectedItem }}
     </v-card>
 
   </v-container>
