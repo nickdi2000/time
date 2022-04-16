@@ -28,7 +28,7 @@ export default [
     { path: '', component: require('$comp/admin/AdminWrapper').default, children:
       [
         { path: '', name: 'index', redirect: { name: 'map' } },
-        { path: '/about', name: 'about', component: require('$comp/admin/about/About').default },
+        { path: '/about', name: 'about', component: require('$comp/admin/about/AboutWrapper').default },
         { path: '/map', name: 'map', component: require('$comp/admin/map/MapWrapper').default },
         { path: '/test', name: 'map', component: require('$comp/admin/map/Test').default },
         { path: '/super', name: 'super', component: require('$comp/admin/superadmin/SuperWrapper').default},

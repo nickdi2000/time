@@ -17,11 +17,11 @@
 
       <v-card>
         <v-card-title class="text-h5">
-          Sorry?
+          Tip!
         </v-card-title>
 
         <v-card-text class="mx-auto d-flex flex-column justify-content-center">
-
+          <p>{{ message }}</p>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -43,7 +43,7 @@
 
 <script>
   export default {
-    props: [],
+    props: ['message'],
     data () {
       return {
         dialog: false,
