@@ -2,8 +2,8 @@ import Axios from 'axios'
 import router from './router'
 //import store from './store'
 
-  var baseURL = process.env.MIX_APP_URL + "/api/";
-
+  var baseURL = process.env.MIX_API_URL + "/api/";
+console.log("API URL:" , process.env.MIX_API_URL);
   const axios = Axios.create({
       baseURL: baseURL
   });
@@ -104,10 +104,21 @@ export default {
     },
     deletePlayer: async function (id){
       const response = await axios.delete('player/' + id);
-          //this.$toast.success(res.data.message);
-          //this.$emit('get-players');
           return response.data;
 
+    },
+    createOrUpdateMenu: async function(data){
+      //create or update based on if data, should contain courseID
+      const response = await axios.post("menu/create", data);
+      return response.data;
+    },
+    getMenu: async function (course_id){
+      const response = await axios.get("menu-by-course/" + course_id);
+      return response.data;
+    },
+    updateMenuItem: async function (data, id){
+      const response = await axios.post("menu-item/" + id, data);
+      return response.data;
     },
     clearAll: async function (course_id){
       const response = await axios.post("clear-all-players/" + course_id);

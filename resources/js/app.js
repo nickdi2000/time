@@ -9,6 +9,7 @@ import App from '$comp/App'
 import '~/plugins/index'
 import vuetify from '~/plugins/vuetify'
 import * as VueGoogleMaps from "vue2-google-maps"
+import _ from 'lodash'
 
 Vue.use(VueGoogleMaps, {
   load: {
@@ -17,6 +18,9 @@ Vue.use(VueGoogleMaps, {
   }
 });
 Vue.use(require('vue-moment'));
+
+
+Vue.prototype._ = _
 
 Vue.prototype.$app_name = process.env.MIX_APP_NAME;
 Vue.prototype.$app_url = process.env.MIX_APP_URL.replace(/^https?:\/\//, '').toUpperCase();

@@ -9,7 +9,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 trait ApiHandler {
 
 	//as we all know, 200 is our success message, so this is hardresponseCoded in
-  protected function successResponse($data, $message = 'Success', $responseCode = 200)
+  protected function successResponse($data = [], $message = 'Success', $responseCode = 200)
 	{
 		return response()->json([
 			'status'=> 'success',

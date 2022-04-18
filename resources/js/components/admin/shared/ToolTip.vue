@@ -1,7 +1,6 @@
 <template>
   <span>
     <v-btn
-      v-bind="attrs"
       @click="dialog=true"
       elevation="2"
       small
@@ -19,7 +18,7 @@
         </v-card-title>
 
         <v-card-text class="mx-auto d-flex flex-column justify-content-center">
-          <p>{{ message }}</p>
+          <p v-html="message"></p>
         </v-card-text>
 
         <v-divider></v-divider>
