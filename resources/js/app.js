@@ -11,6 +11,8 @@ import vuetify from '~/plugins/vuetify'
 import * as VueGoogleMaps from "vue2-google-maps"
 import _ from 'lodash'
 
+
+
 Vue.use(VueGoogleMaps, {
   load: {
     key: process.env.MIX_GOOGLE_MAPS_KEY,

@@ -36,4 +36,12 @@ class Controller extends BaseController
       return $this->successResponse($record);
     }
 
+    public function destroy($id)
+    {
+      $record = $this->model::findOrFail($id);
+
+      $record->delete();
+      return $this->successResponse($record);
+    }
+
 }

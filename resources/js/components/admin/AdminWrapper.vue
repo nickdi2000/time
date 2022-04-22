@@ -3,8 +3,8 @@
     <app-nav :mini="mini" @nav-toggle="navToggle"></app-nav>
     <top-menu @nav-toggle="navToggle"></top-menu>
 
-    <v-content>
-      <v-container fluid>
+    <v-content class="fill-height" >
+      <v-container>
         <transition name="fade" mode="out-in">
           <router-view></router-view>
         </transition>

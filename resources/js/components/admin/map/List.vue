@@ -12,17 +12,27 @@
 						      :type="player.status_id ? 'success' : 'warning'"
 						      elevation="2"
 						    >
-                <i v-if="player.status_id !== 1">[player cancelled]</i>
-                <b v-if="player.name">{{ player.name}} </b> <v-chip v-if="player.group_size">Party of {{player.group_size}}</v-chip>
+                <b v-if="player.name">{{ player.name}} </b>
                 <i v-else> {{player.alias}}</i>
+
+                <v-chip :color="statusColor(player.status_id)"> {{ statusName(player.status_id) }}</v-chip>
+
+                <v-chip v-if="player.group_size">Party of {{player.group_size}}</v-chip>
+
                 <div v-if="player.hole > 1"> Hole: {{player.hole}}</div>
                 <div class="d-flex flex-row-reverse justify-space-between">
                   <b>{{player.updated_at | moment("h:mm a") }}</b>
                   <small>Updated {{ timeAgo(player.updated_at) | duration('humanize', true) }}</small>
                 </div>
 
-                <div>{{ player.position.lat }}, {{player.position.lng }}</div>
-                <div>
+                <div v-if="showLat">{{ player.position.lat }}, {{player.position.lng }}</div>
+                <v-chip color="default" label outlined> <v-icon left>mdi-food</v-icon>
+                  <span v-for="ord in player.order_object">{{ ord.title}}</span>
+                </v-chip>
+
+
+
+                <div class="d-flex flex-row-reverse">
                   <v-btn color="warning" outlined x-small @click="destroy(player.id)">
                     <v-icon left small>delete</v-icon>
                     DELETE
@@ -70,12 +80,15 @@
 import axios from 'axios'
 import moment from 'moment'
 import api from '~/api';
+import getStatus from '~/mixins/getStatus'
 
   export default {
     props: ['players'],
+    mixins: [getStatus],
     data() {
       return {
         revealed: null,
+        showLat: false,
       }
     },
     methods: {

@@ -20,8 +20,8 @@ export default {
     }
 	},
 	mounted() {
-		console.log('geatters', this.$store.getters['auth/user']);
-		this.siteName = this.$store.getters['auth/user']['golf_course'] ? this.$store.getters['auth/user']['golf_course'] : 'Welcome';
+		let url = this.$store.getters['auth/user']['course']['publicUrl'];
+		this.siteName = url ? url : 'Welcome';
 	}
 }
 </script>

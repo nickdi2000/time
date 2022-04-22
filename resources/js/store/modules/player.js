@@ -109,6 +109,6 @@ export const actions = {
 export const getters = {
 	  player_id: state => state.player_id,
 		player_status: state => state.player_status,
-  	player_course_id: state => state.player_course_data.id,
+  	player_course_id: state =>('player_course_data' in state) ? state.player_course_data.id : 0,
   	player_course_data: state => JSON.parse(state.player_course_data)
 }

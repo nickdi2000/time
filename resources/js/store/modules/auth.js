@@ -8,6 +8,7 @@ import * as types from '../mutation-types'
 export const state = {
   user: null,
   token: window.localStorage.getItem('token'),
+  token: window.localStorage.getItem('auth_course_data')
 
 }
 
@@ -33,6 +34,10 @@ export const mutations = {
   [types.SET_TOKEN](state, { token }) {
     state.token = token
     window.localStorage.setItem('token', token)
+  },
+  [types.SET_COURSE](state, { course_data }) {
+    state.course_data = course_data
+    window.localStorage.setItem('course_data', course_data)
   }
 }
 
@@ -57,7 +62,9 @@ export const actions = {
     console.log("setUser payload", payload);
     commit(types.SET_USER, payload);
   },
-
+  setCourse({ commit }, payload) {
+    commit(types.SET_COURSE, payload);
+  },
   async logout({ commit }) {
     await axios.post(api.path('logout'))
     commit(types.LOGOUT)

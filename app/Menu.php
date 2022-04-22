@@ -12,6 +12,14 @@ class Menu extends Model
 
     public function items()
     {
-      return $this->hasMany(MenuItem::class);
+      return $this->hasMany(MenuItem::class)->where('parent_id', null)->with('subItems');
+    }
+
+    public function activeItems()
+    {
+      return $this->hasMany(MenuItem::class)
+      ->where('parent_id', null)
+      ->where('active', 1)
+      ->with('subItems');
     }
 }

@@ -35,6 +35,11 @@ class Player extends Model
 			return $statuses[$this->status_id];
 		}
 
+		public function getOrderObjectAttribute($value) {
+			return gettype($value) == 'string' ? json_decode($value) : $value;
+		}
+
+
 		protected $casts = [
         'latitude' => 'double',
         'longitude' => 'double',

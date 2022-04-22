@@ -27,11 +27,14 @@ Route::group(['middleware' => ['cors']], function() {
 
 		Route::resource('guest-course', 'CourseController');
 
-		Route::resource('menu-item', 'MenuItemController');
-    
+    Route::resource('menu-item', 'MenuItemController');
+
+		Route::post('menu-item/update/{id}', 'MenuItemController@update');
+		Route::post('menu-item/create', 'MenuItemController@store');
+
 		Route::resource('menu', 'MenuController');
 		Route::post('menu/create', 'MenuController@createOrUpdate');
-		Route::get('menu-by-course/{id}', 'MenuController@menuByCourse');
+		Route::post('menu-by-course/{id}', 'MenuController@menuByCourse');
 
 		Route::resource('player', 'PlayerController');
 		Route::post('clear-all-players/{course_id}', 'PlayerController@clearAll');

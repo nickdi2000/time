@@ -35,14 +35,7 @@
                  <small>Welcome to</small>
   		             <h2 class="animate__animated animate__bounce"> {{ course.name }} </h2>
               </span>
-            <!--<v-text-field
-  		            v-model="name"
-  		            outlined
-  		            label="Name.."
-  								persistent-hint
-  								hint="Give us a name or nick-name to help us find you"
-  								style="font-size:2em"
-  		          ></v-text-field>-->
+
             <v-container v-if="!requested" class="p-4">
               <v-btn color="success" large block
                      class="mt-4 px-6 w-100"
@@ -55,6 +48,20 @@
 
             <v-container v-else style="text-align:center;" class="d-flex flex-column align-items-center justify-content-center my-5">
               <Pulse class="py-4" />
+                <div v-if="orderSubmitted">
+                <v-alert dense text
+                         type="success"
+                         class="mt-6"
+                         >
+                  <strong><h4>CART REQUESTED!</h4></strong>
+                </v-alert>
+                <v-btn @click="updatePlayerStatus(6)"><v-icon left>mdi-cart</v-icon>ORDER</v-btn><br/>
+                <v-chip v-if="player.order_object" @click="updatePlayerStatus(6)" class="mt-2">
+                  <v-icon v-for="(ord, i) in player.order_object" :key="ord.id + i">
+                    {{ ord.display_icon}}
+                  </v-icon>
+                </v-chip>
+                </div>
 
               <div class="column align-items-end mt-4" style="height: 100%;" fill-height>
                 <v-btn @click="cancel()" color="error" outlined x-small style="opacity:0.7">
@@ -64,25 +71,31 @@
               </div>
               <div v-if="!edit">
 
-                <v-alert dense text
-                         type="success"
-                         class="mt-6">
-                  <strong><h2>DRINK CART REQUESTED!</h2></strong>
-                </v-alert>
 
-                <div v-if="player" class="mb-4">
-                  Your Name: <br/>
-                  <h2>
-                    {{ player.name }}
-                  </h2>
-                  <v-btn small raised
-                         color="accent"
-                         @click="edit=true"
-                         class="my-2">
-                    More Options
-                    <v-icon right>expand_more</v-icon>
-                  </v-btn>
-                </div>
+
+
+                <PlayerMenu
+                :course="course"
+                :savedOrder="savedOrder"
+                @submit-order="submitOrder()"
+                @update-order="updateOrder"
+                v-if="!orderSubmitted"
+                />
+
+                  <v-sheet elevation="3" v-if="player" class="mt-4">
+                    Your Name: <br/>
+                    <h2>
+                      {{ player.name }}
+                    </h2>
+                    <v-btn small raised
+                           color="accent"
+                           @click="edit=true"
+                           class="my-2">
+                      More Options
+                      <v-icon right>expand_more</v-icon>
+                    </v-btn>
+                  </v-sheet>
+
               </div>
 
               <transition name="fade" v-else>
@@ -97,6 +110,9 @@
       <small v-if="player" color="secondary" class="statusText d-flex flex-column align-items-center">Status: {{ player.status }} </small>
 
       <v-card v-if="dev" class="py-4 px-4 my-4">
+        order: {{ player.order_object }} <br/>
+        <hr>
+        <router-link :to="'/app/sampler'">Sampelr</router-link>
         CourseID: {{course.id}}
         <br/>Player id: {{ player_id }}<br/> player status: {{ player_status }}<br/> Player Data: {{ player }}
       </v-card>
@@ -118,14 +134,17 @@
   import 'animate.css'
   import { mapGetters } from 'vuex'
   import EditPlayer from './EditPlayer'
+  import PlayerMenu from './PlayerMenu'
   import api from '~/api'
   import QrModal from '$comp/partials/QrModal';
-
+  import Formatter from '~/mixins/formatter';
   import axios from 'axios'
 
   export default {
-    components: { Beer, VueStar, Pulse, EditPlayer, QrModal },
+    components: { Beer, VueStar, Pulse, EditPlayer, QrModal, PlayerMenu },
+    mixins: [Formatter],
     data: () => ({
+      //orderSubmitted: false,
       edit: false,
       dev: false,
       pulseSize: 1.3,
@@ -140,6 +159,13 @@
       locationInterval: null
     }),
     methods: {
+      async submitOrder(order){
+        this.player.order_object = this.mix_compressOrder(this.player.order); //set string version order in DB then broadcast
+        this.updatePlayerStatus(1);
+      },
+      updateOrder(o){
+        this.player.order = o;
+      },
       getCourse() {
         axios.get('/api/course/get-by-code/' + this.code).then(res => {
           this.loading = false
@@ -169,9 +195,18 @@
       async startInterval() {
         let app = this
         this.locationInterval = setInterval(async function() {
-          console.log('Getting location...')
           app.updateLocation()
         }, 6000)
+      },
+      async updatePlayer(){
+        const res = await api.updatePlayer(this.player_id, this.player);
+        return res;
+      },
+      async updatePlayerStatus(id){
+        this.player.status_id = id;
+        let status = { status_id: id }
+        await this.updatePlayer();
+        this.$store.dispatch('player/setPlayerStatus', status)
       },
       async updateLocation() {
         const coords = await this.getLocation()
@@ -179,7 +214,7 @@
         if (this.player.latitude != coords.latitude || this.player.longitude != coords.longitude) {
           this.player.latitude = coords.latitude
           this.player.longitude = coords.longitude
-          const res = await api.updatePlayer(this.player_id, this.player)
+          await this.updatePlayer();
           console.log('Coords updated: ', coords)
         }
       },
@@ -188,7 +223,8 @@
           this.player.status_id = 1
           const res = await api.updatePlayer(this.player_id, this.player)
           this.player = res.data;
-          console.log("storing as", res.data);
+
+          let s_id = this.course.menu_active ? 6 : 1; //if they have an active, put them to in-progress first (6)
           this.$store.dispatch('player/setPlayerStatus', { status_id: 1 })
         } else {
           axios.post('/api/player', this.player).then(res => {
@@ -203,9 +239,8 @@
         }
       },
       async cancel() {
-        let status = { status_id: 0 }
+        let status = { status_id: 2 }
         const res = await api.updatePlayer(this.player_id, status);
-        console.log('returnedd', res.data);
         this.player = res.data;
         this.revokeRequest(0);
 
@@ -297,11 +332,27 @@
         player_id: 'player/player_id',
         player_status: 'player/player_status'
       }),
+      savedOrder(){
+        if('order_object' in this.player){
+          return this.player.order_object;
+        }
+        return [];
+      },
       requested() {
-        if (this.player_status == 1) {
+        if (!this.player_id){
+          return false;
+        }
+        if (this.player_status != 0) {
           return true
         }
         return false
+      },
+      orderSubmitted() {
+        //if they dont have a menu, bypass status check
+        if(!this.course.menu_active){
+          return true;
+        }
+        return this.player.status_id == 1;
       },
       golfURL() {
         return this.$app_url + '/' + this.code;

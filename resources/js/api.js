@@ -112,12 +112,22 @@ export default {
       const response = await axios.post("menu/create", data);
       return response.data;
     },
-    getMenu: async function (course_id){
-      const response = await axios.get("menu-by-course/" + course_id);
+    getMenu: async function (course_id, hideInactive = false){
+      let url = "menu-by-course/" + course_id;
+      let data = { hide: hideInactive };
+      const response = await axios.post(url, data);
+      return response.data;
+    },
+    deleteMenuItem: async function (id){
+      const response = await axios.delete("menu-item/" + id);
+      return response.data;
+    },
+    createMenuItem: async function (data){
+      const response = await axios.post("menu-item/create", data);
       return response.data;
     },
     updateMenuItem: async function (data, id){
-      const response = await axios.post("menu-item/" + id, data);
+      const response = await axios.post("menu-item/update/" + id, data);
       return response.data;
     },
     clearAll: async function (course_id){

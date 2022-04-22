@@ -19,7 +19,8 @@ class MenuController extends Controller
           $menu->update($data);
           $return = Menu::where('id', $menu->id)->with('items')->first();
           return $this->successResponse($return, "Menu Successfully Updated");
-        } else{
+        }
+        else {
           $rec = Menu::create(['course_id' => $data['course_id']]);
           $rec->save();
           $this->createSeedItems($rec->id);
@@ -57,9 +58,11 @@ class MenuController extends Controller
 
     }
 
-    public function menuByCourse($course_id)
+    public function menuByCourse(Request $request, $course_id)
     {
+        $data = $request->toArray();
         $menu = Menu::where('course_id', $course_id)->with('items')->first();
+
         return $this->successResponse($menu, "Got Menu");
     }
 
