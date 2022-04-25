@@ -13,6 +13,7 @@
                  src="/images/beer-logo.png"
                  max-width="100"
                  v-on:dblclick="dev=!dev"></v-img>
+
         </transition>
       </v-container>
 
@@ -228,16 +229,17 @@
           let s_id = this.course.menu_active ? 6 : 1; //if they have an active, put them to in-progress first (6)
           this.$store.dispatch('player/setPlayerStatus', { status_id: 1 })
         } else {
-          axios.post('/api/player', this.player).then(res => {
-            console.log('new player', res.data);
-            this.player = res.data.data;
-            //this.requested = true;
-            this.$store.dispatch('player/savePlayerId', res.data.data);
+            const res = await api.storePlayer(this.player);
+            console.log('new playerr', res.data);
+            this.player = res.data;
+            //this.$store.dispatch('player/savePlayerId', res.data.data);
+            //this.$store.dispatch('player/setPlayerData', this.mix_compact(res.data.data));
+            console.log("else ", res.data);
+            this.$store.dispatch('player/setPlayerData', res.data);
             this.$toast.success('Request sent for cart attendant');
-          }).catch (function (err) {
-            console.log("Erroed out:", err);
-          });
+
         }
+
       },
       async cancel() {
         let status = { status_id: 2 }

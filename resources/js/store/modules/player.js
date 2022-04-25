@@ -35,6 +35,7 @@ export const mutations = {
 	  },
 
 		[types.SET_PLAYER_DATA](state, { player_data }) {
+      console.log("storing playerdata: ", player_data);
 	    state.player_data = player_data
 	    window.localStorage.setItem('player_data', JSON.stringify(player_data))
 	  },
@@ -92,11 +93,12 @@ export const actions = {
 	  commit(types.SET_PLAYER_COURSE_DATA, payload)
 	},
 	setPlayerData({ commit }, payload) {
+    console.log("payload: ", payload);
 	  commit(types.SET_PLAYER_DATA, payload)
 	},
 
 	updatePlayerField({ commit }, payload) {
-    let data = state.player_data;
+    let data = state.player_data ? stat.player_data : {};
     let field = payload[0];
     let value = payload[1];
     data.field = value;

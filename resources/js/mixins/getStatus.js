@@ -69,6 +69,9 @@ export default {
         }
       });
       return count;
+    },
+    mix_compact(playerObj){
+      return _.pick(playerObj, ['id', 'status_id', 'name', 'course_id']);
     }
   }
 }
