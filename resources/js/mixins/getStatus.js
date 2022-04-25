@@ -72,6 +72,16 @@ export default {
     },
     mix_compact(playerObj){
       return _.pick(playerObj, ['id', 'status_id', 'name', 'course_id']);
+    },
+    mix_compactOrder(list){
+      let counts = {};
+      if(list){
+        Object.keys(list).forEach(function(x){
+          counts[list[x].title] = (counts[list[x].title] || 0) + 1;
+        });
+        return counts;
+      }
+      return null;
     }
   }
 }

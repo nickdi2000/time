@@ -30,9 +30,11 @@
           </div>
 
           <div v-if="showLat">{{ player.position.lat }}, {{player.position.lng }}</div>
-          <v-chip color="default" label outlined v-for="ord in player.order_object" :key="player.id" class="mr-1">
+          <v-chip color="default" label outlined v-for="(ord, k) in mix_compactOrder(player.order_object)"
+          :key="player.id + '-' + k" class="mr-1">
+
             <v-icon left>mdi-food</v-icon>
-            {{ ord.title}}
+            {{ k }} x {{ ord }}
           </v-chip>
 
           <div class="d-flex flex-row-reverse">
