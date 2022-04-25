@@ -105,9 +105,9 @@
       console.log('map course', this.course.latitude);
     },
     async created() {
-       this.$gmapApiPromiseLazy().then((map) => {
+       this.$gmapApiPromiseLazy().then(async (map) => {
           console.log("map has loaded!");
-          this.getCurrentLocation();
+          await this.getCurrentLocation();
           this.liveLocation();
        });
     },
@@ -192,6 +192,7 @@
 
         });
         this.setCenter();
+        return true;
       },
     },
     beforeDestroy(){

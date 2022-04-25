@@ -15,7 +15,9 @@ router.beforeEach(async (to, from, next) => {
   if (store.getters['auth/token'] && !store.getters['auth/check']) {
     try {
       await store.dispatch('auth/fetchUser')
-    } catch (e) {}
+    } catch (e) {
+      console.log("route error", e);
+    }
   }
 
   let route = reroute(to)
@@ -35,7 +37,7 @@ const rules = {
 function reroute(to) {
   let failRoute = false,
       checkResult = false
-
+      console.log("to: ", to);
   to.meta.rules && to.meta.rules.forEach(rule => {
     let check = false
     if (Array.isArray(rule)) {
@@ -47,6 +49,7 @@ function reroute(to) {
       if (!check && !failRoute) {
         failRoute = rules[rule[checks.indexOf(false)]].fail
       }
+
     }
     else {
       check = rules[rule].check()

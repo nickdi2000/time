@@ -9,7 +9,8 @@ export const state = {
   player_id: window.localStorage.getItem('player_id'),
 	player_status: window.localStorage.getItem('player_status'),
 	player_course_id: window.localStorage.getItem('player_course_id'),
-	player_course_data: window.localStorage.getItem('player_course_data')
+	player_course_data: window.localStorage.getItem('player_course_data'),
+	player_data: window.localStorage.getItem('player_data')
 
 }
 
@@ -33,6 +34,11 @@ export const mutations = {
 	    window.localStorage.setItem('player_course_id', player_course_id)
 	  },
 
+		[types.SET_PLAYER_DATA](state, { player_data }) {
+	    state.player_data = player_data
+	    window.localStorage.setItem('player_data', JSON.stringify(player_data))
+	  },
+
 		[types.SET_PLAYER_COURSE_DATA](state, player_course_data ) {
 	    state.player_course_data = player_course_data
 	    window.localStorage.setItem('player_course_data', JSON.stringify(player_course_data))
@@ -50,6 +56,7 @@ export const mutations = {
       //state.player_course_id = null
       window.localStorage.removeItem('player_id')
       window.localStorage.removeItem('player_status')
+      window.localStorage.removeItem('player_data')
       //window.localStorage.removeItem('player_course_id')
     },
 
@@ -84,6 +91,18 @@ export const actions = {
 	setPlayerCourseData({ commit }, payload) {
 	  commit(types.SET_PLAYER_COURSE_DATA, payload)
 	},
+	setPlayerData({ commit }, payload) {
+	  commit(types.SET_PLAYER_DATA, payload)
+	},
+
+	updatePlayerField({ commit }, payload) {
+    let data = state.player_data;
+    let field = payload[0];
+    let value = payload[1];
+    data.field = value;
+	  commit(types.SET_PLAYER_DATA, data)
+	},
+
   /*
 	  async fetchPlayer({ commit }) {
 	    try {
@@ -110,5 +129,6 @@ export const getters = {
 	  player_id: state => state.player_id,
 		player_status: state => state.player_status,
   	player_course_id: state =>('player_course_data' in state) ? state.player_course_data.id : 0,
-  	player_course_data: state => JSON.parse(state.player_course_data)
+  	player_course_data: state => JSON.parse(state.player_course_data),
+  	player_data: state => JSON.parse(state.player_data)
 }

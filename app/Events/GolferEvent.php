@@ -38,6 +38,6 @@ class GolferEvent extends BaseEvent implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel("golfer-" . $this->playerData->id); //TODO make dynamc
+        return new Channel("golfer-" . $this->playerData->id); 
     }
 }

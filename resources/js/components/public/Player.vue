@@ -9,10 +9,10 @@
     <div v-else>
       <v-container class="w-100 d-flex" fluid justify-center align-center>
         <transition name="slide-fade">
-          <v-img v-if="showLogo"
+          <v-img v-if="!requested"
                  src="/images/beer-logo.png"
                  max-width="100"
-                 v-on:dblclick="dev=true"></v-img>
+                 v-on:dblclick="dev=!dev"></v-img>
         </transition>
       </v-container>
 
@@ -139,10 +139,11 @@
   import QrModal from '$comp/partials/QrModal';
   import Formatter from '~/mixins/formatter';
   import axios from 'axios'
+  import getStatus from '~/mixins/getStatus'
 
   export default {
     components: { Beer, VueStar, Pulse, EditPlayer, QrModal, PlayerMenu },
-    mixins: [Formatter],
+    mixins: [Formatter, getStatus],
     data: () => ({
       //orderSubmitted: false,
       edit: false,
@@ -183,13 +184,13 @@
       },
       async request() {
         this.loading = true
-        let audio = new Audio('/sounds/confirm.wav')
-        audio.play()
         const coords = await this.getLocation()
         this.player.latitude = coords.latitude
         this.player.longitude = coords.longitude
         this.storePlayer()
         this.loading = false
+        let audio = new Audio('/sounds/confirm.wav')
+        audio.play()
         this.startInterval()
       },
       async startInterval() {
@@ -342,7 +343,7 @@
         if (!this.player_id){
           return false;
         }
-        if (this.player_status != 0) {
+        if ( this.mix_playerIsActive (this.player.status_id)) {
           return true
         }
         return false

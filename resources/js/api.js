@@ -3,11 +3,11 @@ import router from './router'
 //import store from './store'
 
   var baseURL = process.env.MIX_API_URL + "/api/";
-console.log("API URL:" , process.env.MIX_API_URL);
+  console.log("API URL:" , process.env.MIX_API_URL);
+
   const axios = Axios.create({
       baseURL: baseURL
   });
-  console.log('enver', baseURL);
 
   const DEBUG = process.env.VUE_APP_ENV !== "production";
 

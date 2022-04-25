@@ -1,7 +1,7 @@
 export default [
   ...applyRules(['guest'], [
 		//player portal
-    { path: '/admin', name: 'admin', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'register' } ,children:
+    { path: '', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'login' }, children:
       [
         { path: '/login', name: 'login', component: require('$comp/auth/login/Login').default },
         { path: '/registerr', name: 'register', component: require('$comp/auth/register/Register').default },
@@ -18,12 +18,11 @@ export default [
     { path: '/info', name: 'info', component: require('$comp/public/About').default },
     { path: '/find', name: 'find-course', component: require('$comp/public/Find').default },
     { path: '/app/sampler', name: 'sampler', component: require('$comp/etc/Sampler').default },
-    { path: '*', component: require('$comp/public/PlayerWrapper.vue').default,
+    { path: '/*', component: require('$comp/public/PlayerWrapper.vue').default,
       children: [
         { path: '', name: 'player', component: require('$comp/public/Player').default }
       ]
     },
-
   ]),
   ...applyRules(['auth'], [
     { path: '', component: require('$comp/admin/AdminWrapper').default, children:
@@ -41,12 +40,6 @@ export default [
             { path: 'edit', name: 'profile-edit', component: require('$comp/admin/profile/edit/ProfileEdit').default }
           ]
         },
-        /*{ path: '/menu', component: require('$comp/admin/menu/MenuWrapper').default, children:
-          [
-            { path: '', name: 'menu', component: require('$comp/admin/menu/Menu').default }
-          ]
-        },
-        */
 				  { path: '/course', component: require('$comp/admin/course/CourseWrapper').default, children:
 	          [
 	            { path: '', name: 'course', component: require('$comp/admin/course/Course').default },
@@ -56,6 +49,7 @@ export default [
       ]
     },
   ]),
+  { path: '*', redirect: { name: 'index' } }
 
 ]
 

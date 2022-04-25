@@ -68,8 +68,14 @@ class PlayerController extends Controller
 
   public function clearAll($course_id)
   {
-    $players = Player::where('course_id', $course_id)->forceDelete(); //bypass soft deletes
-    return $this->successResponse($players, "All Players have been Deleted");
+    Player::where('course_id', $course_id)->update(
+      ['status_id' => 5] //expired
+    );
+    $players = Player::where('course_id', $course_id)->get();
+    foreach($players as $player){
+      event(new GolferEvent($player));
+    }
+    return $this->successResponse($players, "All Players have been Expired");
   }
 
 

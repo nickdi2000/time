@@ -29,7 +29,7 @@
           :course="course"
 					:markers="players"
 					 @get-players="getPlayers()"
-           @delete-player="deletePlayer"
+           @update-player="updatePlayerStatus"
            />
 
            <v-alert v-else>Loading...</v-alert>
@@ -41,11 +41,13 @@
           <List :players="players"
                 @get-players="getPlayers()"
                 @clear-all="clearAll()"
+                @update-player="updatePlayerStatus"
                 />
         </v-card>
       </v-tab-item>
 
     </v-tabs-items>
+    <confirm ref="confirm"></confirm>
   </v-container>
 
 </template>
@@ -57,11 +59,13 @@
   import List from './List'
   import { mapGetters } from 'vuex'
   import api from '~/api';
+  import confirm from '~/components/partials/Confirm'
 
   export default {
     components: {
       gMap,
-      List
+      List,
+      confirm
     },
     data() {
       return {
@@ -72,12 +76,14 @@
     },
     methods: {
       async clearAll(){
-        if (confirm("Clear all requests?, Players can submit another request if they choose to")){
-          console.log("clearing all");
+        let msg = `This will deactive all players' requests.
+        From their end, they will see that their request has expired.`;
+        if ( await this.$refs.confirm.open('Clear All', msg, { color: 'red' }) ) {
           const res = await api.clearAll(this.course.id);
           console.log(res);
-          this.players = [];
+          this.getPlayers();
         }
+
       },
       getPlayers() {
         axios.get('/api/player/list/' + this.user.course_id).then(res => {
@@ -92,6 +98,13 @@
             this.getPlayers();
           })
       },
+      async updatePlayerStatus(player_id, status_id){
+        console.log("updating status", status_id);
+        let data = {"status_id" : status_id };
+        const res = await api.updatePlayer(player_id, data);
+        this.$toast.success(res.message);
+        this.getPlayers();
+      },
       async deletePlayer(id){
         const res = await api.deletePlayer(id);
         this.$toast.success(res.message);
@@ -101,13 +114,15 @@
         console.log("PLAYING EVENT!", data);
         if(data.playerExists === false){
             this.players.push(data.playerData);
+            let audio = new Audio('/sounds/new_request.mp3')
+            audio.play()
             this.$toast.success("New Request!");
             return;
         }
 
         const index = this.players.findIndex(q => q.id === data.playerData.id);
         this.players.splice(index, 1, data.playerData);
-        console.log("splayer is: ", this.players[index]);
+        console.log("existing player is: ", this.players[index].name);
 
       }
     },
@@ -122,6 +137,7 @@
       playerEvents.bind('PlayerAdded', function(e) {
         app.handlePlayerEvent(e);
       });
+      this.tab = 'tab-list';
 
     }
   }
