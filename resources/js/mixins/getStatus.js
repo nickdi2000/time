@@ -34,6 +34,9 @@ export default {
     mix_statusList(){
       return this.statuses;
     },
+    isActive(i){
+      return this.actives.includes(i);
+    },
     mix_playerIsActive(i){
       if(this.actives.includes(i) || this.showInactive){
         return true;

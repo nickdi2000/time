@@ -232,10 +232,10 @@
             const res = await api.storePlayer(this.player);
             console.log('new playerr', res.data);
             this.player = res.data;
-            //this.$store.dispatch('player/savePlayerId', res.data.data);
+            this.$store.dispatch('player/savePlayerId', res.data);
             //this.$store.dispatch('player/setPlayerData', this.mix_compact(res.data.data));
-            console.log("else ", res.data);
-            this.$store.dispatch('player/setPlayerData', res.data);
+            //console.log("else ", res.data);
+            //this.$store.dispatch('player/setPlayerData', res.data);
             this.$toast.success('Request sent for cart attendant');
 
         }

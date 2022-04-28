@@ -8,6 +8,9 @@
 			<div>
 				<div class="mb-2" :title="player.status_id" ><v-chip :color="player.status_id == 1 ? 'primary' : 'secondary'">{{ player.status }}</v-chip></div>
 				<div>
+					<v-alert type="default" outlined v-if="player.order_object">
+	         	<div class="smallText" type="default" v-for="(ord, k) in mix_compactOrder(player.order_object)">{{ k }}{{ ord > 1 ? ' x ' + ord : ''}}</div>
+					</v-alert>
 					<v-btn @click="$emit('delete-player', player.id)" size="small" color="info">
 						<v-icon left>mdi-check</v-icon> Mark Done
 					</v-btn>
@@ -20,10 +23,12 @@
 
 <script>
 import moment from 'moment'
+import getStatus from '~/mixins/getStatus'
 
 export default {
   name: 'formatted-player',
-  props: ['player'],
+	mixins: [getStatus],
+	props: ['player'],
 	computed: {
 		timeAgo(){
 			return moment(this.player.created_at).fromNow()

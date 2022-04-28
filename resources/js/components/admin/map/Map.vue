@@ -57,6 +57,12 @@
             <v-btn @click="updateCourseCoords()" color="success" class="mr-2" elevation="3">Save Changes</v-btn>
             <v-btn @click="cancelUpdateCenter()" color="secondary" elevation="3">Cancel</v-btn>
       </div>
+
+      <div v-else class="footerOptions">
+        <v-btn @click="$emit('get-players')" color="success" elevation="3" class="mr-2" title="Refresh Players"><v-icon>refresh</v-icon></v-btn>
+        <v-btn @click="panTo()" color="info" elevation="3" title="Go To Center of Course" class="mr-2"><v-icon>mdi-image-filter-center-focus</v-icon></v-btn>
+        <v-btn @click="goToNextPlayer()" color="warning" title="Go To Next Golfer" elevation="3"><v-icon>mdi-account-arrow-right</v-icon></v-btn>
+      </div>
   </v-container>
 
 </template>
@@ -67,10 +73,13 @@
   import FormattedPlayer from '$comp/admin/shared/FormattedPlayer';
   import {gmapApi} from 'vue2-google-maps'
   import api from '~/api';
+  import getStatus from '~/mixins/getStatus'
+
 
   export default {
     name: 'google-map',
     components: {FormattedPlayer},
+    mixins: [getStatus],
     data() {
       return {
         saveOptionsVisible: false,
@@ -80,6 +89,7 @@
         infoWindowLocation: null,
         infoWindowText: '',
         selectedPlayer: {},
+        selectedPlayerIndex: 0, //for cycling through panTo
         center_: {
           lat: 43.2392954,
           lng: -79.8775022
@@ -112,6 +122,18 @@
        });
     },
     methods: {
+      panTo(coords = null){
+        coords = coords ? coords : this.center;
+        this.$refs.map.$mapPromise.then((map) => {
+            map.panTo(coords);
+          });
+      },
+      goToNextPlayer(){
+        console.log("selefcted: ", this.activeMarkers[this.selectedPlayerIndex].name);
+        this.panTo(this.activeMarkers[this.selectedPlayerIndex].position);
+        this.selectedPlayerIndex = this.selectedPlayerIndex >= this.activeMarkers.length-1 ? 0 : this.selectedPlayerIndex + 1;
+
+      },
       updateCenter(e){
         //only do on first drag
         if(!this.saveOptionsVisible){
@@ -200,6 +222,12 @@
       clearInterval(this.interval);
     },
     computed: {
+      activeMarkers(){
+        let app = this;
+        return this.markers.filter((marker) => {
+          return app.isActive(marker.status_id);
+        });
+      },
       golfIcon() {
         return {
           url: '/images/green-marker.png', // url
@@ -236,8 +264,11 @@
 
 </script>
 <style>
+.smallText{
+  font-size: 1em;
+}
   .footerOptions{
-    bottom: 19px;
+    bottom: 22px;
     left: 0;
     width: 100%;
     position: fixed;

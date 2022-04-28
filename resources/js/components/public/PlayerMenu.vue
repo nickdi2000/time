@@ -47,7 +47,7 @@
                  block
                  v-for="type in selectedType.sub_items"
                  :key="type.id">
-            <v-icon>mdi-plus</v-icon> {{type.title}}
+            <v-icon>mdi-plus-circle</v-icon> {{type.title}}
           </v-btn>
 
           <v-btn color="dark" class="mt-4" @click="selectedType = null">
@@ -58,15 +58,15 @@
       </v-expand-transition>
     </v-container>
 
-    <transition name="slide-fade">
-      <div class="my-4 py-2 mx-2" v-if="order.length">
+
+      <div class="my-4 py-2 mx-2" v-if="order.length" transition="fade-transition">
         <v-btn color="success" @click="$emit('submit-order')">Submit Order</v-btn>
-        <v-btn @click="showOrder = !showOrder">
+        <v-btn @click="showOrder = !showOrder" color="info">
           <v-icon>{{ showOrder ? 'mdi-plus' : 'mdi-cart'}}</v-icon> ({{ order.length }}) </v-btn>
           <br/>
           <v-btn v-if="savedOrder.length" class="mt-3" @click="$emit('submit-order')" small>CLOSE</v-btn>
       </div>
-    </transition>
+
   </v-overlay>
 
 </template>
@@ -127,10 +127,10 @@
 <style>
 
   .slide-fade-enter-active {
-    transition: all 0.2s ease;
+    transition: all 0.1s;
   }
   .slide-fade-leave-active {
-    transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+    transition: all 0.1s cubic-bezier(1, 0.9, 1, 0.1);
   }
   .slide-fade-enter, .slide-fade-leave-to
   /* .slide-fade-leave-active below version 2.1.8 */ {

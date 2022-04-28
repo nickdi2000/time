@@ -16,7 +16,9 @@ class PlayerController extends Controller
   /* get all players by COURSE  */
   public function list($id)
   {
-    $players = Player::where('course_id', $id)->get();
+    $players = Player::where('course_id', $id)
+    ->orderByDesc('updated_at')
+    ->get();
     return response()->json($players);
 
   }

@@ -10,8 +10,10 @@
 
 export default {
   mounted(){
-    console.log("mounting app...");
+    console.log("mounting app....");
     let course_data = this.$store.getters['player/player_course_data'];
+    console.log("player coruse data: ", course_data)
+    return;
     if ( course_data && course_data.code !== undefined && this.$route.name !== 'player'){
         console.log("my course data ", course_data.code);
         this.$router.push('/' + course_data.code);

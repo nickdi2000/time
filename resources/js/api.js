@@ -98,7 +98,7 @@ export default {
       const response = await axios.put("player/" + id, data);
       return response.data;
     },
-    storePlayer: async function (id, data){
+    storePlayer: async function (data){
       const response = await axios.post("player/", data);
       return response.data;
     },
