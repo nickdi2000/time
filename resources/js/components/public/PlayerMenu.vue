@@ -64,7 +64,7 @@
         <v-btn @click="showOrder = !showOrder" color="info">
           <v-icon>{{ showOrder ? 'mdi-plus' : 'mdi-cart'}}</v-icon> ({{ order.length }}) </v-btn>
           <br/>
-          <v-btn v-if="savedOrder.length" class="mt-3" @click="$emit('submit-order')" small>CLOSE</v-btn>
+          <v-btn v-if="savedOrder && savedOrder.length" class="mt-3" @click="$emit('submit-order')" small>CLOSE</v-btn>
       </div>
 
   </v-overlay>

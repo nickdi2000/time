@@ -30,7 +30,7 @@
 
       </v-slider>
 
-      <v-container class="py-2">
+      <v-container class="py-2" v-if="false">
         <v-col cols="12">
              <v-subheader class="pl-0">
                Current Hole (used if Geo-locate fails)

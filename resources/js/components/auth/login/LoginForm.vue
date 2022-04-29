@@ -25,7 +25,6 @@
     ></v-text-field>
 
     <v-layout class="mt-4 mx-0">
-		   <button @click.prevent="form = sampleForm">*</button>
       <v-spacer></v-spacer>
 
       <v-btn

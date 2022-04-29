@@ -11,7 +11,7 @@
 					<v-alert type="default" outlined v-if="player.order_object">
 	         	<div class="smallText" type="default" v-for="(ord, k) in mix_compactOrder(player.order_object)">{{ k }}{{ ord > 1 ? ' x ' + ord : ''}}</div>
 					</v-alert>
-					<v-btn @click="$emit('delete-player', player.id)" size="small" color="info">
+					<v-btn @click="$emit('updatePlayerStatus', player.id, 4)" size="small" color="info">
 						<v-icon left>mdi-check</v-icon> Mark Done
 					</v-btn>
 				</div>

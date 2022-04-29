@@ -56,7 +56,15 @@
                          >
                   <strong><h4>CART REQUESTED!</h4></strong>
                 </v-alert>
-                <v-btn @click="updatePlayerStatus(6)"><v-icon left>mdi-cart</v-icon>ORDER</v-btn><br/>
+
+                <v-btn
+                  class="mb-2"
+                  v-if="course.menu_active"
+                  @click="updatePlayerStatus(6)">
+                  <v-icon left>mdi-cart
+                  </v-icon>ORDER
+                </v-btn>
+
                 <v-chip v-if="player.order_object" @click="updatePlayerStatus(6)" class="mt-2">
                   <v-icon v-for="(ord, i) in player.order_object" :key="ord.id + i">
                     {{ ord.display_icon}}
@@ -222,6 +230,7 @@
       },
       async storePlayer() {
         if (this.player_id) {
+          console.log("New player..");
           this.player.status_id = 1
           const res = await api.updatePlayer(this.player_id, this.player)
           this.player = res.data;
@@ -229,6 +238,7 @@
           let s_id = this.course.menu_active ? 6 : 1; //if they have an active, put them to in-progress first (6)
           this.$store.dispatch('player/setPlayerStatus', { status_id: 1 })
         } else {
+            console.log("Existing player..");
             const res = await api.storePlayer(this.player);
             console.log('new playerr', res.data);
             this.player = res.data;
