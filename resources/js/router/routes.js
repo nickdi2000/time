@@ -3,6 +3,7 @@ export default [
 		//player portal
     { path: '', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'login' }, children:
       [
+
         { path: '/login', name: 'login', component: require('$comp/auth/login/Login').default },
         { path: '/registerr', name: 'register', component: require('$comp/auth/register/Register').default },
         { path: '/register', name: 'register-contact', component: require('$comp/auth/register/RegisterClosed').default },
@@ -15,6 +16,7 @@ export default [
       ]
     },
     { path: '', redirect: '/find'},
+    { path: '/map', name: 'login', component: require('$comp/public/map/MapWrapper').default },
     { path: '/info', name: 'info', component: require('$comp/public/About').default },
     { path: '/find', name: 'find-course', component: require('$comp/public/Find').default },
     { path: '/app/sampler', name: 'sampler', component: require('$comp/etc/Sampler').default },
