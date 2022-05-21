@@ -19,39 +19,23 @@
                     :icon="golfIcon" />
 
         <GmapMarker
-                    @click="infoMarkerClicked('start', course.start)"
                     :position="course.start"
                     :clickable="true"
                     :icon="startIcon" />
         <GmapMarker
-                    @click="infoMarkerClicked('finish', course.finish)"
                     :position="course.finish"
                     :clickable="true"
                     :icon="finishIcon" />
 
-        <GmapMarker @click="infoMarkerClicked('current', currentLocation)"
+        <GmapMarker
                     :position="currentLocation"
                     :clickable="true"
-                    :icon="youIcon" />
-
-       <gmap-info-window
-          :opened="infoWindowOpen"
-          :position="infoWindowLocation" >
-          <div v-html="infoWindowText"></div>
-       </gmap-info-window>
+                    :icon="bikeIcon" />
 
       </GmapMap>
-
-      <div class="py-2 px-2">
-        <v-chip v-if="Object.keys(currentLocation).length" color="success" >Location Verified ( {{ currentLocation.lat}}, {{ currentLocation.lng }})</v-chip>
-        <v-chip v-else>Location Not Found</v-chip>
-      </div>
-
+      current: {{ currentLocation}}
     </v-card>
 
-      <div class="footerOptions">
-            <v-btn @click="verifyLocation()" :loading="verifying" color="info" class="mr-2" elevation="3"><v-icon>mdi-radar</v-icon> Verify My Location</v-btn>
-      </div>
 
 
 
@@ -76,7 +60,6 @@
     data() {
       return {
         saveOptionsVisible: false,
-        verifying: false,
         windowOpen: false,
         windowLocation: null,
         infoWindowOpen: false,
@@ -111,20 +94,11 @@
     async created() {
        this.$gmapApiPromiseLazy().then(async (map) => {
           console.log("map has loaded!");
-          //await this.getCurrentLocation();
-          //this.liveLocation();
+          await this.getCurrentLocation();
+          this.liveLocation();
        });
     },
     methods: {
-      async verifyLocation(){
-        console.log("Verifying..");
-        this.verifying = true;
-        const loc = await this.getCurrentLocation();
-        console.log("verified", loc);
-        this.currentLocation = loc;
-        this.verifying = false;
-        //this.liveLocation();
-      },
       panTo(coords = null){
         coords = coords ? coords : this.center;
         this.$refs.map.$mapPromise.then((map) => {
@@ -181,13 +155,12 @@
         this.windowOpen = false;
         this.infoWindowOpen = false;
       },
-      infoMarkerClicked(type, pos = this.center){
+      infoMarkerClicked(type){
         let messages = {
-          'start' : `This is beginning of the race. You must be here to start the race`,
-          'finish' : `This is the finish line!`,
-          'current' : `You are here now!`
+          'center' : `This is the center anchor point to the course. <br/> Your map will initiate here by default. Drag to change.`,
+          'current' : `This is your location.  Players cannot see this.`
         }
-        this.infoWindowLocation = pos;//(type == 'center') ? this.center : this.currentLocation;
+        this.infoWindowLocation = (type == 'center') ? this.center : this.currentLocation;
         console.log("info window: ", this.infoWindowLocation);
         this.infoWindowText = messages[type];
         this.infoWindowOpen = true;
@@ -209,13 +182,6 @@
         this.interval = setInterval(function(){ self.getCurrentLocation(); }, 2000);
       },
       async getCurrentLocation() {
-         return new Promise( (resolve, reject) => {
-              navigator.geolocation.getCurrentPosition(
-                  position => resolve({lat: position.coords.latitude, lng: position.coords.longitude}),
-                  error => reject(error)
-              )
-          })
-        /*
         console.log("refreshing location...");
         await navigator.geolocation.getCurrentPosition(res => {
           this.currentLocation = {
@@ -224,9 +190,9 @@
           };
 
         });
+        console.log("LOC IS: ", this.currentLocation);
         this.setCenter();
         return true;
-        */
       },
     },
     beforeDestroy(){
@@ -266,9 +232,9 @@
           url: '/images/greenflag.png', // url
           scaledSize: {width: 68, height: 68}  }
       },
-      youIcon() {
+      bikeIcon() {
         return {
-          url: '/images/you.png', // url
+          url: '/images/bike.png', // url
           scaledSize: {width: 68, height: 68}  }
       },
 
@@ -296,7 +262,7 @@
   font-size: 1em;
 }
   .footerOptions{
-    bottom: 55px;
+    bottom: 22px;
     left: 0;
     width: 100%;
     position: fixed;
