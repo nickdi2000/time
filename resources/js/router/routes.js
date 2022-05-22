@@ -1,7 +1,8 @@
 export default [
   ...applyRules(['guest'], [
 		//player portal
-    { path: '', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'login' }, children:
+    { path: 'admin', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'admin' }, children:
+    //{ path: '', component: require('$comp/auth/AuthWrapper').default, redirect: { name: 'login' }, children:
       [
 
         { path: '/login', name: 'login', component: require('$comp/auth/login/Login').default },
@@ -15,8 +16,8 @@ export default [
         }
       ]
     },
-    { path: '', redirect: '/find'},
-    { path: '/map', name: 'login', component: require('$comp/public/map/MapWrapper').default },
+    { path: '', redirect: '/map'},
+    { path: '/map', name: 'map', component: require('$comp/public/map/MapWrapper').default },
     { path: '/info', name: 'info', component: require('$comp/public/About').default },
     { path: '/find', name: 'find-course', component: require('$comp/public/Find').default },
     { path: '/app/sampler', name: 'sampler', component: require('$comp/etc/Sampler').default },

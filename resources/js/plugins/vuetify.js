@@ -34,7 +34,8 @@ const sandstone = {
 }
 
 const course = {
-	primary: '#86af49',
+	primary_: '#86af49',
+	primary: '#1A237E',
 	default: '#b2ad7f'
 }
 

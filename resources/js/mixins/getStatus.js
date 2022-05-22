@@ -1,90 +1,48 @@
 export default {
   data: () => ({
     statuses: [
-      'Idle', //0
-      'Requested', //1
-      'Player Cancelled', //2
-      'Admin-Cancelled', //3
-      'Served', //4
-      'Expired', //5
-      'Building Order', //6
+      'Location Not Found', //0
+      'At starting Point', //1
+      'Not at starting point', //2
+      'Racing', // 3
+      'At finish line', //4
+      'Invalid' //5
+    ],
+    message: [
+      'Location not detected.  Please set your current location.', //0
+      'At the starting point. Start when ready!',
+      '', //2
+      'You are currently racing!', //3
+      'You\'re at the finish line!', //4
+      'Invalid location.  Please try again' //5
+
     ],
     colors: [
-      'default', //0
-      'info',
-      'error', //2
-      'warning', //3
-      'success', //4
-      'dark', //5
+      'dark',
+      'success',
       'warning',
-    ],
-    actives: [0,1,6]
+      'accent',
+      'info',
+      'error',
+    ]
   }),
 
   methods: {
-    statusName(i){
-      return this.statuses[i];
+    statusName(){
+      return this.statuses[this.locationStatus];
     },
-    statusColor(i){
-      return i ? this.colors[i] : 'info';
-    },
-    statusType(i){
-      return i == 4 ? 'success' : 'info';
-    },
-    mix_statusList(){
-      return this.statuses;
-    },
-    isActive(i){
-      return this.actives.includes(i);
-    },
-    mix_playerIsActive(i){
-      if(this.actives.includes(i) || this.showInactive){
-        return true;
-      }
-    },
-    mix_adminOptions(){
-      return [
-        {
-          'title' : 'Cancel',
-          'status_id' : 3
-        },
-        {
-          'title' : 'Requested',
-          'status_id' : 1
-        },
-        {
-          'title' : 'Expired',
-          'status_id' : 5
-        },
-        {
-          'title' : 'Served',
-          'status_id' : 4
-        }
-
-      ]
-    },
-    mix_activeCount(){
-      let count = 0;
-      let active_arr = this.actives;
-      this.players.map(x => {
-        if (active_arr.includes(x.status_id)){
-          count++;
-        }
-      });
-      return count;
-    },
-    mix_compact(playerObj){
-      return _.pick(playerObj, ['id', 'status_id', 'name', 'course_id']);
-    },
-    mix_compactOrder(list){
-      let counts = {};
-      if(list){
-        Object.keys(list).forEach(function(x){
-          counts[list[x].title] = (counts[list[x].title] || 0) + 1;
-        });
-        return counts;
-      }
-      return null;
+    statusColor(){
+      return this.colors[this.locationStatus];
     }
+
+  },
+  computed: {
+      statusMessage(){
+        if (this.locationStatus == 2){
+          return `We have detected your location, but you are still
+          ${this.distanceToStart} meters away from the starting point.  Please go the starting point and try again.`;
+        }
+        return this.message[this.locationStatus];
+      },
   }
 }

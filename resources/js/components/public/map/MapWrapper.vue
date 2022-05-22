@@ -1,5 +1,5 @@
 <template>
-  <v-container class="no-margins" style="width:100%;padding:0;margin:0">
+  <v-container class="no-margins" style="width:100%;height:100%;padding:0;margin:0">
     <v-tabs v-model="tab"
             fill-height
             centered
@@ -7,11 +7,6 @@
             icons-and-text
             class="px-0 mx-0">
       <v-tabs-slider></v-tabs-slider>
-
-        <v-tab href="#tab-list">
-          RACE!
-          <v-icon>mdi-clock</v-icon>
-        </v-tab>
 
       <v-tab href="#tab-map">
         Map
@@ -25,16 +20,16 @@
 
     </v-tabs>
 
-    <v-tabs-items v-model="tab" fill-height>
+    <v-tabs-items v-model="tab" class="tabClass" >
       <v-tab-item value="tab-map">
-        <v-card flat >
+
           <gMap
           v-if="Object.keys(course).length !== 0"
           :course="course"
            />
 
            <v-alert v-else>Loading...</v-alert>
-        </v-card>
+
       </v-tab-item>
 
       <v-tab-item value="tab-list">
@@ -44,7 +39,7 @@
       </v-tab-item>
 
     </v-tabs-items>
-    <confirm ref="confirm"></confirm>
+    <!--<confirm ref="confirm"></confirm>-->
   </v-container>
 
 </template>
@@ -90,15 +85,24 @@
     }),
 
     mounted() {
+      this.tab = 'tab-map';
       /*
       let app = this;
       var playerEvents = window.pusher.subscribe('players-1'); //TODO: make dynamic course_id
       playerEvents.bind('PlayerAdded', function(e) {
         app.handlePlayerEvent(e);
       });
-      this.tab = 'tab-list';
+
       */
     }
   }
 
 </script>
+
+<style>
+
+.v-window__container{
+  height: 100vh;
+}
+
+</style>
