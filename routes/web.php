@@ -10,10 +10,15 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-use App\Http\Controllers\CourseController;
+use App\Http\Controllers\PageController;
 
-Route::get('/courses', [CourseController::class, 'list']);
+Route::post('/form/apply', [PageController::class, 'apply']);
 
+Route::get('/{any}', [PageController::class, 'index']);
+Route::get('/', [PageController::class, 'landing']);
+
+/*
 Route::any('{all}', function () {
     return view('app');
 })->where(['all' => '.*']);
+*/

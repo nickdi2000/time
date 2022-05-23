@@ -12,6 +12,7 @@
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
         <link rel="manifest" href="/site.webmanifest">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/shakrmedia/tuesday@v1.1.0/build/tuesday.min.css" />
 
         <meta property="og:title" content="Order beer from the course." />
         <meta property="og:description" content="Share your location with the cart-person and get your drinks faster than ever." />
@@ -29,6 +30,9 @@
                 'siteUrl' => config('app.url'),
                 'apiUrl' => config('app.url') . '/api'
             ]) !!};
+
+            window.race = @json($race);
+
         </script>
     </head>
     <body>

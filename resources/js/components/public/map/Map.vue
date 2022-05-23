@@ -6,7 +6,7 @@
                :center="center"
                :zoom="zoom"
                ref="map"
-               map-type-id="terrain"
+               map-type-id="satellite"
                style="width: 100%; height: 80vh"
                @click="mapClicked()">
         <GmapMarker :key="index"

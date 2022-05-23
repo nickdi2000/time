@@ -1,5 +1,6 @@
 <template>
   <v-container class="no-margins" style="width:100%;height:100%;padding:0;margin:0">
+    <p class="raceInfo animated tdFadeInRight"> <v-icon left small>mdi-check-circle</v-icon>{{ course.name }} </p>
     <v-tabs v-model="tab"
             fill-height
             centered
@@ -62,7 +63,8 @@
     data() {
       return {
         tab: null,
-        course: {
+        course: window.race,
+        course_: {
           start: {
             lat: 43.25080218322437,
             lng: -79.85945315788987
@@ -80,11 +82,13 @@
     methods: {
 
     },
-    computed: mapGetters({
-      user: 'auth/user'
-    }),
-
+    computed: {
+    ...mapGetters({
+        user: 'auth/user'
+      }),
+    },
     mounted() {
+      console.log("THE RACE:", this.race);
       this.tab = 'tab-map';
       /*
       let app = this;
@@ -105,4 +109,17 @@
   height: 100vh;
 }
 
+.raceInfo{
+  position: absolute;
+  z-index: 99;
+  top: 12px;
+  left: 12px;
+  opacity: 0.8;
+  font-size: 0.8em;
+  background-color: #333;
+  border-radius: 12px;
+  padding: 2px;
+  padding-right: 9px;
+  animation-duration: 2s;
+}
 </style>

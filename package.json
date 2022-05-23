@@ -8,7 +8,7 @@
     "hot": "cross-env NODE_ENV=development node_modules/webpack-dev-server/bin/webpack-dev-server.js --inline --hot --config=node_modules/laravel-mix/setup/webpack.config.js",
     "prod": "npm run production",
     "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
-    "upload-prod": "rsync -av ./public/* root@93.188.162.139:/home/admin/web/19th.live/public_html/public --exclude 'images/*' --exclude 'sounds/*'",
+    "upload-prod": "rsync -av ./public/* root@5.183.8.134:/home/rat/web/tt.webfly.io/public_html/public --exclude 'images/*' --exclude 'sounds/*'",
     "deploy": "cp .env .env.local && cp .env.production .env && npm run production && npm run upload-prod && cp .env.local .env",
     "local": "cp .env.local .env",
     "test": "jest"

@@ -21,20 +21,13 @@ export default [
     { path: '/info', name: 'info', component: require('$comp/public/About').default },
     { path: '/find', name: 'find-course', component: require('$comp/public/Find').default },
     { path: '/app/sampler', name: 'sampler', component: require('$comp/etc/Sampler').default },
-    { path: '/*', component: require('$comp/public/PlayerWrapper.vue').default,
-      children: [
-        { path: '', name: 'player', component: require('$comp/public/Player').default }
-      ]
-    },
+    { path: '/*', component: require('$comp/public/map/MapWrapper').default },
   ]),
   ...applyRules(['auth'], [
     { path: '', component: require('$comp/admin/AdminWrapper').default, children:
       [
         { path: '', name: 'index', redirect: { name: 'map' } },
         { path: '/about', name: 'about', component: require('$comp/admin/about/AboutWrapper').default },
-        { path: '/map', name: 'map', component: require('$comp/admin/map/MapWrapper').default },
-        { path: '/menu', name: 'menu', component: require('$comp/admin/menu/MenuWrapper').default },
-        { path: '/test', name: 'map', component: require('$comp/admin/map/Test').default },
         { path: '/super', name: 'super', component: require('$comp/admin/superadmin/SuperWrapper').default},
         { path: '/course-info', name: 'course-info', component: require('$comp/admin/superadmin/CourseInfo').default},
         { path: '/profile', component: require('$comp/admin/profile/ProfileWrapper').default, children:

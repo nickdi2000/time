@@ -1,5 +1,5 @@
 <template>
-  <v-bottom-navigation v-model="value" grow>
+  <v-bottom-navigation v-model="value" color="info" grow>
 
     <v-btn v-if="Object.keys(me).length" value="recent" @click="pan(me)">
       <span>Me</span>
